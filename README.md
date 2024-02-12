@@ -16,7 +16,7 @@ Snackbezorgd is jouw go-to bezorgdienst voor heerlijke snacks. Of je nu zin hebt
 Geniet vandaag van onze speciale aanbieding: **"SnelSnaque Korting!"**. Bestel nu en ontvang een smaakvolle korting op je favoriete snacks.
 
 ## Hoe te Bestellen
-1. 📱 Bezoek onze website: [www.snackbezorgd.nl](https://www.snackbezorgd.knightsofni.nl)
+1. 📱 Bezoek onze website: [www.snackbezorgd.nl](https://snackbezorgd.knightsofni.nl)
 2. 🍔 Kies je favoriete snacks uit ons uitgebreide menu.
 3. 🚚 Plaats je bestelling en wacht op de heerlijke bezorging.
 
