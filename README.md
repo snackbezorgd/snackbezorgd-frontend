@@ -15,8 +15,9 @@ Snackbezorgd is jouw go-to bezorgdienst voor heerlijke snacks. Of je nu zin hebt
     ```
     $ git clone https://github.com/TheOnly3aq/snackbezorgd.nl.git
     ```
-2. Verander de branch van `main` naar `dev`. Dit voorkomt dat wijzegingen meteen naar de website worden gepushed.
-![Preview image](/images/md_img_1.png)
+2. Verander de branch van `main` naar `dev`. Dit voorkomt dat wijzigingen meteen naar de website worden gepushed.
+
+    ![Preview image](/images/md_img_1.png)
 3. Maak je wijzigingen, als je daarmee klaar bent ga naar de volgende stap
 
 4. Open de commandline in de map waar je project staat. Typ in:
