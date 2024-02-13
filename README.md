@@ -1,10 +1,12 @@
 # Snackbezorgd.nl 🍟🍕
+![Preview image](/images/snackbezorgd-banner-gh.png)
 
+# Beschrijving 📝
 Welkom bij snackbezorgd.nl. Ons fictieve bedrijf voor een school project op het Alfa College Groningen.
 
 Het doel is dat je leert samenwerken in een team, je leert je medevernatwoordelijkheid te voelen voor het gemeenschappelijke doel, namenlijk een webapplciatie bouwen. Je leert planmatic en gestructuureerd te werken. Ook leer je elkaar aan te spreken op gedrag, motiviatie en inzet.
 
-## Over snackbezorgd.nl
+## Over snackbezorgd.nl 🚀
 
 Snackbezorgd is jouw go-to bezorgdienst voor heerlijke snacks. Of je nu zin hebt in frietjes, pizza, of iets zoets - wij hebben het allemaal! We begrijpen jouw honger en streven ernaar om je favoriete snacks razendsnel bij je af te leveren.
 
@@ -108,9 +110,9 @@ Start de server:
 ```
 
 
-## Contact
+## Contact 
 
-Heb je vragen of feedback? We horen graag van je!
+Heb je vragen of feedback? We horen graag van je! 🚀
 
 - 📧 Email: info@snackbezorgd.knightsofni.nl
 - 💻 Discord: @vroomvroomman
