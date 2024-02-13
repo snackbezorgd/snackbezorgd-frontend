@@ -68,32 +68,41 @@ Snackbezorgd is jouw go-to bezorgdienst voor heerlijke snacks. Of je nu zin hebt
 
 
 ## Hoe start ik de Backend server?
+Ga naar de backend folder:
 ```
 $ cd snackbezorgd-frontend/snackbezorgd
 ```
+Installeer de requirements:
 ```
-$ winget pip
+& pip3 install -r requirements.txt
 ```
+of
 ```
-$ pip install pipenv
+$ pip install -r requirements.txt
 ```
+Initialiseer de Virtual Env:
 ```
 $ pipenv shell
 ```
+Start de app:
 ```
 $ python manage.py startapp snackbezorgd_app
 ```
+Doe migrations:
 ```
 $  python manage.py migrate
 ```
+Start de server:
 ```
 $  python manage.py runserver
 ```
 
 ## Hoe start ik de Fontend server?
+Ga naar de frontend folder:
 ```
 $ cd snackbezorgd-frontend/snackbezorgd
 ```
+Start de server:
 ```
 & npm start
 ```
