@@ -66,6 +66,18 @@ Snackbezorgd is jouw go-to bezorgdienst voor heerlijke snacks. Of je nu zin hebt
 
 8. Als je PR goedgekeurd word, word die gemerged van `dev` -> `main`. Dan zitten jouw wijziginge dus volledig in de productie omgeving.
 
+
+## Hoe start ik de Backend server?
+```
+$ cd snackbezorgd-frontend/snackbezorgd && pip3 install pipenv && pipenv shell && python manage.py startapp snackbezorgd_app && python manage.py migrate && python manage.py runserver
+```
+
+## Hoe start ik de Fontend server?
+```
+$ cd snackbezorgd-frontend/snackbezorgd && npm start
+```
+
+
 ## Contact
 
 Heb je vragen of feedback? We horen graag van je!
