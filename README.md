@@ -8,6 +8,30 @@ Het doel is dat je leert samenwerken in een team, je leert je medevernatwoordeli
 
 Snackbezorgd is jouw go-to bezorgdienst voor heerlijke snacks. Of je nu zin hebt in frietjes, pizza, of iets zoets - wij hebben het allemaal! We begrijpen jouw honger en streven ernaar om je favoriete snacks razendsnel bij je af te leveren.
 
+## Hoe voeg ik mijn SSH keys toe?
+1. Ga naar je *instellingen* (Win + I), druk dan op *Apps*
+2. Onder de *Apps and Features* tab, druk je op *Optional Features*
+    ![Preview image](/images/windows-apps.png)
+3. Scroll naar beneden tot je *OpenSSH Client* ziet.
+    - Staat die er niet in, druk op het plus teken om hem toe te voegen
+    - Scroll naar beneden tot je *OpenSSH Client ziet.*
+    - Klik dan op *installeer*
+    ![Preview image](/images/optional-windows-features.png)
+4. Druk op de *Windows toets*
+5. Typ in *CMD*
+6. Doe dan rechtermuisknop *Command Prompt*, open als administrator. Druk dan op *JA*
+    ![Preview image](/images/run-command-prompt-as-admin.png)
+7. In de command line doe het volgende:
+    ```
+    $ ssh-keygen
+    ```
+    ![Preview image](/images/generate-ssh-key-in-windows-command-prompt.png)
+    - Hij vraag nu voor een locatie, druk gewoon op *ENTER*
+    - Je word gevraagd om een wachtwoord, vul niks in en druk weer op *ENTER*
+    - Nu is je SSH key aangemaakt.
+8. Ga naar C:\Users\GEBRUIKERSNAAM/.ssh
+9. Open dan het bestand `id_rsa.pub`, en kopieer wat er in staat en stuur dat prive naar @vroomvroomman op discord
+
 
 ## Hoe begin je met developen?
 
