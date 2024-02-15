@@ -1,6 +1,8 @@
 # Snackbezorgd.nl 🍟🍕
 ![Preview image](/images/snackbezorgd-banner-gh.png)
 
+JOUW WIJZIGING HIER
+
 # Beschrijving 📝
 Welkom bij snackbezorgd.nl. Ons fictieve bedrijf voor een school project op het Alfa College Groningen.
 
