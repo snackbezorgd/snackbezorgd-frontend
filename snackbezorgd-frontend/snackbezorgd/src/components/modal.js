@@ -15,7 +15,7 @@ export default class CustomModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeItem: this.props.activeItem,
+      activeproduct: this.props.activeproduct,
     };
   }
 
@@ -26,9 +26,9 @@ export default class CustomModal extends Component {
       value = e.target.checked;
     }
 
-    const activeItem = { ...this.state.activeItem, [name]: value };
+    const activeproduct = { ...this.state.activeproduct, [name]: value };
 
-    this.setState({ activeItem });
+    this.setState({ activeproduct });
   };
 
   render() {
@@ -36,40 +36,51 @@ export default class CustomModal extends Component {
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Todo Item</ModalHeader>
+        <ModalHeader toggle={toggle}>Product</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="todo-title">Title</Label>
+              <Label for="product-title">Title</Label>
               <Input
                 type="text"
-                id="todo-title"
+                id="product-title"
                 name="title"
-                value={this.state.activeItem.title}
+                value={this.state.activeproduct.title}
                 onChange={this.handleChange}
-                placeholder="Enter Todo Title"
+                placeholder="Enter product Title"
               />
             </FormGroup>
             <FormGroup>
-              <Label for="todo-description">Description</Label>
+              <Label for="product-description">Description</Label>
               <Input
                 type="text"
-                id="todo-description"
+                id="product-description"
                 name="description"
-                value={this.state.activeItem.description}
+                value={this.state.activeproduct.description}
                 onChange={this.handleChange}
-                placeholder="Enter Todo description"
+                placeholder="Enter product description"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="product-description">Price</Label>
+              <Input
+                type="text"
+                id="product-price"
+                name="price"
+                value={this.state.activeproduct.price}
+                onChange={this.handleChange}
+                placeholder="Enter product price"
               />
             </FormGroup>
             <FormGroup check>
               <Label check>
                 <Input
                   type="checkbox"
-                  name="completed"
-                  checked={this.state.activeItem.completed}
+                  name="active"
+                  checked={this.state.activeproduct.active}
                   onChange={this.handleChange}
                 />
-                Completed
+                Active?
               </Label>
             </FormGroup>
           </Form>
@@ -77,7 +88,7 @@ export default class CustomModal extends Component {
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => onSave(this.state.activeItem)}
+            onClick={() => onSave(this.state.activeproduct)}
           >
             Save
           </Button>
