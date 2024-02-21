@@ -6,7 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewactive: false,
+      viewactive: true,
       productList: [],
       modal: false,
       activeproduct: {
@@ -42,9 +42,7 @@ class App extends Component {
         .then((res) => this.refreshList());
       return;
     }
-    axios
-      .post("/api/product/", product)
-      .then((res) => this.refreshList());
+    axios.post("/api/product/", product).then((res) => this.refreshList());
   };
 
   handleDelete = (product) => {
@@ -102,22 +100,28 @@ class App extends Component {
         className="list-group-product d-flex justify-content-between align-products-center"
       >
         <span
-          className={`todo-title mr-2 ${
+          className={`todo-title mr-2 mt-4 ${
             this.state.viewactive ? "active-todo" : ""
           }`}
           title={product.description}
         >
           {product.title}
         </span>
+        <span className={"todo-description mr-2 descr mt-4"}>
+          {product.description}
+        </span>
+        <span className={"todo-description mr-2 descr mt-4"}>
+          €{product.price}
+        </span>
         <span>
           <button
-            className="btn btn-secondary mr-2"
+            className="btn btn-secondary mr-2 mt-4"
             onClick={() => this.editproduct(product)}
           >
             Edit
           </button>
           <button
-            className="btn btn-danger"
+            className="btn btn-danger mt-4"
             onClick={() => this.handleDelete(product)}
           >
             Delete
