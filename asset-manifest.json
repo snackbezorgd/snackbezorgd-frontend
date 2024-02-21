@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/snackbezorgd/static/css/main.bfee6ea2.css",
+    "main.js": "/snackbezorgd/static/js/main.213739ea.js",
+    "static/js/592.058ccd37.chunk.js": "/snackbezorgd/static/js/592.058ccd37.chunk.js",
+    "index.html": "/snackbezorgd/index.html",
+    "main.bfee6ea2.css.map": "/snackbezorgd/static/css/main.bfee6ea2.css.map",
+    "main.213739ea.js.map": "/snackbezorgd/static/js/main.213739ea.js.map",
+    "592.058ccd37.chunk.js.map": "/snackbezorgd/static/js/592.058ccd37.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bfee6ea2.css",
+    "static/js/main.213739ea.js"
+  ]
+}
