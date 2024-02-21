@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import SnackBezorgd
+from .models import product
 
 class SnackBezorgdAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'completed')
+    list_display = ('title', 'description', 'price', 'active')
 
 # Register your models here.
 
-admin.site.register(SnackBezorgd, SnackBezorgdAdmin)
+admin.site.register(product, SnackBezorgdAdmin)
