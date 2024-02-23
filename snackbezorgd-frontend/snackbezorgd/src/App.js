@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Modal from "./components/modal";
 import axios from "axios";
-this.$axios.defaults.baseURL = "localhost:8000";
+this.$axios.defaults.baseURL = "http://localhost:8000";
 
 class App extends Component {
   constructor(props) {
