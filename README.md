@@ -6,6 +6,8 @@ Welkom bij snackbezorgd.nl. Ons fictieve bedrijf voor een school project op het 
 
 Het doel is dat je leert samenwerken in een team, je leert je medevernatwoordelijkheid te voelen voor het gemeenschappelijke doel, namenlijk een webapplciatie bouwen. Je leert planmatic en gestructuureerd te werken. Ook leer je elkaar aan te spreken op gedrag, motiviatie en inzet.
 
+De frontend staat op het moment [hier](https://theonly3aq.github.io/snackbezorgd.nl/) live.
+
 ## Over snackbezorgd.nl 🚀
 
 Snackbezorgd is jouw go-to bezorgdienst voor heerlijke snacks. Of je nu zin hebt in frietjes, pizza, of iets zoets - wij hebben het allemaal! We begrijpen jouw honger en streven ernaar om je favoriete snacks razendsnel bij je af te leveren.
