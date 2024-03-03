@@ -3,6 +3,9 @@ import { Stack, Box } from "@mui/material/";
 import Homefood from "../assets/home-food.png";
 import Slogan from "../assets/slogan.png";
 import Typography from "@mui/material/Typography";
+import "@fontsource/inter";
+import Input from "@mui/joy/Input";
+import Button from "@mui/joy/Button";
 
 const styles = {
   Rectangle: {
@@ -19,14 +22,36 @@ const styles = {
   },
   welcomeText: {
     positon: "absolute",
-    fontWeight: 700,
+    fontWeight: 900,
+    marginTop: "22vw",
+    maxWidth: "480px",
     fontSize: 40,
+    left: "20vw",
+  },
+  welcomeSub: {
+    fontWeight: 700,
+    fontSize: 20,
+    maxWidth: "380px",
   },
   locationBar: {
     position: "absolute",
-    top: "10%",
     left: "50%",
+    fontFamily: "inter",
   },
+  zoekButton: {
+    width: "4vw",
+    marginLeft: ".2vw",
+    backgroundColor: "#FDA912",
+  },
+  inputField: {
+    fontFamily: "inter",
+    width: "400px",
+  },
+  inputFieldContainer: {
+    marginTop: "1vw",
+    display: "flex",
+    flexDirection: "row",
+  }
 };
 
 class SB_Home extends Component {
@@ -55,7 +80,7 @@ class SB_Home extends Component {
             width: "35vw",
             height: "35vw",
             position: "absolute",
-            top: "15%",
+            top: "8%",
             left: "13%",
           }}
           alt="Logo"
@@ -67,14 +92,37 @@ class SB_Home extends Component {
               width: "22vw",
               height: "15vw",
               position: "absolute",
-              top: "10%",
-              left: "50%",
+              top: "20%",
+              left: "-30px",
             }}
             alt="Logo"
           />
           <Typography variant="h5" sx={styles.welcomeText}>
             Snack of maaltijd, wij hebben het!
           </Typography>
+          <Typography variant="h6" sx={styles.welcomeSub}>
+            Bestel bij verschillende restaurants of van het snackbezorgd
+            huismerk!
+          </Typography>
+          <Stack sx={styles.inputFieldContainer} >
+          <Input
+            sx={styles.inputField}
+            color="neutral"
+            placeholder="Bijv. Netelweg 13, 9021 WD Amstelhaeghe"
+            size="lg"
+            variant="outlined"
+            />
+          <Button
+            sx={styles.zoekButton}
+            color="neutral"
+            loading={false}
+            onClick={function () {}}
+            size="lg"
+            variant="solid"
+            >
+            Zoek
+          </Button>
+              </Stack>
         </Stack>
       </Stack>
     );
