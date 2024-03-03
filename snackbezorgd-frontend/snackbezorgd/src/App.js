@@ -7,7 +7,7 @@ import { Stack } from "@mui/material/";
 function App() {
   return (
     <Stack className="container">
-      {/* <NavBar /> */}
+      <NavBar />
       <SB_Home />
     </Stack>
   );
