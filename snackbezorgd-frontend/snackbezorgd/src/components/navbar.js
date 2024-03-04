@@ -139,7 +139,7 @@ export default function NavBar() {
               </ListItemButton>
             </ListItem>
             <ListItem>
-              <ListItemButton component="a" href="/admin">
+              <ListItemButton component="a" href="#actionable">
                 <ListItemDecorator>
                   <OpenInNew />
                 </ListItemDecorator>
