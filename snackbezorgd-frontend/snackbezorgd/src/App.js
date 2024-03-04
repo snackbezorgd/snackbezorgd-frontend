@@ -1,15 +1,23 @@
+// Filename - App.js
+
 import React from "react";
+import Navbar from "./components/navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home";
-import SB_Home from "./pages/sb_home";
-import NavBar from "./components/navbar";
-import { Stack } from "@mui/material/";
+import Admin from "./pages/admin";
+
+
 
 function App() {
   return (
-    <Stack className="container">
-      <NavBar />
-      <SB_Home />
-    </Stack>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </Router>
   );
 }
+
 export default App;
