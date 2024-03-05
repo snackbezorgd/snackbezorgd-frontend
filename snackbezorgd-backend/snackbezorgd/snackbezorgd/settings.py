@@ -27,7 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+USE_I18N = True
+USE_L10N = True
+DECIMAL_SEPARATOR = ','
+THOUSAND_SEPARATOR = ' '
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +44,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'snackbezorgd_app',
 ]
+
+REST_FRAMEWORK = {
+'DATETIME_FORMAT': '%B %d, %Y om %H:%M uur',
+}
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'

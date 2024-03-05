@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Stack, Box, Breadcrumbs, Link, Typography } from "@mui/material/";
 import "@fontsource/inter";
 import { Card, CardContent } from "@mui/joy/";
-import EnhancedTable from "../components/orderTable";
+import DataTable from "../components/orderTable";
 const styles = {
   titleContainer: {
     position: "absolute",
@@ -117,7 +117,7 @@ class Admin extends Component {
             </Card>
           </Box>
           <Box sx={styles.tableBackground}>
-            <EnhancedTable />
+            <DataTable />
           </Box>
         </Stack>
       </Stack>
