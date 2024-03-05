@@ -62,6 +62,7 @@ export default function NavBar() {
       <AppBar sx={styles.navbar} position="fixed">
         <Toolbar>
           <Typography variant="h6" component="div" sx={styles.logo}>
+           Link
             Snackbezorgd.nl
           </Typography>
           <IconButton
