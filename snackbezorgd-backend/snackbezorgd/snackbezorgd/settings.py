@@ -26,8 +26,6 @@ SECRET_KEY = 'django-insecure-&1ot!!pfvjts1qsr0-a)6x6@z*n@w%*q!chufl36s_led$tss5
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +39,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'snackbezorgd_app',
 ]
+
+REST_FRAMEWORK = {
+'DATETIME_FORMAT': '%B %d, %Y om %H:%M uur',
+}
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
@@ -113,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 
