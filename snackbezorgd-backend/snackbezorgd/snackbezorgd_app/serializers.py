@@ -1,10 +1,12 @@
 from rest_framework import serializers
 from .models import *
 
-class SnackBezorgdSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = product
-        fields = ('id', 'title', 'description', 'price', 'active')
+        model = product  
+        fields = ('product_number', 'title', 'description', 'price', 'active')
+
+class OrderSerializer(serializers.ModelSerializer):
     class Meta:
-        model = order
+        model = order 
         fields = ('order_number', 'first_name', 'last_name', 'email', 'time', 'paid', 'finished', 'total')

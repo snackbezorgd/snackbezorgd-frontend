@@ -4,10 +4,25 @@ from django.db import models
 # Create your models here.
 
 class product(models.Model):
+    product_number = models.CharField(max_length=10, unique=True, editable=False)
     title = models.CharField(max_length=120)
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if not self.product_number:
+            prefix = 'P2400'
+            last_product = product.objects.last()
+            if last_product:
+                last_product_number = last_product.product_number
+                product_number_suffix = str(int(last_product_number[-3:]) + 1).zfill(3)
+            else:
+                product_number_suffix = '001'
+                
+            self.product_number = f"{prefix}{product_number_suffix}"
+        return super().save(*args, **kwargs)
+
 
     def _str_(self):
         return self.title
