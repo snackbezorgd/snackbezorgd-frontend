@@ -1,8 +1,4 @@
-// Filename - App.js
-
 import React from "react";
-import Navbar from "./components/navbar";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home";
 import Admin from "./pages/admin";
 import OrderDetails from "./pages/orderDetails";
@@ -21,5 +17,4 @@ function App() {
       </Router>
   );
 }
-
 export default App;
