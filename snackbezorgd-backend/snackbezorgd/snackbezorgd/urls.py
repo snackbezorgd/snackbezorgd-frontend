@@ -5,6 +5,7 @@ from snackbezorgd_app import views
 
 router = routers.DefaultRouter()
 router.register(r'product', views.SnackBezorgdView, 'product')
+router.register(r'order', views.OrderAdmin, 'order')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

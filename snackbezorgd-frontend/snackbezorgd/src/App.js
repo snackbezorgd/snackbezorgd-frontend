@@ -1,15 +1,20 @@
 import React from "react";
 import Home from "./pages/home";
-import SB_Home from "./pages/sb_home";
-import NavBar from "./components/navbar";
-import { Stack } from "@mui/material/";
+import Admin from "./pages/admin";
+import OrderDetails from "./pages/orderDetails";
+
+
 
 function App() {
   return (
-    <Stack className="container">
-      <NavBar />
-      <SB_Home />
-    </Stack>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/order" element={<OrderDetails />} />
+        </Routes>
+      </Router>
   );
 }
 export default App;
