@@ -17,6 +17,8 @@ import OpenInNew from "@mui/icons-material/OpenInNew";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import logoImage from "../assets/snackbezorgd-png.png";
 
+
+// TEST CHANGE
 const styles = {
   navbar: {
     backgroundColor: "#fff",
