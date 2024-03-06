@@ -8,13 +8,14 @@ import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import Sheet from "@mui/joy/Sheet";
 import Button from "@mui/joy/Button";
-import { Stack, Box } from "@mui/material/";
+import { Stack, Box, Link } from "@mui/material/";
 import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
 import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import ListItemButton from "@mui/joy/ListItemButton";
 import OpenInNew from "@mui/icons-material/OpenInNew";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
+import logoImage from "../assets/snackbezorgd-png.png";
 
 const styles = {
   navbar: {
@@ -32,6 +33,15 @@ const styles = {
     marginLeft: 2,
     flexGrow: 1,
     fontWeight: 600,
+    textDecoration: "none",
+    "&:hover": {
+      color: "#ffb836",
+      textDecoration: "none",
+    },
+  },
+  logoImage: {
+    width: "200px",
+    marginRight: "1vw",
   },
   accountTitle: {
     fontSize: 30,
@@ -61,10 +71,13 @@ export default function NavBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={styles.navbar} position="fixed">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={styles.logo}>
-           Link
-            Snackbezorgd.nl
-          </Typography>
+          <Link sx={styles.logo} href="/">
+            <img
+              style={styles.logoImage}
+              src={logoImage}
+              alt="Snackbezorgd.nl Logo"
+            />
+          </Link>
           <IconButton
             sx={styles.Hamburger}
             edge="start"

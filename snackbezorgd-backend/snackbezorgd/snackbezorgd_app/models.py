@@ -16,8 +16,10 @@ class order(models.Model):
     order_number = models.CharField(max_length=10, unique=True, editable=False)
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
-    time = models.DateTimeField()
-    paid = models.BooleanField(default=True)
+    email = models.CharField(max_length=120)
+    time = models.DateTimeField(auto_now_add=True)
+    paid = models.BooleanField(default=False)
+    finished = models.BooleanField(default=False)
     total = models.DecimalField(max_digits=8, decimal_places=2)
 
     def save(self, *args, **kwargs):

@@ -26,11 +26,6 @@ SECRET_KEY = 'django-insecure-&1ot!!pfvjts1qsr0-a)6x6@z*n@w%*q!chufl36s_led$tss5
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-USE_I18N = True
-USE_L10N = True
-DECIMAL_SEPARATOR = ','
-THOUSAND_SEPARATOR = ' '
 # Application definition
 
 INSTALLED_APPS = [
@@ -120,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 

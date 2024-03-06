@@ -5,7 +5,7 @@ class SnackBezorgdAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'price', 'active')
 
 class OrderAdmin(admin.ModelAdmin):  # Create a new admin class for the 'Order' model if needed
-    list_display = ('order_number', 'first_name', 'last_name', 'time', 'paid', 'total')
+    list_display = ('order_number', 'first_name', 'last_name', 'email', 'time', 'paid', 'finished', 'total')
 
 # Register your models here.
 admin.site.register(product, SnackBezorgdAdmin)

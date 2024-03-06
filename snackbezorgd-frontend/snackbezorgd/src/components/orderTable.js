@@ -1,19 +1,42 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import axios from "axios";
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 
 const styles = {
   titleContainer: {
     border: "none",
   },
+  paidButton: {
+    backgroundColor: "#E3FBE3",
+    color: "#1F7A1F",
+    border: 0,
+    borderRadius: "5px",
+    width: "100px",
+    fontWeight: 600,
+  },
+  unpaidButton: {
+    backgroundColor: "#FBE3E3",
+    color: "#C41C1C",
+    border: 0,
+    borderRadius: "5px",
+    width: "100px",
+    fontWeight: 600,
+  },
 };
+
 const columns = [
-  { field: "id", headerName: "ID", width: 250 },
+  {
+    field: "id",
+    headerName: "ID",
+    description: "Het unieke ID van de order. Dit is altijd E2400XXX",
+    width: 250,
+  },
   {
     field: "fullName",
     headerName: "Naam",
-    description: "This column has a value getter and is not sortable.",
+    description: "De naam van de persoon.",
     sortable: false,
     width: 250,
     valueGetter: (params) =>
@@ -22,6 +45,7 @@ const columns = [
   {
     field: "time",
     headerName: "Besteltijd",
+    description: "De tijd dat de bestelling is geplaatst.",
     type: "Date",
     dateSetting: { locale: "en-GB" },
     width: 250,
@@ -29,18 +53,36 @@ const columns = [
   {
     field: "paid",
     headerName: "Betaal Status",
+    description:
+      "De status van de bestelling. Dit kan betaald zijn of onbetaald.",
     type: "boolean",
+    sortable: false,
+    renderCell: (params) => {
+      const isPaid = params.value === true;
+
+      return (
+        <Chip
+          label={isPaid ? "Betaald" : "Onbetaald"}
+          variant="outlined"
+          color={isPaid ? "success" : "error"}
+          sx={isPaid ? styles.paidButton : styles.unpaidButton}
+        />
+      );
+    },
     width: 200,
   },
+
   {
     field: "total",
     headerName: "Totaal",
-    width: 70,
+    description: "Totaal dat de bestelling heeft gekost in euro's.",
+    width: 170,
   },
 ];
 
 export default function DataTable() {
   const [rows, setRows] = React.useState([]);
+  const [totalOrders, setTotalOrders] = React.useState(0);
 
   React.useEffect(() => {
     const fetchOrders = async () => {
@@ -57,6 +99,7 @@ export default function DataTable() {
             fullName: `${order.first_name || ""} ${order.last_name || ""}`,
           }))
         );
+        setTotalOrders(response.data.length);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -68,11 +111,27 @@ export default function DataTable() {
   return (
     <Box sx={{ height: 400 }}>
       <DataGrid
-        sx={styles.dataGrid}
         rows={rows}
         columns={columns}
         pageSize={5}
-        checkboxSelection
+        sx={{
+          border: 0,
+          marginTop: 2,
+          "& .MuiDataGrid-cell:hover": {
+            color: "#000",
+          },
+          "&.Mui-selected": {
+            backgroundColor: "#FDA912", //TODO: FIX BACKGROUND SELECTED ROW BEING PRIMARY BLUE; NEEDS TO BE PRIMARY ORANGE SB.
+          },
+          [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:
+            {
+              outline: "none",
+            },
+          [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
+            {
+              outline: "none",
+            },
+        }}
       />
     </Box>
   );
