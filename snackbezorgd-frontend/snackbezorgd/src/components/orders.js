@@ -1,10 +1,15 @@
 import { Card, CardContent } from "@mui/joy/";
 import * as React from "react";
-import { Box, Typography } from "@mui/material/";
+import { Box, Typography, Stack } from "@mui/material/";
 import axios from "axios";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
-import { darken, lighten, styled } from "@mui/material/styles";
+import Button from "@mui/joy/Button";
+import { styled } from "@mui/material/styles";
+import Modal from "@mui/joy/Modal";
+import ModalClose from "@mui/joy/ModalClose";
+import Sheet from "@mui/joy/Sheet";
+import OrderDetailTable from "./orderDetailTable";
 
 const styles = {
   titleContainer: {
@@ -56,6 +61,22 @@ const styles = {
   titleContainer: {
     border: "none",
   },
+  modalTitle: {
+    fontSize: 30,
+    fontWeight: 600,
+  },
+  primaryButton: {
+    backgroundColor: "#fda912",
+    color: "#fff",
+    boxShadow: 0,
+    border: 0,
+    borderRadius: "5px",
+    width: "100px",
+    fontWeight: 600,
+    "&:hover": {
+      backgroundColor: "#fdb735",
+    },
+  },
   paidButton: {
     backgroundColor: "#E3FBE3",
     color: "#1F7A1F",
@@ -85,64 +106,89 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   },
 }));
 
-const columns = [
-  {
-    field: "id",
-    headerName: "ID",
-    description: "Het unieke ID van de order. Dit is altijd E2400XXX",
-    width: 250,
-  },
-  {
-    field: "fullName",
-    headerName: "Naam",
-    description: "De naam van de persoon.",
-    sortable: false,
-    width: 250,
-    valueGetter: (params) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-  {
-    field: "time",
-    headerName: "Besteltijd",
-    description: "De tijd dat de bestelling is geplaatst.",
-    type: "Date",
-    dateSetting: { locale: "en-GB" },
-    width: 250,
-  },
-  {
-    field: "paid",
-    headerName: "Betaal Status",
-    description:
-      "De status van de bestelling. Dit kan betaald zijn of onbetaald.",
-    type: "boolean",
-    sortable: false,
-    renderCell: (params) => {
-      const isPaid = params.value === true;
-
-      return (
-        <Chip
-          label={isPaid ? "Betaald" : "Onbetaald"}
-          variant="outlined"
-          color={isPaid ? "success" : "error"}
-          sx={isPaid ? styles.paidButton : styles.unpaidButton}
-        />
-      );
-    },
-    width: 200,
-  },
-
-  {
-    field: "total",
-    headerName: "Totaal",
-    description: "Totaal dat de bestelling heeft gekost in euro's.",
-    width: 170,
-  },
-];
-
 export default function Orders() {
   const [rows, setRows] = React.useState([]);
   const [totalOrders, setTotalOrders] = React.useState(0);
   const [totalCost, setTotalCost] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      description: "Het unieke ID van de order. Dit is altijd E2400XXX",
+      width: 150,
+    },
+    {
+      field: "fullName",
+      headerName: "Naam",
+      description: "De naam van de persoon.",
+      sortable: false,
+      width: 250,
+      valueGetter: (params) =>
+        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+    {
+      field: "time",
+      headerName: "Besteltijd",
+      description: "De tijd dat de bestelling is geplaatst.",
+      type: "Date",
+      dateSetting: { locale: "en-GB" },
+      width: 220,
+    },
+    {
+      field: "paid",
+      headerName: "Betaal Status",
+      description:
+        "De status van de bestelling. Dit kan betaald zijn of onbetaald.",
+      type: "boolean",
+      sortable: false,
+      renderCell: (params) => {
+        const isPaid = params.value === true;
+
+        return (
+          <Chip
+            label={isPaid ? "Betaald" : "Onbetaald"}
+            variant="outlined"
+            color={isPaid ? "success" : "error"}
+            sx={isPaid ? styles.paidButton : styles.unpaidButton}
+          />
+        );
+      },
+      width: 200,
+    },
+    {
+      field: "total",
+      headerName: "Totaal",
+      description: "Totaal dat de bestelling heeft gekost in euro's.",
+      width: 100,
+    },
+    {
+      field: "Acties",
+      headerName: "Acties",
+      width: 180,
+      sortable: false,
+      disableClickEventBubbling: true,
+
+      renderCell: (params) => {
+        return (
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              sx={styles.primaryButton}
+              onClick={() => setOpen(true)}
+            >
+              Bekijken
+            </Button>
+          </Stack>
+        );
+      },
+    },
+  ];
+  const onClickView = (params) => {
+    const currentRow = params.row;
+    return alert(JSON.stringify(currentRow, null, 4));
+  };
 
   React.useEffect(() => {
     const fetchOrders = async () => {
@@ -155,7 +201,10 @@ export default function Orders() {
             lastName: order.last_name,
             time: order.time,
             paid: order.paid,
-            total: "€" + order.total.replace(/\./g, ","),
+            total: new Intl.NumberFormat("nl-NL", {
+              style: "currency",
+              currency: "EUR",
+            }).format(parseFloat(order.total)),
             fullName: `${order.first_name || ""} ${order.last_name || ""}`,
           }))
         );
@@ -258,6 +307,38 @@ export default function Orders() {
           />
         </Box>
       </Box>
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <Sheet
+          variant="outlined"
+          sx={{
+            width: "70vw",
+            height: "40vw",
+            borderRadius: "md",
+            p: 3,
+            boxShadow: "lg",
+          }}
+        >
+          <ModalClose variant="plain" sx={{ m: 1 }} />
+          <Typography
+            sx={styles.modalTitle}
+            component="h2"
+            id="modal-title"
+            level="h4"
+            textColor="inherit"
+            fontWeight="lg"
+            mb={1}
+          >
+            Order Detail
+          </Typography>
+          <OrderDetailTable />
+        </Sheet>
+      </Modal>
     </Box>
   );
 }
