@@ -27,5 +27,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: cd snackbezorgd && npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - run: cd snackbezorgd && npm run build --if-present
+    - run: cd snackbezorgd && npm test
