@@ -167,7 +167,7 @@ export default function OrderDetailTable() {
     const fetchOrderItems = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/orderitem/?order_id=${selectedOrderId}`
+          `http://5.249.165.148:8000/api/orderitem/?order_id=${selectedOrderId}`
         );
         setRows(
           response.data.map((orderItem) => ({
