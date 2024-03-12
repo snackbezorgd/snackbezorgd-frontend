@@ -193,7 +193,9 @@ export default function Orders() {
   React.useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/order/");
+        const response = await axios.get(
+          "http://5.249.165.148:8000/api/order/"
+        );
         setRows(
           response.data.map((order) => ({
             id: order.order_number,

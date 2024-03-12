@@ -121,7 +121,9 @@ export default function Products() {
   React.useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/product/");
+        const response = await axios.get(
+          "http://5.249.165.148:8000/api/product/"
+        );
         setRows(
           response.data.map((product) => ({
             id: product.product_number,
