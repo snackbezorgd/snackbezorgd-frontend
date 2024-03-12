@@ -6,7 +6,7 @@ Welkom bij snackbezorgd.nl. Ons fictieve bedrijf voor een school project op het 
 
 Het doel is dat je leert samenwerken in een team, je leert je medevernatwoordelijkheid te voelen voor het gemeenschappelijke doel, namenlijk een webapplciatie bouwen. Je leert planmatic en gestructuureerd te werken. Ook leer je elkaar aan te spreken op gedrag, motiviatie en inzet.
 
-De frontend staat op het moment [hier](https://theonly3aq.github.io/snackbezorgd.nl/) live.
+De frontend staat op het moment [hier](https://theonly3aq.github.io/snackbezorgd.nl/) live. (niet helemaal werkend)
 
 ## Over snackbezorgd.nl 🚀
 
@@ -37,6 +37,21 @@ Snackbezorgd is jouw go-to bezorgdienst voor heerlijke snacks. Of je nu zin hebt
 9. Open dan het bestand `id_rsa.pub`, en kopieer wat er in staat en stuur dat prive naar @vroomvroomman op discord
 
 
+## Hoe start ik de Fontend server?
+Ga naar de frontend folder:
+```
+$ cd snackbezorgd
+```
+Installeer de dependencies:
+```
+$ npm install
+```
+Start the server:
+```
+$ npm start
+```
+
+
 ## Hoe begin je met developen?
 
 *Voordat je begint, moet je even een terminal openen en de volgende commando's doen:*
@@ -55,7 +70,7 @@ $ git config --global user.email "monalisa@gmail.com"
 
 1. Clone deze repository
     ```
-    $ git clone https://github.com/TheOnly3aq/snackbezorgd.nl.git
+    $ git clone https://github.com/snackbezorgd/snackbezorgd-frontend.git
     ```
 2. Maak een branch aan van je feature, met het formaat als dit: `feature-FEATURE-NAAM` of `bugfix-BUGFIX-NAAM` 
 
@@ -84,7 +99,7 @@ $ git config --global user.email "monalisa@gmail.com"
 
     ***Je mag deze stap ook via de Visual Studio Code GitHub tools doen, zie [hier](https://youtu.be/oekG-j4beWA) een video over hoe je dit doet.***
 
-6. Ga naar de [github repo](https://github.com/TheOnly3aq/snackbezorgd.nl), en klik op "Pull requests". Druk dan op "New pull request" Dan zal je daar je wijziging zien, waarschijnlijk staat er dan ergens zoiets als dit:
+6. Ga naar de [github repo](https://github.com/snackbezorgd/snackbezorgd-frontend.git), en klik op "Pull requests". Druk dan op "New pull request" Dan zal je daar je wijziging zien, waarschijnlijk staat er dan ergens zoiets als dit:
     ![Preview image](/images/md_img_2.png)
     Druk dan op de bovenste (de meest recente)
 
@@ -93,46 +108,6 @@ $ git config --global user.email "monalisa@gmail.com"
 
 8. Als je PR goedgekeurd word, word die gemerged van `JOUW-BRANCH-NAAM` -> `dev`. Dan zitten jouw wijzigingen dus volledig in de productie omgeving.
 
-
-## Hoe start ik de Backend server?
-Ga naar de backend folder:
-```
-$ cd snackbezorgd-frontend/snackbezorgd
-```
-Installeer de requirements:
-```
-& pip3 install -r requirements.txt
-```
-of
-```
-$ pip install -r requirements.txt
-```
-Initialiseer de Virtual Env:
-```
-$ pipenv shell
-```
-Start de app:
-```
-$ python manage.py startapp snackbezorgd_app
-```
-Doe migrations:
-```
-$  python manage.py migrate
-```
-Start de server:
-```
-$  python manage.py runserver
-```
-
-## Hoe start ik de Fontend server?
-Ga naar de frontend folder:
-```
-$ cd snackbezorgd-frontend/snackbezorgd
-```
-Start de server:
-```
-& npm start
-```
 
 
 ## Contact 
