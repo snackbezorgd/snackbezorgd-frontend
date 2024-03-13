@@ -117,16 +117,23 @@ export default function Orders() {
       field: "id",
       headerName: "ID",
       description: "Het unieke ID van de order. Dit is altijd E2400XXX",
-      width: 150,
+      width: 120,
     },
     {
       field: "fullName",
       headerName: "Naam",
       description: "De naam van de persoon.",
       sortable: false,
-      width: 250,
+      width: 120,
       valueGetter: (params) =>
         `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+    {
+      field: "email",
+      headerName: "email",
+      description: "De email van de persoon.",
+      sortable: false,
+      width: 170,
     },
     {
       field: "time",
@@ -199,15 +206,18 @@ export default function Orders() {
         setRows(
           response.data.map((order) => ({
             id: order.order_number,
-            firstName: order.first_name,
-            lastName: order.last_name,
+            firstName: order.account.first_name,
+            lastName: order.account.last_name,
+            email: order.account.email,
             time: order.time,
             paid: order.paid,
             total: new Intl.NumberFormat("nl-NL", {
               style: "currency",
               currency: "EUR",
             }).format(parseFloat(order.total)),
-            fullName: `${order.first_name || ""} ${order.last_name || ""}`,
+            fullName: `${order.account.first_name || ""} ${
+              order.account.last_name || ""
+            }`,
           }))
         );
         const calculatedTotalCost = response.data.reduce((total, order) => {
