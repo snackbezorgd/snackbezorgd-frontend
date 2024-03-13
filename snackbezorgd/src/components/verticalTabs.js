@@ -8,6 +8,7 @@ import Stats from "./orders";
 import Orders from "./orders";
 import { Breadcrumbs, Link } from "@mui/material/";
 import Products from "./products";
+import AccountsTable from "./accountTable";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -193,7 +194,10 @@ export default function VerticalTabs() {
         </Typography>
         <Breadcrumbs separator="›" aria-label="accountBreadcrumbs">
           {accountBreadcrumbs}
-        </Breadcrumbs>{" "}
+        </Breadcrumbs>
+        <Box>
+          <AccountsTable />
+        </Box>
       </TabPanel>
       {/* <TabPanel value={value} index={3}>
         Item Four
