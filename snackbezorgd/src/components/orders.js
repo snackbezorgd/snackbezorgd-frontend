@@ -201,7 +201,7 @@ export default function Orders() {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          "http://5.249.165.148:8000/api/order/"
+          "https://snackbezorgd.knightsofni.nl/api/order/"
         );
         setRows(
           response.data.map((order) => ({

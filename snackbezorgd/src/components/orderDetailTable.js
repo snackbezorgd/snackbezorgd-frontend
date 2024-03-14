@@ -167,7 +167,7 @@ export default function OrderDetailTable() {
     const fetchOrderItems = async () => {
       try {
         const response = await axios.get(
-          `http://5.249.165.148:8000/api/orderitem/?order_id=${selectedOrderId}`
+          `https://snackbezorgd.knightsofni.nl/api/orderitem/?order_id=${selectedOrderId}`
         );
         setRows(
           response.data.map((orderItem) => ({

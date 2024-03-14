@@ -165,7 +165,7 @@ export default function AccountsTable() {
     const fetchAccounts = async () => {
       try {
         const response = await axios.get(
-          "http://5.249.165.148:8000/api/account/"
+          "https://snackbezorgd.knightsofni.nl/api/account/"
         );
         setRows(
           response.data.map((account) => ({
