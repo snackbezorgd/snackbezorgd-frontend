@@ -122,7 +122,7 @@ export default function Products() {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://5.249.165.148:8000/api/product/"
+          "https://snackbezorgd.knightsofni.nl/api/product/"
         );
         setRows(
           response.data.map((product) => ({
