@@ -17,8 +17,6 @@ import OpenInNew from "@mui/icons-material/OpenInNew";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import logoImage from "../assets/snackbezorgd-png.png";
 
-
-// TEST CHANGE
 const styles = {
   navbar: {
     backgroundColor: "#fff",
@@ -124,7 +122,7 @@ export default function NavBar() {
               sx={styles.loginButton}
               color="neutral"
               loading={false}
-              onClick={event =>  window.location.href='/login'}
+              onClick={(event) => (window.location.href = "/login")}
               size="lg"
               variant="outlined"
             >
@@ -135,7 +133,7 @@ export default function NavBar() {
               color="neutral"
               loading={false}
               size="lg"
-              onClick={event =>  window.location.href='/Register'}
+              onClick={(event) => (window.location.href = "/Register")}
               variant="solid"
             >
               Registreren
@@ -155,7 +153,7 @@ export default function NavBar() {
               </ListItemButton>
             </ListItem>
             <ListItem>
-              <ListItemButton component="a" href="/admin">
+              <ListItemButton component="a" href="/login">
                 <ListItemDecorator>
                   <OpenInNew />
                 </ListItemDecorator>
