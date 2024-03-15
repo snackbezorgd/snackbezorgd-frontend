@@ -124,7 +124,7 @@ export default function NavBar() {
               sx={styles.loginButton}
               color="neutral"
               loading={false}
-              onClick={function () {}}
+              onClick={event =>  window.location.href='/login'}
               size="lg"
               variant="outlined"
             >
@@ -134,8 +134,8 @@ export default function NavBar() {
               sx={styles.regButton}
               color="neutral"
               loading={false}
-              onClick={function () {}}
               size="lg"
+              onClick={event =>  window.location.href='/Register'}
               variant="solid"
             >
               Registreren
