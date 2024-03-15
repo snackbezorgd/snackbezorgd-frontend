@@ -59,7 +59,7 @@ export default function Login() {
       password: password,
     };
 
-    const { data } = await axios.post("http://localhost:8000/token/", user, {
+    const { data } = await axios.post("https://snackbezorgd.knightsofni.nl/token/", user, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     });
