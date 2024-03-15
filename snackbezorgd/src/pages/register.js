@@ -1,133 +1,236 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
+import GlobalStyles from "@mui/joy/GlobalStyles";
+import CssBaseline from "@mui/joy/CssBaseline";
+import Box from "@mui/joy/Box";
+import Button from "@mui/joy/Button";
+import Checkbox from "@mui/joy/Checkbox";
+import Divider from "@mui/joy/Divider";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import IconButton from "@mui/joy/IconButton";
+import Link from "@mui/joy/Link";
+import Input from "@mui/joy/Input";
+import Typography from "@mui/joy/Typography";
+import Stack from "@mui/joy/Stack";
+import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
 
-function Copyright(props) {
+function ColorSchemeToggle(props) {
+  const { onClick, ...other } = props;
+  const { mode, setMode } = useColorScheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => setMounted(true), []);
+
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <IconButton
+      aria-label="toggle light/dark mode"
+      size="sm"
+      variant="outlined"
+      disabled={!mounted}
+      onClick={(event) => {
+        setMode(mode === "light" ? "light" : "light");
+        onClick?.(event);
+      }}
+      {...other}
+    >
+      {mode === "light" ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
+    </IconButton>
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
-
 export default function Register() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
+      <CssBaseline />
+      <GlobalStyles
+        styles={{
+          ":root": {
+            "--Form-maxWidth": "800px",
+            "--Transition-duration": "0.4s", // set to `none` to disable transition
+          },
+        }}
+      />
+      <Box
+        sx={(theme) => ({
+          width: { xs: "100%", md: "50vw" },
+          transition: "width var(--Transition-duration)",
+          transitionDelay: "calc(var(--Transition-duration) + 0.1s)",
+          position: "relative",
+          zIndex: 1,
+          display: "flex",
+          justifyContent: "flex-end",
+          backdropFilter: "blur(12px)",
+          backgroundColor: "#",
+          [theme.getColorSchemeSelector("dark")]: {
+            backgroundColor: "#fff9ef",
+          },
+        })}
+      >
         <Box
           sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100dvh",
+            width: "100%",
+            px: 2,
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+          <Box
+            component="header"
+            sx={{
+              py: 3,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              sx={{
+                marginTop: "3vw",
+                gap: 2,
+                display: "flex",
+                alignItems: "center",
+              }}
             >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/Login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
+              {/* <ColorSchemeToggle /> */}
+            </Box>
+          </Box>
+          <Box
+            component="main"
+            sx={{
+              my: "auto",
+              py: 2,
+              pb: 5,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              width: 400,
+              maxWidth: "100%",
+              mx: "auto",
+              borderRadius: "sm",
+              "& form": {
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              },
+              [`& .MuiFormLabel-asterisk`]: {
+                visibility: "hidden",
+              },
+            }}
+          >
+            <Stack gap={4} sx={{ mb: 2 }}>
+              <Stack gap={1}>
+                <Typography sx={{ color: "#000" }} component="h1" level="h3">
+                  Account aanmaken
+                </Typography>
+                <Typography sx={{ color: "#000" }} level="body-sm">
+                  Heb je al een account?{" "}
+                  <Link
+                    sx={{
+                      color: "#fda912",
+                      "&:hover": {
+                        color: "#000",
+                      },
+                    }}
+                    href="/login"
+                    level="title-sm"
+                  >
+                    Login!
+                  </Link>
+                </Typography>
+              </Stack>
+            </Stack>
+            <Divider
+              sx={(theme) => ({
+                [theme.getColorSchemeSelector("light")]: {
+                  color: { xs: "#fff", md: "text.primary" },
+                },
+              })}
+            >
+              or
+            </Divider>
+            <Stack gap={4} sx={{ mt: 2 }}>
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  const formElements = event.currentTarget.elements;
+                  const data = {
+                    email: formElements.email.value,
+                    password: formElements.password.value,
+                    persistent: formElements.persistent.checked,
+                  };
+                  alert(JSON.stringify(data, null, 2));
+                }}
+              >
+                <FormControl required>
+                  <FormLabel>Voornaam</FormLabel>
+                  <Input type="firstName" name="email" />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Achternaam</FormLabel>
+                  <Input type="lastName" name="email" />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Email</FormLabel>
+                  <Input type="email" name="email" />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Wachtwoord</FormLabel>
+                  <Input type="password" name="password" />
+                </FormControl>
+                <Stack gap={4} sx={{ mt: 2 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  ></Box>
+                  <Button
+                    sx={{
+                      backgroundColor: "#fda912",
+                      "&:hover": {
+                        backgroundColor: "rgba(253,146,18,1)",
+                      },
+                    }}
+                    type="submit"
+                    fullWidth
+                  >
+                    Account aanmaken
+                  </Button>
+                </Stack>
+              </form>
+            </Stack>
+          </Box>
+          <Box component="footer" sx={{ py: 3 }}>
+            <Typography level="body-xs" textAlign="center">
+              © Snackbezorgd.nl {new Date().getFullYear()}
+            </Typography>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+      </Box>
+      <Box
+        sx={(theme) => ({
+          height: "100%",
+          position: "fixed",
+          right: 0,
+          top: 0,
+          bottom: 0,
+          left: { xs: 0, md: "50vw" },
+          transition:
+            "background-image var(--Transition-duration), left var(--Transition-duration) !important",
+          transitionDelay: "calc(var(--Transition-duration) + 0.1s)",
+          backgroundColor: "background.level1",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          background: "rgb(255,232,190)",
+          background:
+            "linear-gradient(90deg, rgba(255,232,190,1) 4%, rgba(255,195,124,1) 100%)",
+        })}
+      />
+    </CssVarsProvider>
   );
 }
