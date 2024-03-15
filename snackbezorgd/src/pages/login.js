@@ -15,8 +15,8 @@ import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
-import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
-
+import axios from "axios";
+import { useState } from "react";
 function ColorSchemeToggle(props) {
   const { onClick, ...other } = props;
   const { mode, setMode } = useColorScheme();
@@ -42,8 +42,37 @@ function ColorSchemeToggle(props) {
 }
 
 export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+  const submit = async (e) => {
+    e.preventDefault();
+    const user = {
+      username: username,
+      password: password,
+    };
+
+    const { data } = await axios.post("http://localhost:8000/token/", user, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    });
+
+    localStorage.clear();
+    localStorage.setItem("access_token", data.access);
+    localStorage.setItem("refresh_token", data.refresh);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${data["access"]}`;
+    window.location.href = "/";
+  };
+
   return (
-    <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
+    <CssVarsProvider defaultMode="light" disableTransitionOnChange>
       <CssBaseline />
       <GlobalStyles
         styles={{
@@ -156,21 +185,30 @@ export default function Login() {
                 onSubmit={(event) => {
                   event.preventDefault();
                   const formElements = event.currentTarget.elements;
-                  const data = {
-                    email: formElements.email.value,
-                    password: formElements.password.value,
-                    persistent: formElements.persistent.checked,
-                  };
-                  alert(JSON.stringify(data, null, 2));
+                  const username = formElements.username.value;
+                  const password = formElements.password.value;
+                  setUsername(username);
+                  setPassword(password);
+                  submit(event);
                 }}
               >
                 <FormControl required>
-                  <FormLabel>Email</FormLabel>
-                  <Input type="email" name="email" />
+                  <FormLabel>Gebruikersnaam</FormLabel>
+                  <Input
+                    type="username"
+                    name="username"
+                    value={username}
+                    onChange={handleUsernameChange}
+                  />
                 </FormControl>
                 <FormControl required>
                   <FormLabel>Wachtwoord</FormLabel>
-                  <Input type="password" name="password" />
+                  <Input
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                  />
                 </FormControl>
                 <Stack gap={4} sx={{ mt: 2 }}>
                   <Box
