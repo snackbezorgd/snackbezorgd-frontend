@@ -1,4 +1,4 @@
-import * as React from "react";
+// import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -16,9 +16,8 @@ import ListItemButton from "@mui/joy/ListItemButton";
 import OpenInNew from "@mui/icons-material/OpenInNew";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import logoImage from "../assets/snackbezorgd-png.png";
+import React, { useState, useEffect } from "react";
 
-
-// TEST CHANGE
 const styles = {
   navbar: {
     backgroundColor: "#fff",
@@ -58,16 +57,23 @@ const styles = {
   },
   loginButton: {
     width: "20vw",
-    backgroundColor: "#d9d9d9",
-  },
-  regButton: {
-    width: "20vw",
-    marginLeft: "4vw",
     backgroundColor: "#FDA912",
+  },
+  logoutButton: {
+    width: "20vw",
+    backgroundColor: "#d9d9d9",
   },
 };
 
 export default function NavBar() {
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token") !== null) {
+      setIsAuth(true);
+    }
+  }, [isAuth]);
+
   const [open, setOpen] = React.useState(false);
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -120,26 +126,29 @@ export default function NavBar() {
             Mijn account
           </Typography>
           <Stack sx={styles.buttonContainer}>
-            <Button
-              sx={styles.loginButton}
-              color="neutral"
-              loading={false}
-              onClick={function () {}}
-              size="lg"
-              variant="outlined"
-            >
-              Inloggen
-            </Button>
-            <Button
-              sx={styles.regButton}
-              color="neutral"
-              loading={false}
-              onClick={function () {}}
-              size="lg"
-              variant="solid"
-            >
-              Registreren
-            </Button>
+            {isAuth ? (
+              <Button
+                sx={styles.logoutButton}
+                color="neutral"
+                loading={false}
+                onClick={(event) => (window.location.href = "/logout")}
+                size="lg"
+                variant="outlined"
+              >
+                Uitloggen
+              </Button>
+            ) : (
+              <Button
+                sx={styles.loginButton}
+                color="neutral"
+                loading={false}
+                size="lg"
+                onClick={(event) => (window.location.href = "/login")}
+                variant="solid"
+              >
+                Inloggen
+              </Button>
+            )}
           </Stack>
           <List
             sx={{

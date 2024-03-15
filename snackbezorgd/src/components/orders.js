@@ -9,7 +9,6 @@ import { styled } from "@mui/material/styles";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import Sheet from "@mui/joy/Sheet";
-import OrderDetailTable from "./orderDetailTable";
 
 const styles = {
   titleContainer: {
@@ -108,10 +107,58 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 export default function Orders() {
   const [rows, setRows] = React.useState([]);
+  const [orderItemRows, setOrderItemRows] = React.useState([]);
   const [totalOrders, setTotalOrders] = React.useState(0);
   const [totalCost, setTotalCost] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+  const [selectedOrderId, setSelectedOrderId] = React.useState(null);
 
+  const handleRowClick = (params) => {
+    fetchOrderItems(params.row.id);
+  };
+
+  const fetchOrderItems = async (orderId) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/orderitem/`);
+      setOrderItemRows(
+        response.data.map((orderItem) => ({
+          id: orderItem.order,
+          product: orderItem.product,
+          quantity: orderItem.quantity,
+          // subtotal: new Intl.NumberFormat("nl-NL", {
+          //   style: "currency",
+          //   currency: "EUR",
+          // }).format(parseFloat(orderItem.subtotal)),
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const orderDetailColumns = [
+    {
+      field: "id",
+      headerName: "ID",
+      description: "Het unieke ID van de order.",
+      width: 150,
+    },
+    {
+      field: "product",
+      headerName: "Product",
+      description: "De naam van het product.",
+      sortable: false,
+      width: 250,
+    },
+    {
+      field: "quantity",
+      headerName: "Aantal",
+      description: "De tijd dat de bestelling is geplaatst.",
+      type: "Date",
+      dateSetting: { locale: "en-GB" },
+      width: 220,
+    },
+  ];
   const columns = [
     {
       field: "id",
@@ -183,7 +230,10 @@ export default function Orders() {
             <Button
               variant="contained"
               sx={styles.primaryButton}
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                setOpen(true);
+                handleRowClick(params);
+              }}
             >
               Bekijken
             </Button>
@@ -192,46 +242,48 @@ export default function Orders() {
       },
     },
   ];
-  const onClickView = (params) => {
-    const currentRow = params.row;
-    return alert(JSON.stringify(currentRow, null, 4));
-  };
 
   React.useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get(
-          "https://snackbezorgd.knightsofni.nl/api/order/"
-        );
-        setRows(
-          response.data.map((order) => ({
-            id: order.order_number,
-            firstName: order.account.first_name,
-            lastName: order.account.last_name,
-            email: order.account.email,
-            time: order.time,
-            paid: order.paid,
-            total: new Intl.NumberFormat("nl-NL", {
-              style: "currency",
-              currency: "EUR",
-            }).format(parseFloat(order.total)),
-            fullName: `${order.account.first_name || ""} ${
-              order.account.last_name || ""
-            }`,
-          }))
-        );
-        const calculatedTotalCost = response.data.reduce((total, order) => {
-          const orderCost = parseFloat(order.total) || 0;
-          return total + orderCost;
-        }, 0);
-        setTotalCost("€" + calculatedTotalCost.toFixed(2).replace(/\./g, ","));
-        setTotalOrders(response.data.length);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    };
+    if (localStorage.getItem("access_token") === null) {
+      window.location.href = "/login";
+    } else {
+      const fetchOrders = async () => {
+        try {
+          const response = await axios.get(
+            "https://snackbezorgd.knightsofni.nl/api/order/"
+          );
+          setRows(
+            response.data.map((order) => ({
+              id: order.order_number,
+              firstName: order.account.first_name,
+              lastName: order.account.last_name,
+              email: order.account.email,
+              time: order.time,
+              paid: order.paid,
+              total: new Intl.NumberFormat("nl-NL", {
+                style: "currency",
+                currency: "EUR",
+              }).format(parseFloat(order.total)),
+              fullName: `${order.account.first_name || ""} ${
+                order.account.last_name || ""
+              }`,
+            }))
+          );
+          const calculatedTotalCost = response.data.reduce((total, order) => {
+            const orderCost = parseFloat(order.total) || 0;
+            return total + orderCost;
+          }, 0);
+          setTotalCost(
+            "€" + calculatedTotalCost.toFixed(2).replace(/\./g, ",")
+          );
+          setTotalOrders(response.data.length);
+        } catch (error) {
+          console.error("Error fetching orders:", error);
+        }
+      };
 
-    fetchOrders();
+      fetchOrders();
+    }
   }, []);
   return (
     <Box>
@@ -348,7 +400,31 @@ export default function Orders() {
           >
             Order Detail
           </Typography>
-          <OrderDetailTable />
+          <Box sx={styles.tableBackground}>
+            <Box sx={{ height: 400 }}>
+              <StyledDataGrid
+                rows={orderItemRows}
+                columns={orderDetailColumns}
+                pageSize={5}
+                getRowClassName={() => `super-app-theme`}
+                sx={{
+                  border: 0,
+                  marginTop: 2,
+                  "& .MuiDataGrid-cell:hover": {
+                    color: "#000",
+                  },
+                  [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:
+                    {
+                      outline: "none",
+                    },
+                  [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
+                    {
+                      outline: "none",
+                    },
+                }}
+              />
+            </Box>
+          </Box>{" "}
         </Sheet>
       </Modal>
     </Box>
