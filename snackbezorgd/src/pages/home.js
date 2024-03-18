@@ -7,6 +7,8 @@ import "@fontsource/inter";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const styles = {
   Rectangle: {
     width: "60%",
@@ -71,7 +73,6 @@ class Home extends Component {
     };
   }
 
-  
   render() {
     return (
       <Stack>

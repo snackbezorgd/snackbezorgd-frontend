@@ -10,6 +10,8 @@ import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import Sheet from "@mui/joy/Sheet";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const styles = {
   titleContainer: {
     position: "absolute",
@@ -164,9 +166,7 @@ export default function AccountsTable() {
   React.useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await axios.get(
-          "https://snackbezorgd.knightsofni.nl/api/account/"
-        );
+        const response = await axios.get(`${apiUrl}/api/account/`);
         setRows(
           response.data.map((account) => ({
             id: account.account_id,

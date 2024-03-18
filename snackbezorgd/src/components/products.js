@@ -6,6 +6,8 @@ import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
 import { darken, lighten, styled } from "@mui/material/styles";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const styles = {
   titleContainer: {
     position: "absolute",
@@ -121,9 +123,7 @@ export default function Products() {
   React.useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          "https://snackbezorgd.knightsofni.nl/api/product/"
-        );
+        const response = await axios.get(`${apiUrl}/api/product/`);
         setRows(
           response.data.map((product) => ({
             id: product.product_number,

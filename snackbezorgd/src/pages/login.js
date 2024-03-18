@@ -4,7 +4,9 @@ import GlobalStyles from "@mui/joy/GlobalStyles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
-import Checkbox from "@mui/joy/Checkbox";
+import Alert from "@mui/joy/Alert";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Divider from "@mui/joy/Divider";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
@@ -17,6 +19,9 @@ import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import axios from "axios";
 import { useState } from "react";
+
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function ColorSchemeToggle(props) {
   const { onClick, ...other } = props;
   const { mode, setMode } = useColorScheme();
@@ -59,7 +64,7 @@ export default function Login() {
       password: password,
     };
 
-    const { data } = await axios.post("https://snackbezorgd.knightsofni.nl/token/", user, {
+    const { data } = await axios.post(`${apiUrl}/api/token/`, user, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     });
@@ -69,6 +74,26 @@ export default function Login() {
     localStorage.setItem("refresh_token", data.refresh);
     axios.defaults.headers.common["Authorization"] = `Bearer ${data["access"]}`;
     window.location.href = "/";
+    return (
+      <Alert
+        key="title"
+        sx={{ alignItems: "flex-start" }}
+        startDecorator={CheckCircleIcon}
+        variant="soft"
+        color="success"
+        endDecorator={
+          <IconButton variant="soft" color="success">
+            <CloseRoundedIcon />
+          </IconButton>
+        }
+      >
+        <div>
+          <Typography level="body-sm" color="success">
+            This is a time-sensitive Alert.
+          </Typography>
+        </div>
+      </Alert>
+    );
   };
 
   return (
