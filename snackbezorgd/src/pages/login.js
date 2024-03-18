@@ -64,7 +64,7 @@ export default function Login() {
       password: password,
     };
 
-    const { data } = await axios.post(`${apiUrl}/api/token/`, user, {
+    const { data } = await axios.post(`${apiUrl}/token/`, user, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     });
