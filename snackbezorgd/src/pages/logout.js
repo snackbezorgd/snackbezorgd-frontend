@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export const Logout = () => {
   useEffect(() => {
     (async () => {
       try {
         const { data } = await axios.post(
-          "https://snackbezorgd.knightsofni.nl/logout/",
+          `${apiUrl}/logout/`,
           {
             refresh_token: localStorage.getItem("refresh_token"),
           },

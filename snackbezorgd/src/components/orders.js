@@ -112,6 +112,7 @@ export default function Orders() {
   const [totalCost, setTotalCost] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const [selectedOrderId, setSelectedOrderId] = React.useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleRowClick = (params) => {
     fetchOrderItems(params.row.id);
@@ -119,7 +120,7 @@ export default function Orders() {
 
   const fetchOrderItems = async (orderId) => {
     try {
-      const response = await axios.get(`https://snackbezorgd.knightsofni.nl/api/orderitem/`);
+      const response = await axios.get(`${apiUrl}/api/orderitem/`);
       setOrderItemRows(
         response.data.map((orderItem) => ({
           id: orderItem.order,
@@ -249,9 +250,7 @@ export default function Orders() {
     } else {
       const fetchOrders = async () => {
         try {
-          const response = await axios.get(
-            "https://snackbezorgd.knightsofni.nl/api/order/"
-          );
+          const response = await axios.get(`${apiUrl}/api/order/`);
           setRows(
             response.data.map((order) => ({
               id: order.order_number,
