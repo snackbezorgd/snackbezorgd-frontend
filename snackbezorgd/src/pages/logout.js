@@ -1,7 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Typography, Stack } from "@mui/material/";
 
 const apiUrl = process.env.REACT_APP_API_URL;
+
+const styles = {
+  header: {
+    position: "absolute",
+    textAlign: "center",
+    top:"50%",
+    width:"100%",
+    fontFamily: "inter",
+    fontWeight: "700",
+  }
+}
+
 
 export const Logout = () => {
   useEffect(() => {
@@ -23,5 +36,8 @@ export const Logout = () => {
       }
     })();
   }, []);
-  return <div></div>;
+  return <Stack>
+    <Typography sx={styles.header} variant="h3">Je wordt nu uitgelogd...</Typography>
+  </Stack>;
 };
+ 
