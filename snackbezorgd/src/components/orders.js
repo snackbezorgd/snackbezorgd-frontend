@@ -245,44 +245,41 @@ export default function Orders() {
   ];
 
   React.useEffect(() => {
-    if (localStorage.getItem("access_token") === null) {
-      window.location.href = "/login";
-    } else {
-      const fetchOrders = async () => {
-        try {
-          const response = await axios.get(`${apiUrl}/api/order/`);
-          setRows(
-            response.data.map((order) => ({
-              id: order.order_number,
-              firstName: order.account.first_name,
-              lastName: order.account.last_name,
-              email: order.account.email,
-              time: order.time,
-              paid: order.paid,
-              total: new Intl.NumberFormat("nl-NL", {
-                style: "currency",
-                currency: "EUR",
-              }).format(parseFloat(order.total)),
-              fullName: `${order.account.first_name || ""} ${
-                order.account.last_name || ""
-              }`,
-            }))
-          );
-          const calculatedTotalCost = response.data.reduce((total, order) => {
-            const orderCost = parseFloat(order.total) || 0;
-            return total + orderCost;
-          }, 0);
-          setTotalCost(
-            "€" + calculatedTotalCost.toFixed(2).replace(/\./g, ",")
-          );
-          setTotalOrders(response.data.length);
-        } catch (error) {
-          console.error("Error fetching orders:", error);
-        }
-      };
+    // if (localStorage.getItem("access_token") === null) {
+    //   window.location.href = "/login";
+    // } else {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/api/order/`);
+        setRows(
+          response.data.map((order) => ({
+            id: order.order_number,
+            firstName: order.account.first_name,
+            lastName: order.account.last_name,
+            email: order.account.email,
+            time: order.time,
+            paid: order.paid,
+            total: new Intl.NumberFormat("nl-NL", {
+              style: "currency",
+              currency: "EUR",
+            }).format(parseFloat(order.total)),
+            fullName: `${order.account.first_name || ""} ${
+              order.account.last_name || ""
+            }`,
+          }))
+        );
+        const calculatedTotalCost = response.data.reduce((total, order) => {
+          const orderCost = parseFloat(order.total) || 0;
+          return total + orderCost;
+        }, 0);
+        setTotalCost("€" + calculatedTotalCost.toFixed(2).replace(/\./g, ","));
+        setTotalOrders(response.data.length);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
 
-      fetchOrders();
-    }
+    fetchOrders();
   }, []);
   return (
     <Box>
