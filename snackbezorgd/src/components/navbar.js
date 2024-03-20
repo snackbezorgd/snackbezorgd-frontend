@@ -143,10 +143,10 @@ export default function NavBar() {
                 color="neutral"
                 loading={false}
                 size="lg"
-                onClick={(event) => (window.location.href = "/login")}
+                onClick={(event) => (window.location.href = "/bestellingen")}
                 variant="solid"
               >
-                Inloggen
+                Bestelling Plaatsen
               </Button>
             )}
           </Stack>
@@ -156,7 +156,7 @@ export default function NavBar() {
             }}
           >
             <ListItem>
-              <ListItemButton onClick={() => alert("You clicked")}>
+              <ListItemButton component="a" href="/mijnbestellingen">
                 <ListItemDecorator>
                   <FastfoodIcon />
                 </ListItemDecorator>

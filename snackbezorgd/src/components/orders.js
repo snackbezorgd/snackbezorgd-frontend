@@ -245,9 +245,7 @@ export default function Orders() {
   ];
 
   React.useEffect(() => {
-    // if (localStorage.getItem("access_token") === null) {
-    //   window.location.href = "/login";
-    // } else {
+
     const fetchOrders = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/order/`);
