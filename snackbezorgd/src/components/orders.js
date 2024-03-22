@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@mui/joy/";
 import * as React from "react";
-import { Box, Typography, Stack } from "@mui/material/";
+import { Box, Stack } from "@mui/material/";
 import axios from "axios";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import Modal from "@mui/joy/Modal";
 import ModalClose from "@mui/joy/ModalClose";
 import Sheet from "@mui/joy/Sheet";
+import Typography from "@mui/material/Typography";
 
 const styles = {
   titleContainer: {
@@ -107,29 +108,33 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 export default function Orders() {
   const [rows, setRows] = React.useState([]);
+  const [OrderAccountRows, setOrderAccountRows] = React.useState([]);
   const [orderItemRows, setOrderItemRows] = React.useState([]);
   const [totalOrders, setTotalOrders] = React.useState(0);
   const [totalCost, setTotalCost] = React.useState(0);
+  const [customerFirstName, setCustomerFirstname] = React.useState(0);
+  const [customerEmail, setCustomerEmail] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const [selectedOrderId, setSelectedOrderId] = React.useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleRowClick = (params) => {
+    setOrderItemRows([]);
+    setOrderAccountRows([]);
     fetchOrderItems(params.row.id);
+    fetchOrderAccount(params.row.id);
   };
 
   const fetchOrderItems = async (orderId) => {
     try {
-      const response = await axios.get(`${apiUrl}/api/orderitem/`);
+      const response = await axios.get(
+        `${apiUrl}/api/orderitem/?order=${orderId}`
+      );
       setOrderItemRows(
-        response.data.map((orderItem) => ({
-          id: orderItem.order,
+        response.data.map((orderItem, index) => ({
+          id: `${orderId}-${index}`,
           product: orderItem.product,
           quantity: orderItem.quantity,
-          // subtotal: new Intl.NumberFormat("nl-NL", {
-          //   style: "currency",
-          //   currency: "EUR",
-          // }).format(parseFloat(orderItem.subtotal)),
         }))
       );
     } catch (error) {
@@ -137,26 +142,47 @@ export default function Orders() {
     }
   };
 
+  const fetchOrderAccount = async (orderId) => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/order/${orderId}/`);
+      const order = response.data;
+      setOrderAccountRows([
+        {
+          id: order.order_number,
+          accountFirstName: order.account.first_name,
+          accountLastName: order.account.last_name,
+          email: order.account.email,
+          time: order.time,
+          paid: order.paid,
+          total: new Intl.NumberFormat("nl-NL", {
+            style: "currency",
+            currency: "EUR",
+          }).format(parseFloat(order.total)),
+        },
+      ]);
+      setCustomerFirstname(
+        order.account.first_name + " " + order.account.last_name
+      );
+      setCustomerEmail(order.account.email);
+    } catch (error) {
+      console.error("Error fetching order account details:", error);
+    }
+  };
+
   const orderDetailColumns = [
-    {
-      field: "id",
-      headerName: "ID",
-      description: "Het unieke ID van de order.",
-      width: 150,
-    },
     {
       field: "product",
       headerName: "Product",
       description: "De naam van het product.",
       sortable: false,
+      type: "string",
       width: 250,
     },
     {
       field: "quantity",
       headerName: "Aantal",
-      description: "De tijd dat de bestelling is geplaatst.",
-      type: "Date",
-      dateSetting: { locale: "en-GB" },
+      description: "Het aantal van de product",
+      type: "string",
       width: 220,
     },
   ];
@@ -245,7 +271,6 @@ export default function Orders() {
   ];
 
   React.useEffect(() => {
-
     const fetchOrders = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/order/`);
@@ -394,6 +419,17 @@ export default function Orders() {
           >
             Order Detail
           </Typography>
+          <Stack>
+            <Typography
+              variant="h5"
+              fontSize="xl"
+              sx={{ mb: 0.5, fontWeight: 600 }}
+            >
+              Klant Info
+            </Typography>
+            <Typography>{customerFirstName}</Typography>
+            <Typography>{customerEmail}</Typography>
+          </Stack>
           <Box sx={styles.tableBackground}>
             <Box sx={{ height: 400 }}>
               <StyledDataGrid
@@ -418,7 +454,7 @@ export default function Orders() {
                 }}
               />
             </Box>
-          </Box>{" "}
+          </Box>
         </Sheet>
       </Modal>
     </Box>
