@@ -4,7 +4,9 @@ import GlobalStyles from "@mui/joy/GlobalStyles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
-import Checkbox from "@mui/joy/Checkbox";
+import Alert from "@mui/joy/Alert";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Divider from "@mui/joy/Divider";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
@@ -15,7 +17,10 @@ import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
-import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
+import axios from "axios";
+import { useState } from "react";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function ColorSchemeToggle(props) {
   const { onClick, ...other } = props;
@@ -42,14 +47,70 @@ function ColorSchemeToggle(props) {
 }
 
 export default function Register() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [email, setEmail] = useState("");
+  const [first_name, setFirst_name] = useState("");
+  const [last_name, setLast_name] = useState("");
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+  const handlePassword2Change = (event) => {
+    setPassword2(event.target.value);
+  };
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleFirstNameChange = (event) => {
+    setFirst_name(event.target.value);
+  };
+  const handleLastNameChange = (event) => {
+    setLast_name(event.target.value);
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const user = {
+      username: username,
+      password: password,
+      password2: password2, // Corrected typo here
+      email: email,
+      first_name: first_name,
+      last_name: last_name,
+    };
+
+    try {
+      const response = await axios.post(`${apiUrl}/register/`, user, {
+        headers: { "Content-Type": "application/json" },
+      });
+      // Assuming your backend returns a success message or status upon successful registration
+      if (response.status === 201) {
+        // Success, redirect to login page
+        window.location.href = "/login";
+      } else {
+        // Handle other response statuses appropriately
+        console.log("Registration failed with status: ", response.status);
+      }
+    } catch (error) {
+      // Handle error from axios or from the backend
+      console.error("Error during registration:", error);
+      // Optionally, you can display an error message to the user
+    }
+  };
+
   return (
-    <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
+    <CssVarsProvider defaultMode="light" disableTransitionOnChange>
       <CssBaseline />
       <GlobalStyles
         styles={{
           ":root": {
             "--Form-maxWidth": "800px",
-            "--Transition-duration": "0.4s", // set to `none` to disable transition
+            "--Transition-duration": "0.4s",
           },
         }}
       />
@@ -125,60 +186,81 @@ export default function Register() {
                 <Typography sx={{ color: "#000" }} component="h1" level="h3">
                   Account aanmaken
                 </Typography>
-                <Typography sx={{ color: "#000" }} level="body-sm">
-                  Heb je al een account?{" "}
-                  <Link
-                    sx={{
-                      color: "#fda912",
-                      "&:hover": {
-                        color: "#000",
-                      },
-                    }}
-                    href="/login"
-                    level="title-sm"
-                  >
-                    Login!
-                  </Link>
-                </Typography>
               </Stack>
             </Stack>
-            <Divider
-              sx={(theme) => ({
-                [theme.getColorSchemeSelector("light")]: {
-                  color: { xs: "#fff", md: "text.primary" },
-                },
-              })}
-            >
-              or
-            </Divider>
             <Stack gap={4} sx={{ mt: 2 }}>
               <form
                 onSubmit={(event) => {
                   event.preventDefault();
                   const formElements = event.currentTarget.elements;
-                  const data = {
-                    email: formElements.email.value,
-                    password: formElements.password.value,
-                    persistent: formElements.persistent.checked,
-                  };
-                  alert(JSON.stringify(data, null, 2));
+                  const username = formElements.username.value;
+                  const password = formElements.password.value;
+                  const password2 = formElements.password2.value;
+                  const email = formElements.email.value;
+                  const first_name = formElements.firstName.value;
+                  const last_name = formElements.lastName.value;
+                  setUsername(username);
+                  setPassword(password);
+                  setPassword2(password2);
+                  setEmail(email);
+                  setFirst_name(first_name);
+                  setLast_name(last_name);
+                  submit(event);
                 }}
               >
                 <FormControl required>
+                  <FormLabel>Gebruikersnaam</FormLabel>
+                  <Input
+                    type="username"
+                    name="username"
+                    value={username}
+                    onChange={handleUsernameChange}
+                  />
+                </FormControl>
+                <FormControl required>
                   <FormLabel>Voornaam</FormLabel>
-                  <Input type="firstName" name="email" />
+                  <Input
+                    type="firstName"
+                    name="firstName"
+                    value={first_name}
+                    onChange={handleFirstNameChange}
+                  />
                 </FormControl>
                 <FormControl required>
                   <FormLabel>Achternaam</FormLabel>
-                  <Input type="lastName" name="email" />
+                  <Input
+                    type="lastName"
+                    name="lastName"
+                    value={last_name}
+                    onChange={handleLastNameChange}
+                  />
                 </FormControl>
                 <FormControl required>
                   <FormLabel>Email</FormLabel>
-                  <Input type="email" name="email" />
+                  <Input
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                  />
                 </FormControl>
                 <FormControl required>
                   <FormLabel>Wachtwoord</FormLabel>
-                  <Input type="password" name="password" />
+                  <Input
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                  />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Wachtwoord herhalen</FormLabel>
+                  <Input
+                    type="password"
+                    name="password2"
+                    value={password2}
+                    onChange={handlePassword2Change}
+                  />
                 </FormControl>
                 <Stack gap={4} sx={{ mt: 2 }}>
                   <Box
@@ -226,6 +308,7 @@ export default function Register() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          background: "rgb(255,211,131)",
           background: "rgb(255,232,190)",
           background:
             "linear-gradient(90deg, rgba(255,232,190,1) 4%, rgba(255,195,124,1) 100%)",
