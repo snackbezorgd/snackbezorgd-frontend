@@ -78,7 +78,7 @@ export default function Register() {
     const user = {
       username: username,
       password: password,
-      password2: password2, // Corrected typo here
+      password2: password2, 
       email: email,
       first_name: first_name,
       last_name: last_name,
@@ -88,18 +88,13 @@ export default function Register() {
       const response = await axios.post(`${apiUrl}/register/`, user, {
         headers: { "Content-Type": "application/json" },
       });
-      // Assuming your backend returns a success message or status upon successful registration
       if (response.status === 201) {
-        // Success, redirect to login page
         window.location.href = "/login";
       } else {
-        // Handle other response statuses appropriately
         console.log("Registration failed with status: ", response.status);
       }
     } catch (error) {
-      // Handle error from axios or from the backend
       console.error("Error during registration:", error);
-      // Optionally, you can display an error message to the user
     }
   };
 
