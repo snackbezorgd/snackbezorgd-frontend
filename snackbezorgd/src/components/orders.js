@@ -93,6 +93,35 @@ const styles = {
     width: "100px",
     fontWeight: 600,
   },
+  paidButtonOI: {
+    backgroundColor: "#E3FBE3",
+    color: "#1F7A1F",
+    border: 0,
+    float: "right",
+    borderRadius: "5px",
+    marginRight: "1vw",
+    width: "150px",
+    height: "50px",
+    fontSize: "20px",
+
+    fontWeight: 600,
+  },
+  unpaidButtonOI: {
+    backgroundColor: "#FBE3E3",
+    color: "#C41C1C",
+    border: 0,
+    float: "right",
+    borderRadius: "5px",
+    marginRight: "1vw",
+    width: "150px",
+    height: "50px",
+    fontSize: "20px",
+    fontWeight: 600,
+  },
+  orderItemTitle: {
+    fontSize: 30,
+    fontWeight: 600,
+  },
 };
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -114,9 +143,12 @@ export default function Orders() {
   const [totalCost, setTotalCost] = React.useState(0);
   const [customerFirstName, setCustomerFirstname] = React.useState(0);
   const [customerEmail, setCustomerEmail] = React.useState(0);
+  const [customerAddress, setCustomerAddress] = React.useState(0);
+  const [orderNumber, setOrderNumber] = React.useState(0);
+  const [Paid, setPaid] = React.useState(0);
   const [open, setOpen] = React.useState(false);
-  const [selectedOrderId, setSelectedOrderId] = React.useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
+  const isPaid = Paid === true;
 
   const handleRowClick = (params) => {
     setOrderItemRows([]);
@@ -154,6 +186,10 @@ export default function Orders() {
           email: order.account.email,
           time: order.time,
           paid: order.paid,
+          address_1: order.address_1,
+          city: order.city,
+          province: order.province,
+          zip_code: order.zip_code,
           total: new Intl.NumberFormat("nl-NL", {
             style: "currency",
             currency: "EUR",
@@ -164,6 +200,17 @@ export default function Orders() {
         order.account.first_name + " " + order.account.last_name
       );
       setCustomerEmail(order.account.email);
+      setPaid(order.paid);
+      setOrderNumber(order.order_number);
+      setCustomerAddress(
+        order.address_1 +
+          ", " +
+          order.zip_code +
+          " " +
+          order.province +
+          ", " +
+          order.city
+      );
     } catch (error) {
       console.error("Error fetching order account details:", error);
     }
@@ -408,18 +455,26 @@ export default function Orders() {
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
-          <Typography
-            sx={styles.modalTitle}
-            component="h2"
-            id="modal-title"
-            level="h4"
-            textColor="inherit"
-            fontWeight="lg"
-            mb={1}
-          >
-            Order Detail
-          </Typography>
-          <Stack>
+          <Box display="flex" flexDirection="column">
+            <Typography
+              sx={styles.orderItemTitle}
+              component="h2"
+              id="modal-title"
+              level="h4"
+              textColor="inherit"
+              fontWeight="lg"
+              mb={1}
+            >
+              Order #{orderNumber}, {customerFirstName}
+            </Typography>
+          </Box>
+          <Chip
+            label={isPaid ? "Betaald" : "Onbetaald"}
+            variant="outlined"
+            color={isPaid ? "success" : "error"}
+            sx={isPaid ? styles.paidButtonOI : styles.unpaidButtonOI}
+          />
+          <Box>
             <Typography
               variant="h5"
               fontSize="xl"
@@ -427,9 +482,11 @@ export default function Orders() {
             >
               Klant Info
             </Typography>
+
             <Typography>{customerFirstName}</Typography>
             <Typography>{customerEmail}</Typography>
-          </Stack>
+            <Typography>{customerAddress}</Typography>
+          </Box>
           <Box sx={styles.tableBackground}>
             <Box sx={{ height: 400 }}>
               <StyledDataGrid
