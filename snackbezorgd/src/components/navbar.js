@@ -13,9 +13,11 @@ import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
 import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import ListItemButton from "@mui/joy/ListItemButton";
-import OpenInNew from "@mui/icons-material/OpenInNew";
+import LockIcon from "@mui/icons-material/Lock";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import logoImage from "../assets/snackbezorgd-png.png";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import GroupIcon from "@mui/icons-material/Group";
 import React, { useState, useEffect } from "react";
 
 const styles = {
@@ -60,6 +62,10 @@ const styles = {
     backgroundColor: "#FDA912",
   },
   logoutButton: {
+    width: "20vw",
+    backgroundColor: "#d9d9d9",
+  },
+  regButton: {
     width: "20vw",
     backgroundColor: "#d9d9d9",
   },
@@ -138,16 +144,18 @@ export default function NavBar() {
                 Uitloggen
               </Button>
             ) : (
-              <Button
-                sx={styles.loginButton}
-                color="neutral"
-                loading={false}
-                size="lg"
-                onClick={(event) => (window.location.href = "/bestellingen")}
-                variant="solid"
-              >
-                Bestelling Plaatsen
-              </Button>
+              <Stack>
+                <Button
+                  sx={styles.loginButton}
+                  color="neutral"
+                  loading={false}
+                  size="lg"
+                  onClick={(event) => (window.location.href = "/login")}
+                  variant="solid"
+                >
+                  Inloggen
+                </Button>
+              </Stack>
             )}
           </Stack>
           <List
@@ -160,15 +168,31 @@ export default function NavBar() {
                 <ListItemDecorator>
                   <FastfoodIcon />
                 </ListItemDecorator>
-                Bestellingen
+                Mijn Bestellingen
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton component="a" href="/overons">
+                <ListItemDecorator>
+                  <GroupIcon />
+                </ListItemDecorator>
+                Over ons
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton component="a" href="/contact">
+                <ListItemDecorator>
+                  <LocalPhoneIcon />
+                </ListItemDecorator>
+                Contact
               </ListItemButton>
             </ListItem>
             <ListItem>
               <ListItemButton component="a" href="/admin">
                 <ListItemDecorator>
-                  <OpenInNew />
+                  <LockIcon />
                 </ListItemDecorator>
-                Admin Login
+                Beheerders Pagina
               </ListItemButton>
             </ListItem>
           </List>
