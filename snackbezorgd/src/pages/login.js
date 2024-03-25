@@ -177,34 +177,10 @@ export default function Login() {
             <Stack gap={4} sx={{ mb: 2 }}>
               <Stack gap={1}>
                 <Typography sx={{ color: "#000" }} component="h1" level="h3">
-                  Inloggen
-                </Typography>
-                <Typography sx={{ color: "#000" }} level="body-sm">
-                  Nog geen account?{" "}
-                  <Link
-                    sx={{
-                      color: "#fda912",
-                      "&:hover": {
-                        color: "#000",
-                      },
-                    }}
-                    href="/register"
-                    level="title-sm"
-                  >
-                    Maak er een!
-                  </Link>
+                  Beheerders Login
                 </Typography>
               </Stack>
             </Stack>
-            <Divider
-              sx={(theme) => ({
-                [theme.getColorSchemeSelector("light")]: {
-                  color: { xs: "#fff", md: "text.primary" },
-                },
-              })}
-            >
-              or
-            </Divider>
             <Stack gap={4} sx={{ mt: 2 }}>
               <form
                 onSubmit={(event) => {
