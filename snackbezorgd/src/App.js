@@ -7,6 +7,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import { Logout } from "./pages/logout";
 
+import ProductDisplay from "./pages/productDisplay";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/productDisplay" element={<ProductDisplay />} />
       </Routes>
     </Router>
   );

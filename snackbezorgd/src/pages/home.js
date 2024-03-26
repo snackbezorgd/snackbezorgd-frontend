@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Stack, Box } from "@mui/material/";
 import Homefood from "../assets/home-food.png";
 import Slogan from "../assets/slogan.png";
@@ -115,16 +116,17 @@ class Home extends Component {
               size="lg"
               variant="outlined"
             />
-            <Button
-              sx={styles.zoekButton}
-              color="neutral"
-              loading={false}
-              onClick={function () {}}
-              size="lg"
-              variant="solid"
-            >
-              Zoek
-            </Button>
+            <Link to="/productDisplay">
+              <Button
+                sx={styles.zoekButton}
+                color="neutral"
+                loading={false}
+                size="lg"
+                variant="solid"
+              >
+                Zoek
+              </Button>
+            </Link>
           </Stack>
         </Stack>
       </Stack>
