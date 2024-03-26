@@ -20,6 +20,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
         <Route path="/productDisplay" element={<ProductDisplay />} />
+        <Route path="/registreren" element={<Register />} />
       </Routes>
     </Router>
   );

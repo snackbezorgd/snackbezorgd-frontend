@@ -16,12 +16,15 @@ export default function Admin() {
   useEffect(() => {
     document.title = "Admin | Snackbezorgd.nl";
   }, []);
-
-  return (
-    <Stack>
-      <Stack sx={styles.titleContainer}>
-        <VerticalTabs />
+  if (localStorage.getItem("access_token") === null) {
+    window.location.href = "/login";
+  } else {
+    return (
+      <Stack>
+        <Stack sx={styles.titleContainer}>
+          <VerticalTabs />
+        </Stack>
       </Stack>
-    </Stack>
-  );
+    );
+  }
 }
