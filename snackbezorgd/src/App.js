@@ -7,6 +7,8 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import { Logout } from "./pages/logout";
 
+import ProductDisplay from "./pages/productDisplay";
+
 function App() {
   return (
     <Router>
@@ -16,6 +18,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
+\        <Route path="/productDisplay" element={<ProductDisplay />} />
         <Route path="/registreren" element={<Register />} />
       </Routes>
     </Router>
