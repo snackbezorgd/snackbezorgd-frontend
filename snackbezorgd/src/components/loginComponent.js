@@ -22,6 +22,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function LoginComponent() {
   const [username, setUsername] = useState("");
+  const [loggedinUsername, setLoggedinUsername] = useState("");
   const [password, setPassword] = useState("");
   const [userID, setUserID] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
@@ -43,6 +44,7 @@ export default function LoginComponent() {
       const response = await axios.get(`${apiUrl}/api/user/${userID}`);
       if (response && response.data && response.data.is_staff !== undefined) {
         setIsAdmin(response.data.is_staff);
+        setLoggedinUsername(response.data.username);
       } else {
         console.error("Invalid response format:", response);
       }
@@ -62,9 +64,11 @@ export default function LoginComponent() {
   const checkAdmin = () => {
     if (isAdmin === true && tokenData) {
       localStorage.setItem("access_token_staff", tokenData.access);
+      localStorage.setItem("username", loggedinUsername);
       window.location.href = "/admin";
     } else {
       window.location.href = "/";
+      localStorage.setItem("username", loggedinUsername);
     }
   };
 
