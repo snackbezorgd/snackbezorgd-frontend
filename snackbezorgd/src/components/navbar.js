@@ -190,7 +190,7 @@ export default function NavBar() {
               <ListItem>
                 <ListItemButton component="a" href="/mijnbestellingen">
                   <ListItemDecorator>
-                    <LockIcon />
+                    <FastfoodIcon />
                   </ListItemDecorator>
                   Mijn bestellingen
                 </ListItemButton>
