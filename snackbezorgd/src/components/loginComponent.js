@@ -44,7 +44,7 @@ export default function LoginComponent() {
       const response = await axios.get(`${apiUrl}/api/user/${userID}`);
       if (response && response.data && response.data.is_staff !== undefined) {
         setIsAdmin(response.data.is_staff);
-        setLoggedinUsername(response.data.username);
+        setLoggedinUsername(response.data.first_name + " " + response.data.last_name);
       } else {
         console.error("Invalid response format:", response);
       }
