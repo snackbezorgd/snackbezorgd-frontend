@@ -22,30 +22,6 @@ import { useState } from "react";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ColorSchemeToggle(props) {
-  const { onClick, ...other } = props;
-  const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => setMounted(true), []);
-
-  return (
-    <IconButton
-      aria-label="toggle light/dark mode"
-      size="sm"
-      variant="outlined"
-      disabled={!mounted}
-      onClick={(event) => {
-        setMode(mode === "light" ? "light" : "light");
-        onClick?.(event);
-      }}
-      {...other}
-    >
-      {mode === "light" ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
-    </IconButton>
-  );
-}
-
 export default function RegisterComponent() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -53,6 +29,7 @@ export default function RegisterComponent() {
   const [email, setEmail] = useState("");
   const [first_name, setFirst_name] = useState("");
   const [last_name, setLast_name] = useState("");
+  const [error, setError] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -91,10 +68,38 @@ export default function RegisterComponent() {
       if (response.status === 201) {
         window.location.href = "/login";
       } else {
-        console.log("Registration failed with status: ", response.status);
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      let errorMessage = "Oops!";
+
+      if (error.response && error.response.data) {
+        const { password, username, email } = error.response.data;
+
+        if (username && username.length > 0) {
+          errorMessage = (
+            <div>
+              <strong>Gebruikersnaam fout: </strong>
+              {username[0]}
+            </div>
+          );
+        } else if (email && email.length > 0) {
+          errorMessage = (
+            <div>
+              <strong>Email fout: </strong>
+              {email[0]}
+            </div>
+          );
+        } else if (password && password.length > 0) {
+          errorMessage = (
+            <div>
+              <strong>Wachtwoord fout: </strong>
+              {password[0]} 
+            </div>
+          );
+        }
+      }
+
+      setError(errorMessage);
     }
   };
 
@@ -227,6 +232,24 @@ export default function RegisterComponent() {
                   submit(event);
                 }}
               >
+                {error && (
+                  <Alert
+                    sx={{ alignItems: "flex-start" }}
+                    variant="solid"
+                    color="danger"
+                    endDecorator={
+                      <IconButton
+                        variant="soft"
+                        color="danger"
+                        onClick={() => setError("")}
+                      >
+                        <CloseRoundedIcon />
+                      </IconButton>
+                    }
+                  >
+                    {error}
+                  </Alert>
+                )}
                 <FormControl required>
                   <FormLabel>Gebruikersnaam</FormLabel>
                   <Input
