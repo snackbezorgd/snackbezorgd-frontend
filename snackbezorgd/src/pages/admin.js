@@ -16,7 +16,7 @@ export default function Admin() {
   useEffect(() => {
     document.title = "Admin | Snackbezorgd.nl";
   }, []);
-  if (localStorage.getItem("access_token") === null) {
+  if (localStorage.getItem("access_token_staff") === null) {
     window.location.href = "/login";
   } else {
     return (

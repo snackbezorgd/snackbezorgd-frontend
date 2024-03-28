@@ -6,9 +6,8 @@ import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/joy/Button";
 import { styled } from "@mui/material/styles";
-import Modal from "@mui/joy/Modal";
-import ModalClose from "@mui/joy/ModalClose";
-import Sheet from "@mui/joy/Sheet";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -78,20 +77,20 @@ const styles = {
       backgroundColor: "#7a000b",
     },
   },
-  paidButton: {
+  checkButton: {
     backgroundColor: "#E3FBE3",
     color: "#1F7A1F",
     border: 0,
     borderRadius: "5px",
-    width: "100px",
+    width: "75px",
     fontWeight: 600,
   },
-  unpaidButton: {
+  crossButton: {
     backgroundColor: "#FBE3E3",
     color: "#C41C1C",
     border: 0,
     borderRadius: "5px",
-    width: "100px",
+    width: "75px",
     fontWeight: 600,
   },
 };
@@ -117,28 +116,83 @@ export default function AccountsTable() {
       field: "id",
       headerName: "ID",
       description: "Het unieke ID van de order. Dit is altijd E2400XXX",
-      width: 200,
+      width: 50,
+    },
+    {
+      field: "username",
+      headerName: "Gebruikersnaam",
+      description: "De gebruikersnaam van de persoon.",
+      sortable: false,
+      width: 130,
     },
     {
       field: "firstName",
       headerName: "Voornaam",
       description: "De voornaam van de persoon.",
       sortable: false,
-      width: 200,
+      width: 130,
     },
     {
       field: "lastName",
       headerName: "Achternaam",
       description: "De achternaam van de persoon.",
       sortable: false,
-      width: 200,
+      width: 130,
     },
     {
       field: "email",
       headerName: "email",
       description: "De email van de persoon.",
       sortable: false,
-      width: 200,
+      width: 150,
+    },
+    {
+      field: "is_staff",
+      headerName: "Staff Status",
+      description: "De staff status van het account",
+      type: "boolean",
+      sortable: false,
+      renderCell: (params) => {
+        const isPaid = params.value === true;
+
+        return (
+          <Chip
+            label={isPaid ? <CheckIcon /> : <CloseIcon />}
+            variant="outlined"
+            color={isPaid ? "success" : "error"}
+            sx={isPaid ? styles.checkButton : styles.crossButton}
+          />
+        );
+      },
+      width: 90,
+    },
+    {
+      field: "is_active",
+      headerName: "Actief",
+      description: "De status of het account actief is of niet",
+      type: "boolean",
+      sortable: false,
+      renderCell: (params) => {
+        const isPaid = params.value === true;
+
+        return (
+          <Chip
+            label={isPaid ? <CheckIcon /> : <CloseIcon />}
+            variant="outlined"
+            color={isPaid ? "success" : "error"}
+            sx={isPaid ? styles.checkButton : styles.crossButton}
+          />
+        );
+      },
+      width: 90,
+    },
+    {
+      field: "date_joined",
+      headerName: "Datum aangemaakt",
+      description: "De datum dat het account is aangemaakt",
+      type: "Date",
+      dateSetting: { locale: "en-GB" },
+      width: 220,
     },
     {
       field: "Acties",
@@ -166,13 +220,17 @@ export default function AccountsTable() {
   React.useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/account/`);
+        const response = await axios.get(`${apiUrl}/api/user/`);
         setRows(
           response.data.map((account) => ({
-            id: account.account_id,
+            id: account.id,
+            username: account.username,
             firstName: account.first_name,
             lastName: account.last_name,
             email: account.email,
+            is_staff: account.is_staff,
+            is_active: account.is_active,
+            date_joined: account.date_joined,
           }))
         );
         setTotalAccounts(response.data.length);

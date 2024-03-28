@@ -32,7 +32,7 @@ export const Logout = () => {
         axios.defaults.headers.common["Authorization"] = null;
         window.location.href = "/login";
       } catch (e) {
-        console.log("logout not working", e);
+        // console.log("logout not working", e);
       }
     })();
   }, []);
