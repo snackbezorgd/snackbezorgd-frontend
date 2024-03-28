@@ -73,12 +73,19 @@ const styles = {
 
 export default function NavBar() {
   const [isAuth, setIsAuth] = useState(false);
+  const [isAdminAuth, setIsAdminAuth] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("access_token") !== null) {
       setIsAuth(true);
     }
   }, [isAuth]);
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token_staff") !== null) {
+      setIsAdminAuth(true);
+    }
+  }, [isAdminAuth]);
 
   const [open, setOpen] = React.useState(false);
   return (
@@ -187,14 +194,18 @@ export default function NavBar() {
                 Contact
               </ListItemButton>
             </ListItem>
-            <ListItem>
-              <ListItemButton component="a" href="/admin">
-                <ListItemDecorator>
-                  <LockIcon />
-                </ListItemDecorator>
-                Beheerders Pagina
-              </ListItemButton>
-            </ListItem>
+            {isAdminAuth ? (
+              <ListItem>
+                <ListItemButton component="a" href="/admin">
+                  <ListItemDecorator>
+                    <LockIcon />
+                  </ListItemDecorator>
+                  Beheerders Pagina
+                </ListItemButton>
+              </ListItem>
+            ) : (
+              <Stack></Stack>
+            )}
           </List>
         </Sheet>
       </Modal>

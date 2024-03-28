@@ -1,54 +1,33 @@
-import * as React from "react";
-import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
-import GlobalStyles from "@mui/joy/GlobalStyles";
-import CssBaseline from "@mui/joy/CssBaseline";
-import Box from "@mui/joy/Box";
-import Button from "@mui/joy/Button";
-import Alert from "@mui/joy/Alert";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import React, { useState, useEffect } from "react";
+import {
+  CssVarsProvider,
+  Alert,
+  GlobalStyles,
+  CssBaseline,
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Link,
+  Input,
+  Typography,
+  Stack,
+} from "@mui/joy";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import Divider from "@mui/joy/Divider";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import IconButton from "@mui/joy/IconButton";
-import Link from "@mui/joy/Link";
-import Input from "@mui/joy/Input";
-import Typography from "@mui/joy/Typography";
-import Stack from "@mui/joy/Stack";
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import axios from "axios";
-import { useState } from "react";
 
 const apiUrl = process.env.REACT_APP_API_URL;
-
-function ColorSchemeToggle(props) {
-  const { onClick, ...other } = props;
-  const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => setMounted(true), []);
-
-  return (
-    <IconButton
-      aria-label="toggle light/dark mode"
-      size="sm"
-      variant="outlined"
-      disabled={!mounted}
-      onClick={(event) => {
-        setMode(mode === "light" ? "light" : "light");
-        onClick?.(event);
-      }}
-      {...other}
-    >
-      {mode === "light" ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
-    </IconButton>
-  );
-}
 
 export default function LoginComponent() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [userID, setUserID] = useState("");
+  const [isAdmin, setIsAdmin] = useState("");
+  const [tokenData, setTokenData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -57,43 +36,67 @@ export default function LoginComponent() {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+
+  const fetchUsers = async (userID) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${apiUrl}/api/user/${userID}`);
+      if (response && response.data && response.data.is_staff !== undefined) {
+        setIsAdmin(response.data.is_staff);
+      } else {
+        console.error("Invalid response format:", response);
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!loading && isAdmin !== "") {
+      checkAdmin();
+    }
+  }, [isAdmin, loading]);
+
+  const checkAdmin = () => {
+    if (isAdmin === true && tokenData) {
+      localStorage.setItem("access_token_staff", tokenData.access);
+      window.location.href = "/admin";
+    } else {
+      window.location.href = "/";
+    }
+  };
+
   const submit = async (e) => {
     e.preventDefault();
-    const user = {
-      username: username,
-      password: password,
-    };
 
-    const { data } = await axios.post(`${apiUrl}/token/`, user, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    });
+    try {
+      const user = {
+        username: username,
+        password: password,
+      };
 
-    localStorage.clear();
-    localStorage.setItem("access_token", data.access);
-    localStorage.setItem("refresh_token", data.refresh);
-    axios.defaults.headers.common["Authorization"] = `Bearer ${data["access"]}`;
-    window.location.href = "/";
-    return (
-      <Alert
-        key="title"
-        sx={{ alignItems: "flex-start" }}
-        startDecorator={CheckCircleIcon}
-        variant="soft"
-        color="success"
-        endDecorator={
-          <IconButton variant="soft" color="success">
-            <CloseRoundedIcon />
-          </IconButton>
-        }
-      >
-        <div>
-          <Typography level="body-sm" color="success">
-            This is a time-sensitive Alert.
-          </Typography>
-        </div>
-      </Alert>
-    );
+      const { data } = await axios.post(`${apiUrl}/token/`, user, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+
+      setTokenData(data);
+      localStorage.clear();
+      localStorage.setItem("access_token", data.access);
+      localStorage.setItem("refresh_token", data.refresh);
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${data["access"]}`;
+      const token = data.access;
+      const userID = JSON.parse(atob(token.split(".")[1])).user_id;
+      setUserID(userID);
+      await fetchUsers(userID);
+    } catch (error) {
+      setErrorMessage("Invalid username or password. Please try again.");
+      // console.error("Login error:", error);
+    }
   };
 
   return (
@@ -103,7 +106,7 @@ export default function LoginComponent() {
         styles={{
           ":root": {
             "--Form-maxWidth": "800px",
-            "--Transition-duration": "0.4s", // set to `none` to disable transition
+            "--Transition-duration": "0.4s",
           },
         }}
       />
@@ -217,6 +220,25 @@ export default function LoginComponent() {
                   submit(event);
                 }}
               >
+                {errorMessage && (
+                  <Alert
+                    key="error"
+                    sx={{ alignItems: "flex-start" }}
+                    variant="solid"
+                    color="danger"
+                    endDecorator={
+                      <IconButton
+                        variant="soft"
+                        color="danger"
+                        onClick={() => setErrorMessage("")}
+                      >
+                        <CloseRoundedIcon />
+                      </IconButton>
+                    }
+                  >
+                    {errorMessage}
+                  </Alert>
+                )}
                 <FormControl required>
                   <FormLabel>Gebruikersnaam</FormLabel>
                   <Input
