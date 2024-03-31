@@ -111,6 +111,42 @@ export default function AccountsTable() {
   const [totalAccounts, setTotalAccounts] = React.useState(0);
   const [open, setOpen] = React.useState(false);
 
+  const fetchAccounts = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/user/`);
+      setRows(
+        response.data.map((account) => ({
+          id: account.id,
+          username: account.username,
+          firstName: account.first_name,
+          lastName: account.last_name,
+          email: account.email,
+          is_staff: account.is_staff,
+          is_active: account.is_active,
+          date_joined: account.date_joined,
+        }))
+      );
+      setTotalAccounts(response.data.length);
+    } catch (error) {
+      console.error("Error fetching accounts:", error);
+    }
+  };
+
+  const deleteUser = async (userID) => {
+    try {
+      await fetch(`${apiUrl}/api/user/${userID}`, {
+        method: "DELETE",
+      });
+      fetchAccounts();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchAccounts();
+  }, []);
+
   const columns = [
     {
       field: "id",
@@ -202,21 +238,12 @@ export default function AccountsTable() {
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const handleDelete = async (userID) => {
-          try {
-            await fetch(`${apiUrl}/api/user/${userID}`, {
-              method: "DELETE",
-            });
-          } catch (error) {
-            console.error("Error deleting user:", error);
-          }
-        };
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               sx={styles.deleteButton}
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => deleteUser(params.row.id)}
             >
               Verwijderen
             </Button>
@@ -226,30 +253,6 @@ export default function AccountsTable() {
     },
   ];
 
-  React.useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/api/user/`);
-        setRows(
-          response.data.map((account) => ({
-            id: account.id,
-            username: account.username,
-            firstName: account.first_name,
-            lastName: account.last_name,
-            email: account.email,
-            is_staff: account.is_staff,
-            is_active: account.is_active,
-            date_joined: account.date_joined,
-          }))
-        );
-        setTotalAccounts(response.data.length);
-      } catch (error) {
-        console.error("Error fetching accounts:", error);
-      }
-    };
-
-    fetchAccounts();
-  }, []);
   return (
     <Box>
       <Box sx={styles.cards}>
