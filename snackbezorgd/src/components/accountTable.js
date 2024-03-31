@@ -202,12 +202,21 @@ export default function AccountsTable() {
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
+        const handleDelete = async (userID) => {
+          try {
+            await fetch(`${apiUrl}/api/user/${userID}`, {
+              method: "DELETE",
+            });
+          } catch (error) {
+            console.error("Error deleting user:", error);
+          }
+        };
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               sx={styles.deleteButton}
-              onClick={console.log("clicked!")}
+              onClick={() => handleDelete(params.row.id)}
             >
               Verwijderen
             </Button>

@@ -44,7 +44,9 @@ export default function LoginComponent() {
       const response = await axios.get(`${apiUrl}/api/user/${userID}`);
       if (response && response.data && response.data.is_staff !== undefined) {
         setIsAdmin(response.data.is_staff);
-        setLoggedinUsername(response.data.first_name + " " + response.data.last_name);
+        setLoggedinUsername(
+          response.data.first_name + " " + response.data.last_name
+        );
       } else {
         console.error("Invalid response format:", response);
       }
@@ -98,7 +100,7 @@ export default function LoginComponent() {
       setUserID(userID);
       await fetchUsers(userID);
     } catch (error) {
-      setErrorMessage("Invalid username or password. Please try again.");
+      setErrorMessage("Foute gebruikersnaam of wachtwoord!");
       // console.error("Login error:", error);
     }
   };
