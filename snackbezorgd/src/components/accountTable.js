@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@mui/joy/";
 import * as React from "react";
 import { Box, Typography, Stack } from "@mui/material/";
+import { Alert, IconButton } from "@mui/joy";
 import axios from "axios";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
@@ -8,6 +9,7 @@ import Button from "@mui/joy/Button";
 import { styled } from "@mui/material/styles";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -109,7 +111,49 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 export default function AccountsTable() {
   const [rows, setRows] = React.useState([]);
   const [totalAccounts, setTotalAccounts] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+
+  const fetchAccounts = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/user/`);
+      setRows(
+        response.data.map((account) => ({
+          id: account.id,
+          username: account.username,
+          firstName: account.first_name,
+          lastName: account.last_name,
+          email: account.email,
+          is_staff: account.is_staff,
+          is_active: account.is_active,
+          date_joined: account.date_joined,
+        }))
+      );
+      setTotalAccounts(response.data.length);
+    } catch (error) {
+      console.error("Error fetching accounts:", error);
+    }
+  };
+
+  const deleteUser = async (userID) => {
+    if (userID === 1) {
+      setErrorMessage("Deze gebruiker mag je niet verwijderen!");
+      return;
+    }
+
+    try {
+      await fetch(`${apiUrl}/api/user/${userID}`, {
+        method: "DELETE",
+      });
+      fetchAccounts();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchAccounts();
+  }, []);
 
   const columns = [
     {
@@ -202,21 +246,12 @@ export default function AccountsTable() {
       disableClickEventBubbling: true,
 
       renderCell: (params) => {
-        const handleDelete = async (userID) => {
-          try {
-            await fetch(`${apiUrl}/api/user/${userID}`, {
-              method: "DELETE",
-            });
-          } catch (error) {
-            console.error("Error deleting user:", error);
-          }
-        };
         return (
           <Stack direction="row" spacing={2}>
             <Button
               variant="contained"
               sx={styles.deleteButton}
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => deleteUser(params.row.id)}
             >
               Verwijderen
             </Button>
@@ -226,30 +261,6 @@ export default function AccountsTable() {
     },
   ];
 
-  React.useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/api/user/`);
-        setRows(
-          response.data.map((account) => ({
-            id: account.id,
-            username: account.username,
-            firstName: account.first_name,
-            lastName: account.last_name,
-            email: account.email,
-            is_staff: account.is_staff,
-            is_active: account.is_active,
-            date_joined: account.date_joined,
-          }))
-        );
-        setTotalAccounts(response.data.length);
-      } catch (error) {
-        console.error("Error fetching accounts:", error);
-      }
-    };
-
-    fetchAccounts();
-  }, []);
   return (
     <Box>
       <Box sx={styles.cards}>
@@ -275,6 +286,25 @@ export default function AccountsTable() {
       </Box>
       <Box sx={styles.tableBackground}>
         <Box sx={{ height: 400 }}>
+          {errorMessage && (
+            <Alert
+              key="error"
+              sx={{ alignItems: "flex-start" }}
+              variant="solid"
+              color="danger"
+              endDecorator={
+                <IconButton
+                  variant="soft"
+                  color="danger"
+                  onClick={() => setErrorMessage("")}
+                >
+                  <CloseRoundedIcon />
+                </IconButton>
+              }
+            >
+              {errorMessage}
+            </Alert>
+          )}
           <StyledDataGrid
             rows={rows}
             columns={columns}
