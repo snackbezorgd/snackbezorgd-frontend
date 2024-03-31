@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@mui/joy/";
 import * as React from "react";
 import { Box, Typography, Stack } from "@mui/material/";
+import { Alert, IconButton } from "@mui/joy";
 import axios from "axios";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
@@ -8,6 +9,7 @@ import Button from "@mui/joy/Button";
 import { styled } from "@mui/material/styles";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -109,7 +111,8 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 export default function AccountsTable() {
   const [rows, setRows] = React.useState([]);
   const [totalAccounts, setTotalAccounts] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const fetchAccounts = async () => {
     try {
@@ -133,6 +136,11 @@ export default function AccountsTable() {
   };
 
   const deleteUser = async (userID) => {
+    if (userID === 1) {
+      setErrorMessage("Deze gebruiker mag je niet verwijderen!");
+      return;
+    }
+
     try {
       await fetch(`${apiUrl}/api/user/${userID}`, {
         method: "DELETE",
@@ -278,6 +286,25 @@ export default function AccountsTable() {
       </Box>
       <Box sx={styles.tableBackground}>
         <Box sx={{ height: 400 }}>
+          {errorMessage && (
+            <Alert
+              key="error"
+              sx={{ alignItems: "flex-start" }}
+              variant="solid"
+              color="danger"
+              endDecorator={
+                <IconButton
+                  variant="soft"
+                  color="danger"
+                  onClick={() => setErrorMessage("")}
+                >
+                  <CloseRoundedIcon />
+                </IconButton>
+              }
+            >
+              {errorMessage}
+            </Alert>
+          )}
           <StyledDataGrid
             rows={rows}
             columns={columns}
