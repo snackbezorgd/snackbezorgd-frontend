@@ -115,6 +115,7 @@ export default function Products() {
           description: product.description,
           price: "€" + product.price.replace(/\./g, ","),
           active: product.active,
+          locatie: product.locatie,
         }))
       );
       setTotalProducts(response.data.length);
@@ -143,7 +144,7 @@ export default function Products() {
       field: "id",
       headerName: "ID",
       description: "Het unieke ID van het product. Dit is altijd P2400XXX",
-      width: 250,
+      width: 120,
     },
     {
       field: "title",
@@ -163,6 +164,12 @@ export default function Products() {
       field: "price",
       headerName: "Prijs",
       description: "Prijs van het product",
+      width: 120,
+    },
+    {
+      field: "locatie",
+      headerName: "Locatie",
+      description: "Locatie van het product",
       width: 170,
     },
     {
