@@ -111,7 +111,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 export default function AccountsTable() {
   const [rows, setRows] = React.useState([]);
   const [totalAccounts, setTotalAccounts] = React.useState(0);
-  // const [open, setOpen] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const fetchAccounts = async () => {
