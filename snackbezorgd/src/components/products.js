@@ -1,10 +1,11 @@
 import { Card, CardContent } from "@mui/joy/";
 import * as React from "react";
-import { Box, Typography } from "@mui/material/";
+import { Box, Typography, Stack } from "@mui/material/";
 import axios from "axios";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
-import { darken, lighten, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
+import Button from "@mui/joy/Button";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -58,6 +59,18 @@ const styles = {
   titleContainer: {
     border: "none",
   },
+  deleteButton: {
+    backgroundColor: "#b30000b9",
+    color: "#fff",
+    boxShadow: 0,
+    border: 0,
+    borderRadius: "5px",
+    width: "100px",
+    fontWeight: 600,
+    "&:hover": {
+      backgroundColor: "#7a000b",
+    },
+  },
   paidButton: {
     backgroundColor: "#E3FBE3",
     color: "#1F7A1F",
@@ -87,60 +100,94 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   },
 }));
 
-const columns = [
-  {
-    field: "id",
-    headerName: "ID",
-    description: "Het unieke ID van het product. Dit is altijd P2400XXX",
-    width: 250,
-  },
-  {
-    field: "title",
-    headerName: "Titel",
-    description: "De titel van het product",
-    sortable: false,
-    width: 250,
-  },
-  {
-    field: "description",
-    headerName: "Beschrijving",
-    description: "De beschrijving van het product.",
-    type: "textfield",
-    width: 250,
-  },
-  {
-    field: "price",
-    headerName: "Prijs",
-    description: "Prijs van het product",
-    width: 170,
-  },
-];
-
 export default function Products() {
   const [rows, setRows] = React.useState([]);
   const [totalProducts, setTotalProducts] = React.useState(0);
+  const [errorMessage, setErrorMessage] = React.useState("");
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/product/`);
+      setRows(
+        response.data.map((product) => ({
+          id: product.product_number,
+          title: product.title,
+          description: product.description,
+          price: "€" + product.price.replace(/\./g, ","),
+          active: product.active,
+        }))
+      );
+      setTotalProducts(response.data.length);
+    } catch (error) {
+      console.error("Error fetching accounts:", error);
+    }
+  };
+
+  const deleteProduct = async (productID) => {
+    try {
+      await fetch(`${apiUrl}/api/product/${productID}`, {
+        method: "DELETE",
+      });
+      fetchProducts();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
 
   React.useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/api/product/`);
-        setRows(
-          response.data.map((product) => ({
-            id: product.product_number,
-            title: product.title,
-            description: product.description,
-            price: "€" + product.price.replace(/\./g, ","),
-            active: product.active,
-          }))
-        );
-        setTotalProducts(response.data.length);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
     fetchProducts();
   }, []);
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      description: "Het unieke ID van het product. Dit is altijd P2400XXX",
+      width: 250,
+    },
+    {
+      field: "title",
+      headerName: "Titel",
+      description: "De titel van het product",
+      sortable: false,
+      width: 250,
+    },
+    {
+      field: "description",
+      headerName: "Beschrijving",
+      description: "De beschrijving van het product.",
+      type: "textfield",
+      width: 250,
+    },
+    {
+      field: "price",
+      headerName: "Prijs",
+      description: "Prijs van het product",
+      width: 170,
+    },
+    {
+      field: "Acties",
+      headerName: "Acties",
+      width: 180,
+      sortable: false,
+      disableClickEventBubbling: true,
+
+      renderCell: (params) => {
+        return (
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              sx={styles.deleteButton}
+              onClick={() => deleteProduct(params.row.id)}
+            >
+              Verwijderen
+            </Button>
+          </Stack>
+        );
+      },
+    },
+  ];
+
   return (
     <Box>
       <Box sx={styles.cards}>

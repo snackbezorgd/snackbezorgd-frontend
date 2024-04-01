@@ -18,7 +18,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
-\        <Route path="/productDisplay" element={<ProductDisplay />} />
+\        <Route path="/producten" element={<ProductDisplay />} />
         <Route path="/registreren" element={<Register />} />
       </Routes>
     </Router>
