@@ -5,12 +5,9 @@ import Homefood from "../assets/home-food.png";
 import Slogan from "../assets/slogan.png";
 import Typography from "@mui/material/Typography";
 import "@fontsource/inter";
-import Input from "@mui/joy/Input";
-import Autocomplete from "@mui/joy/Autocomplete";
 
 import Button from "@mui/joy/Button";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 
 const styles = {
   Rectangle: {
@@ -45,7 +42,8 @@ const styles = {
     top: "5vw",
   },
   zoekButton: {
-    width: "4vw",
+    width: "150%",
+    height: "120%",
     marginLeft: ".2vw",
     backgroundColor: "#FDA912",
   },
@@ -59,98 +57,7 @@ const styles = {
     flexDirection: "row",
   },
 };
-const adresses = [
-  { label: "Prinsengracht 123" },
-  { label: "Keizersgracht 456" },
-  { label: "Herengracht 789" },
-  { label: "Damstraat 10" },
-  { label: "Beethovenstraat 23" },
-  { label: "Rembrandtplein 45" },
-  { label: "Van Goghlaan 67" },
-  { label: "Jordaan 89" },
-  { label: "Leidseplein 1011" },
-  { label: "Vondelstraat 1213" },
-  { label: "Museumplein 1415" },
-  { label: "Rozengracht 1617" },
-  { label: "Nieuwendijk 1819" },
-  { label: "Singel 2021" },
-  { label: "Oudezijds Voorburgwal 2223" },
-  { label: "Kalverstraat 2425" },
-  { label: "Westerstraat 2627" },
-  { label: "Haarlemmerdijk 2829" },
-  { label: "Albert Cuypstraat 3031" },
-  { label: "Ferdinand Bolstraat 3233" },
-  { label: "Utrechtsestraat 3435" },
-  { label: "Kinkerstraat 3637" },
-  { label: "Sarphatistraat 3839" },
-  { label: "Javastraat 4041" },
-  { label: "Ceintuurbaan 4243" },
-  { label: "Linnaeusstraat 4445" },
-  { label: "De Pijp 4647" },
-  { label: "Prinsengracht 4849" },
-  { label: "Overtoom 5051" },
-  { label: "Weesperstraat 5253" },
-  { label: "Prinsengracht 123" },
-  { label: "Keizersgracht 456" },
-  { label: "Herengracht 789" },
-  { label: "Damstraat 10" },
-  { label: "Beethovenstraat 23" },
-  { label: "Rembrandtplein 45" },
-  { label: "Van Goghlaan 67" },
-  { label: "Jordaan 89" },
-  { label: "Leidseplein 1011" },
-  { label: "Vondelstraat 1213" },
-  { label: "Museumplein 1415" },
-  { label: "Rozengracht 1617" },
-  { label: "Nieuwendijk 1819" },
-  { label: "Singel 2021" },
-  { label: "Oudezijds Voorburgwal 2223" },
-  { label: "Kalverstraat 2425" },
-  { label: "Westerstraat 2627" },
-  { label: "Haarlemmerdijk 2829" },
-  { label: "Albert Cuypstraat 3031" },
-  { label: "Ferdinand Bolstraat 3233" },
-  { label: "Utrechtsestraat 3435" },
-  { label: "Kinkerstraat 3637" },
-  { label: "Sarphatistraat 3839" },
-  { label: "Javastraat 4041" },
-  { label: "Ceintuurbaan 4243" },
-  { label: "Linnaeusstraat 4445" },
-  { label: "De Pijp 4647" },
-  { label: "Prinsengracht 4849" },
-  { label: "Overtoom 5051" },
-  { label: "Weesperstraat 5253" },
-  { label: "Prinsengracht 123" },
-  { label: "Keizersgracht 456" },
-  { label: "Herengracht 789" },
-  { label: "Damstraat 10" },
-  { label: "Beethovenstraat 23" },
-  { label: "Rembrandtplein 45" },
-  { label: "Van Goghlaan 67" },
-  { label: "Jordaan 89" },
-  { label: "Leidseplein 1011" },
-  { label: "Vondelstraat 1213" },
-  { label: "Museumplein 1415" },
-  { label: "Rozengracht 1617" },
-  { label: "Nieuwendijk 1819" },
-  { label: "Singel 2021" },
-  { label: "Oudezijds Voorburgwal 2223" },
-  { label: "Kalverstraat 2425" },
-  { label: "Westerstraat 2627" },
-  { label: "Haarlemmerdijk 2829" },
-  { label: "Albert Cuypstraat 3031" },
-  { label: "Ferdinand Bolstraat 3233" },
-  { label: "Utrechtsestraat 3435" },
-  { label: "Kinkerstraat 3637" },
-  { label: "Sarphatistraat 3839" },
-  { label: "Javastraat 4041" },
-  { label: "Ceintuurbaan 4243" },
-  { label: "Linnaeusstraat 4445" },
-  { label: "De Pijp 4647" },
-  { label: "Prinsengracht 4849" },
-  { label: "Overtoom 5051" },
-  { label: "Weesperstraat 5253" },
-];
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -209,12 +116,7 @@ class Home extends Component {
               size="lg"
               variant="outlined"
             /> */}
-            <Autocomplete
-              placeholder="Adres invullen"
-              options={adresses}
-              sx={{ width: 300 }}
-            />
-            <Link to="/productDisplay">
+            <Link to="/producten">
               <Button
                 sx={styles.zoekButton}
                 color="neutral"
@@ -222,7 +124,7 @@ class Home extends Component {
                 size="lg"
                 variant="solid"
               >
-                Zoek
+                Bestellen
               </Button>
             </Link>
           </Stack>

@@ -167,6 +167,7 @@ export default function Orders() {
           id: `${orderId}-${index}`,
           product: orderItem.product,
           quantity: orderItem.quantity,
+          locatie: orderItem.locatie,
         }))
       );
     } catch (error) {
@@ -231,6 +232,12 @@ export default function Orders() {
       description: "Het aantal van de product",
       type: "string",
       width: 220,
+    },
+    {
+      field: "locatie",
+      headerName: "Locatie",
+      description: "Locatie van het product",
+      width: 170,
     },
   ];
   const columns = [

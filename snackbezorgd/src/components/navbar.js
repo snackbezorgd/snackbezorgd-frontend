@@ -73,6 +73,7 @@ const styles = {
 
 export default function NavBar() {
   const [isAuth, setIsAuth] = useState(false);
+  const [isAdminAuth, setIsAdminAuth] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("access_token") !== null) {
@@ -80,7 +81,15 @@ export default function NavBar() {
     }
   }, [isAuth]);
 
+  useEffect(() => {
+    if (localStorage.getItem("access_token_staff") !== null) {
+      setIsAdminAuth(true);
+    }
+  }, [isAdminAuth]);
+
   const [open, setOpen] = React.useState(false);
+  const loggedInUsername = localStorage.getItem("username");
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={styles.navbar} position="fixed">
@@ -120,17 +129,31 @@ export default function NavBar() {
           }}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
-          <Typography
-            sx={styles.accountTitle}
-            component="h2"
-            id="modal-title"
-            level="h4"
-            textColor="inherit"
-            fontWeight="lg"
-            mb={1}
-          >
-            Mijn account
-          </Typography>
+          {isAuth ? (
+            <Typography
+              sx={styles.accountTitle}
+              component="h2"
+              id="modal-title"
+              level="h4"
+              textColor="inherit"
+              fontWeight="lg"
+              mb={1}
+            >
+              Hallo, {loggedInUsername}
+            </Typography>
+          ) : (
+            <Typography
+              sx={styles.accountTitle}
+              component="h2"
+              id="modal-title"
+              level="h4"
+              textColor="inherit"
+              fontWeight="lg"
+              mb={1}
+            >
+              Mijn account
+            </Typography>
+          )}
           <Stack sx={styles.buttonContainer}>
             {isAuth ? (
               <Button
@@ -163,14 +186,18 @@ export default function NavBar() {
               maxWidth: 320,
             }}
           >
-            <ListItem>
-              <ListItemButton component="a" href="/mijnbestellingen">
-                <ListItemDecorator>
-                  <FastfoodIcon />
-                </ListItemDecorator>
-                Mijn Bestellingen
-              </ListItemButton>
-            </ListItem>
+            {isAuth ? (
+              <ListItem>
+                <ListItemButton component="a" href="/mijnbestellingen">
+                  <ListItemDecorator>
+                    <FastfoodIcon />
+                  </ListItemDecorator>
+                  Mijn bestellingen
+                </ListItemButton>
+              </ListItem>
+            ) : (
+              <Stack></Stack>
+            )}
             <ListItem>
               <ListItemButton component="a" href="/overons">
                 <ListItemDecorator>
@@ -187,14 +214,18 @@ export default function NavBar() {
                 Contact
               </ListItemButton>
             </ListItem>
-            <ListItem>
-              <ListItemButton component="a" href="/admin">
-                <ListItemDecorator>
-                  <LockIcon />
-                </ListItemDecorator>
-                Beheerders Pagina
-              </ListItemButton>
-            </ListItem>
+            {isAdminAuth ? (
+              <ListItem>
+                <ListItemButton component="a" href="/admin">
+                  <ListItemDecorator>
+                    <LockIcon />
+                  </ListItemDecorator>
+                  Beheerders Pagina
+                </ListItemButton>
+              </ListItem>
+            ) : (
+              <Stack></Stack>
+            )}
           </List>
         </Sheet>
       </Modal>
