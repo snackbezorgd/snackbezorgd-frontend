@@ -39,15 +39,8 @@ export default function ForgotPasswordComponent() {
       const { data } = await axios.post(`${apiUrl}/password_reset/`, user, {
         headers: { "Content-Type": "application/json" },
       });
-
-      localStorage.clear();
-      localStorage.setItem("access_token", data.access);
-      localStorage.setItem("refresh_token", data.refresh);
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${data["access"]}`;
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("wachtwoordreset error:", error);
     }
   };
 
