@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@mui/joy/";
 import * as React from "react";
-import { Box, Typography, Stack } from "@mui/material/";
+import { Box, Typography, Stack, TextField } from "@mui/material/";
 import axios from "axios";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
 import Chip from "@mui/material/Chip";
@@ -104,6 +104,12 @@ export default function Products() {
   const [rows, setRows] = React.useState([]);
   const [totalProducts, setTotalProducts] = React.useState(0);
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [newProduct, setNewProduct] = React.useState({
+    title: "",
+    description: "",
+    price: "",
+    locatie: "",
+  });
 
   const fetchProducts = async () => {
     try {
@@ -126,12 +132,25 @@ export default function Products() {
 
   const deleteProduct = async (productID) => {
     try {
-      await fetch(`${apiUrl}/api/product/${productID}`, {
-        method: "DELETE",
-      });
+      await axios.delete(`${apiUrl}/api/product/${productID}`);
       fetchProducts();
     } catch (error) {
       console.error("Error deleting product:", error);
+    }
+  };
+
+  const saveProduct = async (product) => {
+    try {
+      if (product.id) {
+        // If product ID exists, it's an existing product, so update it
+        await axios.put(`${apiUrl}/api/product/${product.id}`, product);
+      } else {
+        // Otherwise, it's a new product, so create it
+        await axios.post(`${apiUrl}/api/product/`, product);
+      }
+      fetchProducts();
+    } catch (error) {
+      console.error("Error saving product:", error);
     }
   };
 
@@ -152,6 +171,7 @@ export default function Products() {
       description: "De titel van het product",
       sortable: false,
       width: 250,
+      editable: true,
     },
     {
       field: "description",
@@ -159,18 +179,21 @@ export default function Products() {
       description: "De beschrijving van het product.",
       type: "textfield",
       width: 250,
+      editable: true,
     },
     {
       field: "price",
       headerName: "Prijs",
       description: "Prijs van het product",
       width: 120,
+      editable: true,
     },
     {
       field: "locatie",
       headerName: "Locatie",
       description: "Locatie van het product",
       width: 170,
+      editable: true,
     },
     {
       field: "Acties",
@@ -263,6 +286,57 @@ export default function Products() {
             columns={columns}
             pageSize={5}
             getRowClassName={() => `super-app-theme`}
+            onEditRowModelChange={(newModel) => {
+              const editedRow =
+                newModel && newModel.length ? newModel[0] : null;
+              if (editedRow) {
+                saveProduct(editedRow);
+              }
+            }}
+            components={{
+              Toolbar: () => (
+                <Stack direction="row" spacing={2}>
+                  <TextField
+                    label="Title"
+                    value={newProduct.title}
+                    onChange={(e) =>
+                      setNewProduct({ ...newProduct, title: e.target.value })
+                    }
+                  />
+                  <TextField
+                    label="Description"
+                    value={newProduct.description}
+                    onChange={(e) =>
+                      setNewProduct({
+                        ...newProduct,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                  <TextField
+                    label="Price"
+                    value={newProduct.price}
+                    onChange={(e) =>
+                      setNewProduct({ ...newProduct, price: e.target.value })
+                    }
+                  />
+                  <TextField
+                    label="Location"
+                    value={newProduct.locatie}
+                    onChange={(e) =>
+                      setNewProduct({ ...newProduct, locatie: e.target.value })
+                    }
+                  />
+                  <Button
+                    variant="contained"
+                    sx={styles.deleteButton}
+                    onClick={() => saveProduct(newProduct)}
+                  >
+                    Add Product
+                  </Button>
+                </Stack>
+              ),
+            }}
             sx={{
               border: 0,
               marginTop: 2,
