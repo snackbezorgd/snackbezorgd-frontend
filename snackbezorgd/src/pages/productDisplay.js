@@ -27,13 +27,13 @@ const CategoryTitle = ({ title }) => {
 };
 
 const ProductDisplay = () => {
-  const [tvSnacks, setTvSnackstRows] = React.useState([]);
+  const [tvSnacks, setTvSnacks] = React.useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/product/`);
-        setTvSnackstRows(
+        setTvSnacks(
           response.data.map((product) => ({
             title: product.title,
             src: product.photo,
@@ -49,48 +49,24 @@ const ProductDisplay = () => {
     fetchProducts();
   }, []);
 
-  //   const tvSnacks = [
-  //     { src: Homefood, alt: "Product 1" },
-  //     { src: Homefood, alt: "Product 2" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //   ];
-
-  //   const chips = [
-  //     { src: Homefood, alt: "Product 1" },
-  //     { src: Homefood, alt: "Product 2" },
-  //     { src: Homefood, alt: "Product 3" },
-  //   ];
-
   return (
     <ThemeProvider theme={theme}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={{ xs: 1, sm: 2, md: 4 }}
-          sx={{ marginTop: "7vw", justifyContent: "center" }}
-        >
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-        </Stack>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 4 }}
+        sx={{ marginTop: "7vw", justifyContent: "center" }}
+      >
+        <FilterItem />
+        <FilterItem />
+        <FilterItem />
+        <FilterItem />
+        <FilterItem />
+      </Stack>
 
-        <CategoryTitle title="Tv-Snacks" />
-        <ProductList products={tvSnacks} />
+      <CategoryTitle title="Tv-Snacks" />
+      <ProductList products={tvSnacks} maxProductsPerRow={8} />
 
-        {/* <CategoryTitle title="Chips" />
-        <ProductList products={chips} />
-
-        <CategoryTitle title="Chips" />
-        <ProductList products={chips} /> */}
-
-        <ShoppingCart />
+      <ShoppingCart />
     </ThemeProvider>
   );
 };

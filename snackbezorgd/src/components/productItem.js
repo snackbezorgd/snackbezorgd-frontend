@@ -9,16 +9,17 @@ import Button from "@mui/material/Button";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  padding: theme.spacing(2),
+  padding: theme.spacing(1.5),
   textAlign: "center",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  height: "7vw",
-  width: "7vw",
+  height: "8vw",
+  width: "8vw",
   position: "relative",
   backgroundColor: "#F2F2F2",
+  marginBottom: "1rem"
 }));
 
 const Image = styled("img")`
