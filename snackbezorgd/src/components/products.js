@@ -108,6 +108,7 @@ export default function Products() {
     title: "",
     description: "",
     price: "",
+    photo: "",
     locatie: "",
   });
 
@@ -318,6 +319,13 @@ export default function Products() {
                     value={newProduct.price}
                     onChange={(e) =>
                       setNewProduct({ ...newProduct, price: e.target.value })
+                    }
+                  />
+                  <TextField
+                    label="Photo"
+                    value={newProduct.photo}
+                    onChange={(e) =>
+                      setNewProduct({ ...newProduct, photo: e.target.value })
                     }
                   />
                   <TextField
