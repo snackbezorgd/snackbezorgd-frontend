@@ -196,14 +196,14 @@ export default function AccountsTable() {
       type: "boolean",
       sortable: false,
       renderCell: (params) => {
-        const isPaid = params.value === true;
+        const isAdmin = params.value === true;
 
         return (
           <Chip
-            label={isPaid ? <CheckIcon /> : <CloseIcon />}
+            label={isAdmin ? <CheckIcon /> : <CloseIcon />}
             variant="outlined"
-            color={isPaid ? "success" : "error"}
-            sx={isPaid ? styles.checkButton : styles.crossButton}
+            color={isAdmin ? "success" : "error"}
+            sx={isAdmin ? styles.checkButton : styles.crossButton}
           />
         );
       },
@@ -216,14 +216,14 @@ export default function AccountsTable() {
       type: "boolean",
       sortable: false,
       renderCell: (params) => {
-        const isPaid = params.value === true;
+        const isActive = params.value === true;
 
         return (
           <Chip
-            label={isPaid ? <CheckIcon /> : <CloseIcon />}
+            label={isActive ? <CheckIcon /> : <CloseIcon />}
             variant="outlined"
-            color={isPaid ? "success" : "error"}
-            sx={isPaid ? styles.checkButton : styles.crossButton}
+            color={isActive ? "success" : "error"}
+            sx={isActive ? styles.checkButton : styles.crossButton}
           />
         );
       },

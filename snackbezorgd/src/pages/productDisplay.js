@@ -62,7 +62,6 @@ const ProductDisplay = () => {
         <FilterItem />
         <FilterItem />
       </Stack>
-
       <CategoryTitle title="Tv-Snacks" />
       <ProductList products={tvSnacks} maxProductsPerRow={8} />
 

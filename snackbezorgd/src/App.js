@@ -8,6 +8,7 @@ import Register from "./pages/register";
 import { Logout } from "./pages/logout";
 
 import ProductDisplay from "./pages/productDisplay";
+import ForgotPasswordComponent from "./components/forgotpasswordComponent";
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/wachtwoord_vergeten"
+          element={<ForgotPasswordComponent />}
+        />
         <Route path="/logout" element={<Logout />} />
         <Route path="/producten" element={<ProductDisplay />} />
         <Route path="/registreren" element={<Register />} />
