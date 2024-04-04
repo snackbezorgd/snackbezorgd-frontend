@@ -27,13 +27,13 @@ const CategoryTitle = ({ title }) => {
 };
 
 const ProductDisplay = () => {
-  const [tvSnacks, setTvSnackstRows] = React.useState([]);
+  const [tvSnacks, setTvSnacks] = React.useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/product/`);
-        setTvSnackstRows(
+        setTvSnacks(
           response.data.map((product) => ({
             title: product.title,
             src: product.photo,
@@ -62,15 +62,8 @@ const ProductDisplay = () => {
         <FilterItem />
         <FilterItem />
       </Stack>
-
       <CategoryTitle title="Tv-Snacks" />
-      <ProductList products={tvSnacks} />
-
-      {/* <CategoryTitle title="Chips" />
-        <ProductList products={chips} />
-
-        <CategoryTitle title="Chips" />
-        <ProductList products={chips} /> */}
+      <ProductList products={tvSnacks} maxProductsPerRow={8} />
 
       <ShoppingCart />
     </ThemeProvider>
