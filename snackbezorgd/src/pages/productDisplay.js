@@ -49,48 +49,30 @@ const ProductDisplay = () => {
     fetchProducts();
   }, []);
 
-  //   const tvSnacks = [
-  //     { src: Homefood, alt: "Product 1" },
-  //     { src: Homefood, alt: "Product 2" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //     { src: Homefood, alt: "Product 3" },
-  //   ];
-
-  //   const chips = [
-  //     { src: Homefood, alt: "Product 1" },
-  //     { src: Homefood, alt: "Product 2" },
-  //     { src: Homefood, alt: "Product 3" },
-  //   ];
-
   return (
     <ThemeProvider theme={theme}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={{ xs: 1, sm: 2, md: 4 }}
-          sx={{ marginTop: "7vw", justifyContent: "center" }}
-        >
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-        </Stack>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2, md: 4 }}
+        sx={{ marginTop: "7vw", justifyContent: "center" }}
+      >
+        <FilterItem />
+        <FilterItem />
+        <FilterItem />
+        <FilterItem />
+        <FilterItem />
+      </Stack>
 
-        <CategoryTitle title="Tv-Snacks" />
-        <ProductList products={tvSnacks} />
+      <CategoryTitle title="Tv-Snacks" />
+      <ProductList products={tvSnacks} />
 
-        {/* <CategoryTitle title="Chips" />
+      {/* <CategoryTitle title="Chips" />
         <ProductList products={chips} />
 
         <CategoryTitle title="Chips" />
         <ProductList products={chips} /> */}
 
-        <ShoppingCart />
+      <ShoppingCart />
     </ThemeProvider>
   );
 };
