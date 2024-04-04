@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Fab, Modal, Button, Typography, styled, Box, Stack, Divider } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import CloseIcon from '@mui/icons-material/Close';
 
 const StyledFab = styled(Fab)({
   position: 'fixed',
@@ -23,19 +24,14 @@ const ModalContainer = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '20px 60px',
+  padding: '20px',
   backgroundColor: 'white',
-  maxWidth: '522px',
-  borderRadius: '29px',
+  maxWidth: '450px',
+  borderRadius: '20px',
 });
 
-interface PriceRowProps {
-  label: string;
-  price: string;
-}
-
-const PriceRow: React.FC<PriceRowProps> = ({ label, price }) => (
-  <Stack direction="row" justifyContent="space-between" spacing={1} sx={{ maxWidth: 350, width: '100%', mt: 2.5 }}>
+const PriceRow = ({ label, price }) => (
+  <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1} sx={{ maxWidth: 280, width: '100%', mt: 2.5 }}>
     <Typography variant="body1" sx={{ whiteSpace: 'nowrap' }}>
       {label}
     </Typography>
@@ -45,7 +41,7 @@ const PriceRow: React.FC<PriceRowProps> = ({ label, price }) => (
   </Stack>
 );
 
-const ShoppingCart: React.FC = () => {
+const ShoppingCart = () => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -56,95 +52,129 @@ const ShoppingCart: React.FC = () => {
     setOpen(false);
   };
 
+  const products = [
+    {
+      amount: 1,
+      title: 'Pokebowl large',
+      description:
+        'Poké bowl met sushi rijst, Poké Citrus dressing, Zalm, Komkommer, Sesam-mix, Sesam-mix, Ja, stokjes, sojasaus en wasabi erbij, Toeslag verpakking',
+      price: '€ 16,45',
+    },
+    {
+      amount: 2,
+      title: 'Gyoza met kip en groente',
+      description: '',
+      price: '€ 4,80',
+    },
+  ];
+
   const priceRows = [
     { label: 'Subtotaal', price: '€ 21,25' },
     { label: 'Bezorgkosten', price: '€ 2,99' },
     { label: 'Servicekosten', price: '€ 0,99' },
   ];
 
+  const StyledProductRow = styled(Stack)({
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr auto', 
+    gridGap: '10px',
+    width: '81%',
+    alignItems: 'center',
+    marginTop: '10px',
+    marginBottom: '10px',
+  });
+
+  const StyledProductAmount = styled(Typography)({
+    fontWeight: 'bold',
+  });
+
+  const StyledProductTitle = styled(Typography)({
+    gridColumn: '2 ',
+    fontWeight: 'bold',
+  });
+
+  const StyledProductDescription = styled(Typography)({
+    gridColumn: '2 / span 2', 
+    width: '70%',
+  });
+
+  const StyledProductPrice = styled(Typography)({
+    gridColumn: '3', 
+    fontWeight: 'bold',
+    width: '75px', 
+  });
+
+  const CloseButton = styled(Button)({
+    position: 'absolute',
+    top: '0.5rem',
+    right: '0.5rem',
+  });
+  
+
   return (
     <div>
       <StyledFab onClick={handleOpen}>
         <AddShoppingCartIcon />
       </StyledFab>
-      <StyledModal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
+      <StyledModal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
         <ModalContainer>
-          <Typography variant="h4" fontWeight="bold" textAlign="right" mt={2.5}>
+          <CloseButton onClick={handleClose}><CloseIcon /></CloseButton>
+          <Typography variant="h4" fontWeight="bold" textAlign="center" mt={2.5} mb={2.5}>
             Winkelmandje
           </Typography>
-          <Stack spacing={5} mt={5}>
-            <Stack direction="row" spacing={5}>
-              <Box sx={{ width: '70%' }}>
-                <Typography variant="body1" mt={10}>
-                  Pokebowl large
-                </Typography>
-                <Typography variant="body2">
-                  Poké bowl met sushi rijst, Poké Citrus dressing, Zalm, Komkommer, Sesam-mix, Sesam-mix, Ja, stokjes,
-                  sojasaus en wasabi erbij, Toeslag verpakking
-                </Typography>
-              </Box>
-              <Box sx={{ width: '30%', ml: 5 }}>
-                <Typography variant="body1" fontWeight="bold" mt={20}>
-                  € 16,45
-                </Typography>
-              </Box>
-            </Stack>
-            <Stack direction="row" spacing={5}>
-              <Box sx={{ width: '70%' }}>
-                <Typography variant="body1">Gyoza met kip en groente</Typography>
-              </Box>
-              <Box sx={{ width: '30%', ml: 5 }}>
-                <Typography variant="body1" fontWeight="bold">
-                  € 4,80
-                </Typography>
-              </Box>
-            </Stack>
-          </Stack>
-          <Divider sx={{ mt: 10, maxWidth: '100%', height: '1px', bgcolor: 'divider', width: 349 }} />
+          {products.map((product, index) => (
+            <StyledProductRow key={index}>
+              <StyledProductAmount variant="body1">
+                {product.amount}x
+              </StyledProductAmount>
+              <StyledProductTitle variant="body1">
+                {product.title}
+              </StyledProductTitle>
+              <StyledProductPrice variant="body1">
+                {product.price}
+              </StyledProductPrice>
+              <StyledProductDescription variant="body2">
+                {product.description}
+              </StyledProductDescription>
+            </StyledProductRow>
+          ))}
+          <Divider sx={{ mt: 2, maxWidth: '100%', height: '1px', bgcolor: 'divider', width: 280 }} />
           {priceRows.map((priceRow, index) => (
             <PriceRow key={index} {...priceRow} />
           ))}
-          <Divider sx={{ mt: 3, maxWidth: '100%', height: '1px', bgcolor: 'divider', width: 350 }} />
-          <Stack direction="row" spacing={1} mt={3} sx={{ maxWidth: '100%', width: 350 }}>
-            <Typography variant="body1" fontWeight="bold" color="black" alignSelf="flex-start">
+          <Divider sx={{ mt: 2, maxWidth: '100%', height: '1px', bgcolor: 'divider', width: 280 }} />
+          <Stack direction="row" spacing={1} mt={1} sx={{ maxWidth: '100%', width: 280, justifyContent: 'center', justifyContent: 'space-between'}}>
+            <Typography variant="body1" fontWeight="bold" color="black">
               Totaal
             </Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                flexGrow: 1,
-                flexShrink: 0,
-                flexBasis: 0,
-                width: 'fit-content',
-              }}
-            >
-              <Typography variant="body1" fontWeight="bold" color="black" textAlign="right">
-                € 25,23
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  m: 1,
-                  p: 2,
-                  fontSize: 12,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  color: 'white',
-                  whiteSpace: 'nowrap',
-                  borderRadius: '2xl',
-                  boxShadow: 'lg',
-                }}
-              >
-                Afrekenen
-              </Button>
-            </Box>
+            <Typography variant="body1" fontWeight="bold" color="black" textAlign="right">
+              € 25,23
+            </Typography>
           </Stack>
-          <Button onClick={handleClose} sx={{ mt: 4 }}>
-            X
+          <Button
+            sx={{
+              mt: 4,
+              p: 2,
+              fontSize: 12,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              backgroundColor: '#FFA500',
+              color: 'white',
+              whiteSpace: 'nowrap',
+              borderRadius: '2xl',
+              boxShadow: 'lg',
+              width: '70%'
+            }}
+            onClick={handleClose}
+          >
+            Afrekenen
           </Button>
+
         </ModalContainer>
       </StyledModal>
     </div>
