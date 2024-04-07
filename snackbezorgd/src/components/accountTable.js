@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@mui/joy/";
 import * as React from "react";
-import { Box, Typography, Stack } from "@mui/material/";
+import { Box, Typography, Stack, Grid } from "@mui/material/";
 import { Alert, IconButton } from "@mui/joy";
 import axios from "axios";
 import { DataGrid, gridClasses } from "@mui/x-data-grid";
@@ -10,6 +10,7 @@ import { styled } from "@mui/material/styles";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import PersonIcon from "@mui/icons-material/Person";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -23,16 +24,9 @@ const styles = {
     fontFamily: "inter",
     fontWeight: 800,
   },
-  cards: {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    gap: 5,
-    marginTop: "2vw",
-  },
   card: {
-    height: "10vw",
-    width: "20vw",
+    height: "180px",
+    width: "330px",
     backgroundColor: "#fff",
     borderRadius: 35,
   },
@@ -44,22 +38,22 @@ const styles = {
     color: "#000",
     marginLeft: "1vw",
     fontWeight: 800,
-    fontSize: "2vw",
+    fontSize: "30px",
+  },
+  svgIcon: {
+    height: "100px",
+    marginTop: "1vw",
+    position: "absolute",
+    right: -100,
+    color: "#fda912",
+    width: "100%",
   },
   tableBackground: {
     marginTop: "2vw",
     backgroundColor: "#fff",
     borderRadius: 7,
   },
-  svgIcon: {
-    height: "6vw",
-    marginTop: "1vw",
-    position: "absolute",
-    right: -100,
-    width: "100%",
-    filter:
-      "invert(75%) sepia(15%) saturate(4787%) hue-rotate(350deg) brightness(101%) contrast(98%)",
-  },
+
   titleContainer: {
     border: "none",
   },
@@ -261,28 +255,24 @@ export default function AccountsTable() {
   ];
 
   return (
-    <Box>
-      <Box sx={styles.cards}>
-        <Card sx={styles.card} variant="solid">
-          <CardContent orientation="horizontal">
-            <CardContent>
-              <Typography sx={styles.cardTextTitle} level="body-md">
-                Accounts
-              </Typography>
-              <Typography sx={styles.cardTextValue} level="h2">
-                {totalAccounts}
-              </Typography>
-              <svg
-                style={styles.svgIcon}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-              >
-                <path d="M160 80c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V80zM0 272c0-26.5 21.5-48 48-48H80c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V272zM368 96h32c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H368c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48z" />
-              </svg>
+    <React.Fragment>
+      <Grid container mt={1} spacing={2}>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+          <Card sx={styles.card} variant="solid">
+            <CardContent orientation="horizontal">
+              <CardContent>
+                <Typography sx={styles.cardTextTitle} level="body-md">
+                  Totaal accounts
+                </Typography>
+                <Typography sx={styles.cardTextValue} level="h2">
+                  {totalAccounts}
+                </Typography>
+                <PersonIcon sx={styles.svgIcon} />
+              </CardContent>
             </CardContent>
-          </CardContent>
-        </Card>
-      </Box>
+          </Card>
+        </Grid>
+      </Grid>
       <Box sx={styles.tableBackground}>
         <Box sx={{ height: 400 }}>
           {errorMessage && (
@@ -327,6 +317,6 @@ export default function AccountsTable() {
           />
         </Box>
       </Box>
-    </Box>
+    </React.Fragment>
   );
 }
