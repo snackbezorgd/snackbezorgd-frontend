@@ -94,7 +94,6 @@ const styles = {
     width: "150px",
     height: "50px",
     fontSize: "20px",
-
     fontWeight: 600,
   },
   unpaidButtonOI: {
@@ -107,6 +106,19 @@ const styles = {
     width: "150px",
     height: "50px",
     fontSize: "20px",
+    fontWeight: 600,
+  },
+  finishedButton: {
+    backgroundColor: "#fda912",
+    color: "#000",
+    border: 0,
+    float: "right",
+    borderRadius: "5px",
+    marginRight: "1vw",
+    width: "180px",
+    height: "50px",
+    fontSize: "20px",
+
     fontWeight: 600,
   },
   orderItemTitle: {
@@ -140,6 +152,8 @@ export default function Orders() {
   const [open, setOpen] = React.useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
   const isPaid = Paid === true;
+  const [totalFinishedOrders, setTotalFinishedOrders] = React.useState(0);
+  const [isFinished, setIsFinished] = React.useState(false);
 
   const handleRowClick = (params) => {
     setOrderItemRows([]);
@@ -215,20 +229,20 @@ export default function Orders() {
       description: "De naam van het product.",
       sortable: false,
       type: "string",
-      width: 250,
+      minWidth: 250,
     },
     {
       field: "quantity",
       headerName: "Aantal",
       description: "Het aantal van de product",
       type: "string",
-      width: 220,
+      minWidth: 220,
     },
     {
       field: "locatie",
       headerName: "Locatie",
       description: "Locatie van het product",
-      width: 170,
+      minWidth: 170,
     },
   ];
   const columns = [
@@ -236,14 +250,14 @@ export default function Orders() {
       field: "id",
       headerName: "ID",
       description: "Het unieke ID van de order. Dit is altijd E2400XXX",
-      width: 120,
+      minWidth: 120,
     },
     {
       field: "fullName",
       headerName: "Naam",
       description: "De naam van de persoon.",
       sortable: false,
-      width: 120,
+      minWidth: 120,
       valueGetter: (params) =>
         `${params.row.firstName || ""} ${params.row.lastName || ""}`,
     },
@@ -252,7 +266,7 @@ export default function Orders() {
       headerName: "email",
       description: "De email van de persoon.",
       sortable: false,
-      width: 170,
+      minWidth: 170,
     },
     {
       field: "time",
@@ -260,7 +274,7 @@ export default function Orders() {
       description: "De tijd dat de bestelling is geplaatst.",
       type: "Date",
       dateSetting: { locale: "en-GB" },
-      width: 220,
+      minWidth: 220,
     },
     {
       field: "paid",
@@ -281,18 +295,18 @@ export default function Orders() {
           />
         );
       },
-      width: 200,
+      minWidth: 200,
     },
     {
       field: "total",
       headerName: "Totaal",
       description: "Totaal dat de bestelling heeft gekost in euro's.",
-      width: 100,
+      minWidth: 100,
     },
     {
       field: "Acties",
       headerName: "Acties",
-      width: 180,
+      minWidth: 180,
       sortable: false,
       disableClickEventBubbling: true,
 
@@ -319,8 +333,17 @@ export default function Orders() {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/order/`);
+        const allOrders = response.data;
+        const finishedOrders = allOrders.filter((order) => order.finished);
+        const regularOrders = allOrders.filter((order) => !order.finished);
+        setTotalOrders(allOrders.length);
+        const calculatedTotalCost = regularOrders.reduce((total, order) => {
+          const orderCost = parseFloat(order.total) || 0;
+          return total + orderCost;
+        }, 0);
+        setTotalCost("€" + calculatedTotalCost.toFixed(2).replace(/\./g, ","));
         setRows(
-          response.data.map((order) => ({
+          regularOrders.map((order) => ({
             id: order.order_number,
             firstName: order.account.first_name,
             lastName: order.account.last_name,
@@ -336,22 +359,34 @@ export default function Orders() {
             }`,
           }))
         );
-        const calculatedTotalCost = response.data.reduce((total, order) => {
-          const orderCost = parseFloat(order.total) || 0;
-          return total + orderCost;
-        }, 0);
-        setTotalCost("€" + calculatedTotalCost.toFixed(2).replace(/\./g, ","));
-        setTotalOrders(response.data.length);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
+        setTotalFinishedOrders(finishedOrders.length);
+      } catch (error) {}
     };
 
     fetchOrders();
   }, []);
+
+  const handleSetFinished = async () => {
+    try {
+      await axios.put(`${apiUrl}/api/order/${orderNumber}/`, {
+        isFinished: true,
+      });
+      setIsFinished(true);
+    } catch (error) {
+      console.error("Error setting order to finished:", error);
+    }
+  };
+
   return (
     <React.Fragment>
-      <Grid container mt={1} spacing={2}>
+      <Grid
+        mt={1}
+        container
+        columnSpacing={{ sm: 1, md: 1, lg: 1, xl: 1 }}
+        spacing={2}
+        direction="row"
+        alignItems="center"
+      >
         <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
           <Card sx={styles.card} variant="solid">
             <CardContent orientation="horizontal">
@@ -360,7 +395,7 @@ export default function Orders() {
                   Orders
                 </Typography>
                 <Typography sx={styles.cardTextValue} level="h2">
-                  {totalOrders}
+                  {totalOrders - totalFinishedOrders}
                 </Typography>
                 <BarChartIcon sx={styles.svgIcon} />
               </CardContent>
@@ -390,7 +425,7 @@ export default function Orders() {
                   Totaal Orders
                 </Typography>
                 <Typography sx={styles.cardTextValue} level="h2">
-                  72
+                  {totalOrders}
                 </Typography>
                 <SsidChartIcon sx={styles.svgIcon} />
               </CardContent>
@@ -400,29 +435,29 @@ export default function Orders() {
       </Grid>
       <Grid container>
         <Box sx={styles.tableBackground}>
-          <Box sx={{ height: 400 }}>
-            <StyledDataGrid
-              rows={rows}
-              columns={columns}
-              pageSize={5}
-              getRowClassName={() => `super-app-theme`}
-              sx={{
-                border: 0,
-                marginTop: 2,
-                "& .MuiDataGrid-cell:hover": {
-                  color: "#000",
+          <StyledDataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            getRowClassName={() => `super-app-theme`}
+            sx={{
+              border: 0,
+              marginTop: 2,
+              height: 400,
+              width: "100%",
+              "& .MuiDataGrid-cell:hover": {
+                color: "#000",
+              },
+              [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:
+                {
+                  outline: "none",
                 },
-                [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:
-                  {
-                    outline: "none",
-                  },
-                [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
-                  {
-                    outline: "none",
-                  },
-              }}
-            />
-          </Box>
+              [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
+                {
+                  outline: "none",
+                },
+            }}
+          />
         </Box>
         <Modal
           aria-labelledby="modal-title"
@@ -431,6 +466,7 @@ export default function Orders() {
           onClose={() => setOpen(false)}
           sx={{
             display: "flex",
+            height: "100%",
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -465,6 +501,12 @@ export default function Orders() {
               color={isPaid ? "success" : "error"}
               sx={isPaid ? styles.paidButtonOI : styles.unpaidButtonOI}
             />
+            <Chip
+              label={"Markeer Klaar"}
+              variant="outlined"
+              onClick={handleSetFinished}
+              sx={styles.finishedButton}
+            />
             <Box>
               <Typography
                 variant="h5"
@@ -478,31 +520,27 @@ export default function Orders() {
               <Typography>{customerEmail}</Typography>
               <Typography>{customerAddress}</Typography>
             </Box>
-            <Box sx={styles.tableBackground}>
-              <Box sx={{ height: 400 }}>
-                <StyledDataGrid
-                  rows={orderItemRows}
-                  columns={orderDetailColumns}
-                  pageSize={5}
-                  getRowClassName={() => `super-app-theme`}
-                  sx={{
-                    border: 0,
-                    marginTop: 2,
-                    "& .MuiDataGrid-cell:hover": {
-                      color: "#000",
-                    },
-                    [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:
-                      {
-                        outline: "none",
-                      },
-                    [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
-                      {
-                        outline: "none",
-                      },
-                  }}
-                />
-              </Box>
-            </Box>
+            <StyledDataGrid
+              rows={orderItemRows}
+              columns={orderDetailColumns}
+              pageSize={5}
+              getRowClassName={() => `super-app-theme`}
+              sx={{
+                border: 0,
+                marginTop: 2,
+                "& .MuiDataGrid-cell:hover": {
+                  color: "#000",
+                },
+                [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]:
+                  {
+                    outline: "none",
+                  },
+                [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
+                  {
+                    outline: "none",
+                  },
+              }}
+            />
           </Sheet>
         </Modal>
       </Grid>
