@@ -154,6 +154,8 @@ export default function Orders() {
   const isPaid = Paid === true;
   const [totalFinishedOrders, setTotalFinishedOrders] = React.useState(0);
   const [isFinished, setIsFinished] = React.useState(false);
+  const [account, setAccount] = React.useState(0);
+  const [address, setAddress] = React.useState(0);
 
   const handleRowClick = (params) => {
     setOrderItemRows([]);
@@ -368,9 +370,15 @@ export default function Orders() {
 
   const handleSetFinished = async () => {
     try {
-      await axios.put(`${apiUrl}/api/order/${orderNumber}/`, {
+      const requestData = {
+        account: {account},
+        address_1: {address},
         finished: true,
-      });
+      };
+      const response = await axios.get(`${apiUrl}/api/order/${orderNumber}`);
+      setAccount(response.data.account.id);
+      setAddress(response.data.address_1);
+      await axios.put(`${apiUrl}/api/order/${orderNumber}/`, requestData);
       setIsFinished(true);
       window.location.reload();
     } catch (error) {
