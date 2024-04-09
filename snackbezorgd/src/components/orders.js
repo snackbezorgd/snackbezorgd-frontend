@@ -154,6 +154,8 @@ export default function Orders() {
   const isPaid = Paid === true;
   const [totalFinishedOrders, setTotalFinishedOrders] = React.useState(0);
   const [isFinished, setIsFinished] = React.useState(false);
+  const [fetchOrders, setFetchOrders] = React.useState(false);
+
 
   const handleRowClick = (params) => {
     setOrderItemRows([]);
@@ -362,7 +364,7 @@ export default function Orders() {
         setTotalFinishedOrders(finishedOrders.length);
       } catch (error) {}
     };
-
+    setFetchOrders(fetchOrders);
     fetchOrders();
   }, []);
 
@@ -373,7 +375,8 @@ export default function Orders() {
       };
       await axios.put(`${apiUrl}/api/order/${orderNumber}/`, requestData);
       setIsFinished(true);
-      window.location.reload();
+      setOpen(false);
+      fetchOrders();
     } catch (error) {
       console.error("Error setting order to finished:", error);
     }
