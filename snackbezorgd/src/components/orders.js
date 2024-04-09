@@ -154,8 +154,6 @@ export default function Orders() {
   const isPaid = Paid === true;
   const [totalFinishedOrders, setTotalFinishedOrders] = React.useState(0);
   const [isFinished, setIsFinished] = React.useState(false);
-  const [fetchOrders, setFetchOrders] = React.useState(false);
-
 
   const handleRowClick = (params) => {
     setOrderItemRows([]);
@@ -331,40 +329,40 @@ export default function Orders() {
     },
   ];
 
+  const fetchOrders = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/order/`);
+      const allOrders = response.data;
+      const finishedOrders = allOrders.filter((order) => order.finished);
+      const regularOrders = allOrders.filter((order) => !order.finished);
+      setTotalOrders(allOrders.length);
+      const calculatedTotalCost = regularOrders.reduce((total, order) => {
+        const orderCost = parseFloat(order.total) || 0;
+        return total + orderCost;
+      }, 0);
+      setTotalCost("€" + calculatedTotalCost.toFixed(2).replace(/\./g, ","));
+      setRows(
+        regularOrders.map((order) => ({
+          id: order.order_number,
+          firstName: order.account.first_name,
+          lastName: order.account.last_name,
+          email: order.account.email,
+          time: order.time,
+          paid: order.paid,
+          total: new Intl.NumberFormat("nl-NL", {
+            style: "currency",
+            currency: "EUR",
+          }).format(parseFloat(order.total)),
+          fullName: `${order.account.first_name || ""} ${
+            order.account.last_name || ""
+          }`,
+        }))
+      );
+      setTotalFinishedOrders(finishedOrders.length);
+    } catch (error) {}
+  };
+
   React.useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/api/order/`);
-        const allOrders = response.data;
-        const finishedOrders = allOrders.filter((order) => order.finished);
-        const regularOrders = allOrders.filter((order) => !order.finished);
-        setTotalOrders(allOrders.length);
-        const calculatedTotalCost = regularOrders.reduce((total, order) => {
-          const orderCost = parseFloat(order.total) || 0;
-          return total + orderCost;
-        }, 0);
-        setTotalCost("€" + calculatedTotalCost.toFixed(2).replace(/\./g, ","));
-        setRows(
-          regularOrders.map((order) => ({
-            id: order.order_number,
-            firstName: order.account.first_name,
-            lastName: order.account.last_name,
-            email: order.account.email,
-            time: order.time,
-            paid: order.paid,
-            total: new Intl.NumberFormat("nl-NL", {
-              style: "currency",
-              currency: "EUR",
-            }).format(parseFloat(order.total)),
-            fullName: `${order.account.first_name || ""} ${
-              order.account.last_name || ""
-            }`,
-          }))
-        );
-        setTotalFinishedOrders(finishedOrders.length);
-      } catch (error) {}
-    };
-    setFetchOrders(fetchOrders());
     fetchOrders();
   }, []);
 
