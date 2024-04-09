@@ -369,9 +369,10 @@ export default function Orders() {
   const handleSetFinished = async () => {
     try {
       await axios.put(`${apiUrl}/api/order/${orderNumber}/`, {
-        isFinished: true,
+        finished: true,
       });
       setIsFinished(true);
+      window.location.reload();
     } catch (error) {
       console.error("Error setting order to finished:", error);
     }
