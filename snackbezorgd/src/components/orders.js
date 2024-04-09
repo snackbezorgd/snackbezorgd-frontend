@@ -364,7 +364,7 @@ export default function Orders() {
         setTotalFinishedOrders(finishedOrders.length);
       } catch (error) {}
     };
-    setFetchOrders(fetchOrders);
+    setFetchOrders(fetchOrders());
     fetchOrders();
   }, []);
 
