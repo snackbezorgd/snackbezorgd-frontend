@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import Admin from "./pages/admin";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import Checkout from "./pages/checkout"; 
 import { Logout } from "./pages/logout";
 
 import ProductDisplay from "./pages/productDisplay";
@@ -24,6 +25,7 @@ function App() {
         />
         <Route path="/logout" element={<Logout />} />
         <Route path="/producten" element={<ProductDisplay />} />
+        <Route path="/checkout" element={<Checkout/>} />
         <Route path="/registreren" element={<Register />} />
       </Routes>
     </Router>
