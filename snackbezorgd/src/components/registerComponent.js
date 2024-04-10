@@ -5,7 +5,6 @@ import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import Alert from "@mui/joy/Alert";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Divider from "@mui/joy/Divider";
 import FormControl from "@mui/joy/FormControl";
@@ -15,8 +14,6 @@ import Link from "@mui/joy/Link";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 import Stack from "@mui/joy/Stack";
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import axios from "axios";
 import { useState } from "react";
 
@@ -93,7 +90,7 @@ export default function RegisterComponent() {
           errorMessage = (
             <div>
               <strong>Wachtwoord fout: </strong>
-              {password[0]} 
+              {password[0]}
             </div>
           );
         }

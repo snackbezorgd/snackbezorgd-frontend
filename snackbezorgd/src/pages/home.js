@@ -1,34 +1,43 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Stack, Box } from "@mui/material/";
+import { Stack, Box, Container } from "@mui/material/";
 import Homefood from "../assets/home-food.png";
 import Slogan from "../assets/slogan.png";
 import Typography from "@mui/material/Typography";
-import "@fontsource/inter";
-
+// import "@fontsource/inter";
 import Button from "@mui/joy/Button";
+// import Link from "@mui/joy/Link";
+// import Typography from "@mui/joy/Typography";
+import ArrowForward from "@mui/icons-material/ArrowForward";
+import TwoSidedLayout from "../components/TwoSidedLayout";
 
+// 708;
 
 const styles = {
   Rectangle: {
-    width: "60%",
+    width: "75%",
     height: "100%",
-    left: "-300px",
+    right: "-300px",
     position: "absolute",
-    background: "#FDA912",
-    clipPath: "polygon(20% 0, 70% 0, 100% 100%, 0 100%)",
+    background: "#fda912",
+    clipPath: "polygon(10% 0, 100% 0, 100% 100%, 0 100%)",
     zIndex: -1,
+    "@media (max-width: 832px)": {
+      clipPath: "polygon(0 54%, 100% 44%, 100% 100%, 0% 100%)",
+      width: "500%",
+      height: "1200",
+    },
   },
   img_food: {
     height: "70px",
   },
   welcomeText: {
-    positon: "absolute",
     fontWeight: 900,
-    marginTop: "22vw",
-    maxWidth: "480px",
     fontSize: 40,
-    left: "20vw",
+  },
+  container: {
+    positon: "absolute",
+    left: "75%",
   },
   welcomeSub: {
     fontWeight: 700,
@@ -37,15 +46,17 @@ const styles = {
   },
   locationBar: {
     position: "absolute",
-    left: "50%",
+    left: "30%",
     fontFamily: "inter",
     top: "5vw",
   },
   zoekButton: {
-    width: "150%",
     height: "120%",
     marginLeft: ".2vw",
     backgroundColor: "#FDA912",
+    "&:hover": {
+      backgroundColor: "#b47914",
+    },
   },
   inputField: {
     fontFamily: "inter",
@@ -76,60 +87,48 @@ class Home extends Component {
 
   render() {
     return (
-      <Stack>
+      <React.Fragment>
         <Stack sx={styles.Rectangle}></Stack>
-        <img
-          src={Homefood}
-          style={{
-            width: "35vw",
-            height: "35vw",
-            position: "absolute",
-            top: "16%",
-            left: "13%",
-          }}
-          alt="Logo"
-        />
-        <Stack sx={styles.locationBar}>
-          <img
-            src={Slogan}
-            style={{
-              width: "22vw",
-              height: "15vw",
-              position: "absolute",
-              top: "20%",
-              left: "-30px",
-            }}
-            alt="Logo"
-          />
-          <Typography variant="h5" sx={styles.welcomeText}>
+        <TwoSidedLayout>
+          <Typography
+            level="h1"
+            fontWeight="xl"
+            sx={styles.welcomeText}
+            fontSize="clamp(1.875rem, 1.3636rem + 2.1818vw, 3rem)"
+          >
             Snack of maaltijd, wij hebben het!
           </Typography>
-          <Typography variant="h6" sx={styles.welcomeSub}>
+          <Typography
+            sx={styles.welcomeSub}
+            fontSize="lg"
+            textColor="text.secondary"
+            lineHeight="lg"
+          >
             Bestel bij verschillende restaurants of van het snackbezorgd
             huismerk!
           </Typography>
-          <Stack sx={styles.inputFieldContainer}>
-            {/* <Input
-              sx={styles.inputField}
-              color="neutral"
-              placeholder="Bijv. Netelweg 13, 9021 WD Amstelhaeghe"
+          <Link to="/producten">
+            <Button
+              sx={styles.zoekButton}
               size="lg"
-              variant="outlined"
-            /> */}
-            <Link to="/producten">
-              <Button
-                sx={styles.zoekButton}
-                color="neutral"
-                loading={false}
-                size="lg"
-                variant="solid"
-              >
-                Bestellen
-              </Button>
-            </Link>
-          </Stack>
-        </Stack>
-      </Stack>
+              endDecorator={<ArrowForward fontSize="xl" />}
+            >
+              Bestellen
+            </Button>
+          </Link>
+          <Typography
+            level="body-xs"
+            sx={{
+              position: "absolute",
+              top: "2rem",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            HeroLeft01
+          </Typography>
+        </TwoSidedLayout>
+      </React.Fragment>
     );
   }
 }

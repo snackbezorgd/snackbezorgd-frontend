@@ -47,7 +47,7 @@ const styles = {
     marginRight: "1vw",
   },
   accountTitle: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: 600,
   },
   buttonContainer: {
@@ -58,15 +58,15 @@ const styles = {
     alignItems: "center",
   },
   loginButton: {
-    width: "20vw",
+    width: "100%",
     backgroundColor: "#FDA912",
   },
   logoutButton: {
-    width: "20vw",
+    width: "100%",
     backgroundColor: "#d9d9d9",
   },
   regButton: {
-    width: "20vw",
+    width: "100%",
     backgroundColor: "#d9d9d9",
   },
 };

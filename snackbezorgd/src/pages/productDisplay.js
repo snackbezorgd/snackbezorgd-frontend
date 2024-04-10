@@ -1,8 +1,6 @@
 import React from "react";
-import { styled, ThemeProvider } from "@mui/material/styles";
-import Stack from "@mui/joy/Stack";
+import { ThemeProvider } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import FilterItem from "../components/filterItem";
 import ProductList from "../components/productList";
 import ShoppingCart from "../components/shoppingCart";
 import { createTheme } from "@mui/material/styles";
@@ -20,7 +18,7 @@ const theme = createTheme({
 
 const CategoryTitle = ({ title }) => {
   return (
-    <Typography variant="h5" sx={{ marginLeft: "10vw", marginTop: "4vw" }}>
+    <Typography variant="h5" sx={{ marginLeft: "10vw", marginTop: "8vw" }}>
       {title}
     </Typography>
   );
@@ -51,20 +49,8 @@ const ProductDisplay = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={{ xs: 1, sm: 2, md: 4 }}
-        sx={{ marginTop: "7vw", justifyContent: "center" }}
-      >
-        <FilterItem />
-        <FilterItem />
-        <FilterItem />
-        <FilterItem />
-        <FilterItem />
-      </Stack>
       <CategoryTitle title="Tv-Snacks" />
       <ProductList products={tvSnacks} maxProductsPerRow={8} />
-
       <ShoppingCart />
     </ThemeProvider>
   );
