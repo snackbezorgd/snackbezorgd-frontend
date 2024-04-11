@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Fab, Modal, Button, Typography, styled, Box, Stack, Divider } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CloseIcon from '@mui/icons-material/Close';
@@ -110,7 +111,6 @@ const ShoppingCart = () => {
     right: '0.5rem',
   });
   
-
   return (
     <div>
       <StyledFab onClick={handleOpen}>
@@ -156,25 +156,26 @@ const ShoppingCart = () => {
               € 25,23
             </Typography>
           </Stack>
-          <Button
-            sx={{
-              mt: 4,
-              p: 2,
-              fontSize: 12,
-              fontWeight: 'bold',
-              textAlign: 'center',
-              backgroundColor: '#FFA500',
-              color: 'white',
-              whiteSpace: 'nowrap',
-              borderRadius: '2xl',
-              boxShadow: 'lg',
-              width: '70%'
-            }}
-            onClick={handleClose}
-          >
-            Afrekenen
-          </Button>
-
+          <Link to="/checkout" style={{  }}>
+            <Button
+              sx={{
+                mt: 4,
+                p: 2,
+                fontSize: 12,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                backgroundColor: '#FFA500',
+                color: 'white',
+                whiteSpace: 'nowrap',
+                borderRadius: '2xl',
+                boxShadow: 'lg',
+                width: '40vh'
+              }}
+              onClick={handleClose}
+            >
+              Afrekenen
+            </Button>
+          </Link>
         </ModalContainer>
       </StyledModal>
     </div>

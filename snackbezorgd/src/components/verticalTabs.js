@@ -9,6 +9,7 @@ import Orders from "./orders";
 import { Breadcrumbs, Link } from "@mui/material/";
 import Products from "./products";
 import AccountsTable from "./accountTable";
+import Dashboard from "./dashboard";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -29,6 +30,18 @@ function TabPanel(props) {
     </div>
   );
 }
+
+const dashboardBreadcrumbs = [
+  <Link underline="hover" key="1" color="inherit" href="/">
+    Home
+  </Link>,
+  <Link underline="hover" key="2" color="inherit" href="/">
+    Adminpaneel
+  </Link>,
+  <Typography key="3" color="text.primary">
+    Dashboard
+  </Typography>,
+];
 
 const orderBreadcrumbs = [
   <Link underline="hover" key="1" color="inherit" href="/">
@@ -160,13 +173,24 @@ export default function VerticalTabs() {
           },
         }}
       >
-        <Tab sx={styles.verticalText} label="Open Orders" {...a11yProps(0)} />
-        <Tab sx={styles.verticalText} label="Producten" {...a11yProps(1)} />
-        <Tab sx={styles.verticalText} label="Accounts" {...a11yProps(2)} />
-        {/* <Tab label="Item Four" {...a11yProps(3)} />
-        <Tab label="Item Five" {...a11yProps(4)} /> */}
+        <Tab sx={styles.verticalText} label="Dashboard" {...a11yProps(0)} />
+        <Tab sx={styles.verticalText} label="Open Orders" {...a11yProps(1)} />
+        <Tab sx={styles.verticalText} label="Producten" {...a11yProps(2)} />
+        <Tab sx={styles.verticalText} label="Accounts" {...a11yProps(3)} />
+
       </Tabs>
       <TabPanel value={value} index={0}>
+        <Typography sx={styles.text} variant="h4" color="initial">
+          Admin Paneel
+        </Typography>
+        <Breadcrumbs separator="›" aria-label="orderBreadcrumb">
+          {dashboardBreadcrumbs}
+        </Breadcrumbs>
+        <Box>
+          <Dashboard />
+        </Box>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
         <Typography sx={styles.text} variant="h4" color="initial">
           Admin Paneel
         </Typography>
@@ -177,7 +201,7 @@ export default function VerticalTabs() {
           <Orders />
         </Box>
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={value} index={2}>
         <Typography sx={styles.text} variant="h4" color="initial">
           Admin Paneel
         </Typography>
@@ -188,7 +212,7 @@ export default function VerticalTabs() {
           <Products />
         </Box>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={value} index={3}>
         <Typography sx={styles.text} variant="h4" color="initial">
           Admin Paneel
         </Typography>

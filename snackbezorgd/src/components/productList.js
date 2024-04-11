@@ -9,15 +9,27 @@ const StyledStack = styled(Stack)(({ theme }) => ({
   marginLeft: "10vw",
 }));
 
+const styles = {
+  products: {
+    display: "flex",
+    alignItems: "center",
+  },
+};
+
 const ProductList = ({ products, maxProductsPerRow }) => {
   const renderProducts = () => {
     const rows = [];
     for (let i = 0; i < products.length; i += maxProductsPerRow) {
       const rowProducts = products.slice(i, i + maxProductsPerRow);
       rows.push(
-        <Grid container spacing={0.5} key={i}>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+          key={i}
+        >
           {rowProducts.map((product, index) => (
-            <Grid item xs={10.8 / maxProductsPerRow} key={index}>
+            <Grid sx={styles.products} item xs={4} sm={4} md={4} key={index}>
               <ProductItem
                 title={product.title}
                 price={product.price}
