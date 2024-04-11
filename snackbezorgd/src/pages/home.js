@@ -1,31 +1,32 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Stack, Box, Container } from "@mui/material/";
-import Homefood from "../assets/home-food.png";
-import Slogan from "../assets/slogan.png";
+import { Stack } from "@mui/material/";
 import Typography from "@mui/material/Typography";
-// import "@fontsource/inter";
 import Button from "@mui/joy/Button";
-// import Link from "@mui/joy/Link";
-// import Typography from "@mui/joy/Typography";
 import ArrowForward from "@mui/icons-material/ArrowForward";
 import TwoSidedLayout from "../components/TwoSidedLayout";
 
-// 708;
-
 const styles = {
   Rectangle: {
-    width: "75%",
+    width: "55%",
     height: "100%",
-    right: "-300px",
+    right: "0",
     position: "absolute",
     background: "#fda912",
     clipPath: "polygon(10% 0, 100% 0, 100% 100%, 0 100%)",
     zIndex: -1,
-    "@media (max-width: 832px)": {
+    "@media (max-width: 833px)": {
       clipPath: "polygon(0 54%, 100% 44%, 100% 100%, 0% 100%)",
       width: "500%",
-      height: "1200",
+      height: "900px",
+    },
+    "@media (max-width: 376px)": {
+      clipPath: "polygon(0 65%, 100% 51%, 100% 100%, 0% 100%)",
+      width: "500%",
+      height: "1000px",
+    },
+    "@media (min-width: 2200px)": {
+      width: "56%",
     },
   },
   img_food: {

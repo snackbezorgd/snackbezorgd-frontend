@@ -58,15 +58,15 @@ const styles = {
     alignItems: "center",
   },
   loginButton: {
-    width: "100%",
+    width: "250px",
     backgroundColor: "#FDA912",
   },
   logoutButton: {
-    width: "100%",
+    width: "250px",
     backgroundColor: "#d9d9d9",
   },
   regButton: {
-    width: "100%",
+    width: "250px",
     backgroundColor: "#d9d9d9",
   },
 };
@@ -117,7 +117,12 @@ export default function NavBar() {
         aria-describedby="modal-desc"
         open={open}
         onClose={() => setOpen(false)}
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}
       >
         <Sheet
           variant="outlined"
@@ -172,8 +177,8 @@ export default function NavBar() {
                   sx={styles.loginButton}
                   color="neutral"
                   loading={false}
-                  size="lg"
                   onClick={(event) => (window.location.href = "/login")}
+                  size="lg"
                   variant="solid"
                 >
                   Inloggen

@@ -4,10 +4,16 @@ import Box from "@mui/joy/Box";
 import Container from "@mui/joy/Container";
 import { typographyClasses } from "@mui/joy/Typography";
 import Homefood from "../assets/home-food.png";
-
 import Slogan from "../assets/slogan4.png";
 
-
+const styles = {
+  image: {
+    "@media (max-width: 370px)": {
+      height: "1000px",
+      top: "500px",
+    },
+  },
+};
 
 export default function TwoSidedLayout({ children, reversed }) {
   return (
@@ -29,7 +35,6 @@ export default function TwoSidedLayout({ children, reversed }) {
         },
       })}
     >
-
       <Box
         sx={(theme) => ({
           display: "flex",
@@ -51,7 +56,6 @@ export default function TwoSidedLayout({ children, reversed }) {
       >
         {children}
       </Box>
-
       <AspectRatio
         ratio={600 / 520}
         variant="plain"
@@ -62,12 +66,15 @@ export default function TwoSidedLayout({ children, reversed }) {
             alignSelf: "initial",
             flexGrow: 1,
             "--AspectRatio-maxHeight": "520px",
-            "--AspectRatio-minHeight": "400px",
+            "--AspectRatio-minHeight": "300px",
+          },
+          "@media (max-width: 876px)": {
+            py: 11,
           },
           flexBasis: "50%",
         })}
       >
-        <img src={Slogan} alt="" />
+        <img style={styles.image} src={Slogan} alt="" />
       </AspectRatio>
     </Container>
   );
