@@ -19,6 +19,8 @@ import logoImage from "../assets/snackbezorgd-png.png";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import GroupIcon from "@mui/icons-material/Group";
 import React, { useState, useEffect } from "react";
+import Chip from "@mui/material/Chip";
+import Tooltip from "@mui/material/Tooltip";
 
 const styles = {
   navbar: {
@@ -69,6 +71,12 @@ const styles = {
     width: "250px",
     backgroundColor: "#d9d9d9",
   },
+  avatarChip: {
+    backgroundColor: "#fda912",
+    color: "#fff",
+    border: 0,
+    borderRadius: "10px",
+  },
 };
 
 export default function NavBar() {
@@ -101,6 +109,25 @@ export default function NavBar() {
               alt="Snackbezorgd.nl Logo"
             />
           </Link>
+          {isAuth ? (
+            <Tooltip title="Uitloggen">
+              <Link href="/logout">
+                <Chip
+                  sx={styles.avatarChip}
+                  // avatar={
+                  //   <Avatar
+                  //     alt={loggedInUsername}
+                  //     src="/static/images/avatar/1.jpg"
+                  //   />
+                  // }
+                  label={loggedInUsername}
+                  variant="outlined"
+                />
+              </Link>
+            </Tooltip>
+          ) : (
+            <Stack></Stack>
+          )}
           <IconButton
             sx={styles.Hamburger}
             edge="start"

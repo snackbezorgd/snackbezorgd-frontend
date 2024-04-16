@@ -1,15 +1,10 @@
 import React from "react";
 import "@fontsource/inter";
 import { Card, CardContent } from "@mui/joy/";
-import { Box, Typography, Stack, TextField, Grid, ListItemSecondaryAction } from "@mui/material/";
-import { useEffect } from "react";
+import { Box, Typography, Grid } from "@mui/material/";
 import Customer from "../assets/customer.png";
 import Phone from "../assets/phone.png";
 import Person from "../assets/person.png";
-import RegisterComponent from "../components/registerComponent";
-import AssessmentIcon from "@mui/icons-material/Assessment";
-import { color, display, fontSize, fontWeight, height, margin, positions, shadows, textAlign, width } from "@mui/system";
-import zIndex from "@mui/material/styles/zIndex";
 
 const styles = {
   text: {
