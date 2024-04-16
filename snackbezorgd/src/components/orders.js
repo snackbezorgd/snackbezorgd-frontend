@@ -118,7 +118,6 @@ const styles = {
     width: "180px",
     height: "50px",
     fontSize: "20px",
-
     fontWeight: 600,
   },
   orderItemTitle: {
