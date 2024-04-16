@@ -76,6 +76,10 @@ const styles = {
     color: "#fff",
     border: 0,
     borderRadius: "10px",
+    "@media (max-width: 833px)": {
+      visibility: "hidden",
+      display: "none",
+    },
   },
 };
 
