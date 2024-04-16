@@ -390,7 +390,7 @@ export default function Orders() {
         direction="row"
         alignItems="center"
       >
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
           <Card sx={styles.card} variant="solid">
             <CardContent orientation="horizontal">
               <CardContent>
@@ -405,7 +405,7 @@ export default function Orders() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
           <Card sx={styles.card} variant="solid">
             <CardContent orientation="horizontal">
               <CardContent>
@@ -420,7 +420,7 @@ export default function Orders() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
           <Card sx={styles.card} variant="solid">
             <CardContent orientation="horizontal">
               <CardContent>

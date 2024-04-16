@@ -117,17 +117,6 @@ class Home extends Component {
               Bestellen
             </Button>
           </Link>
-          <Typography
-            level="body-xs"
-            sx={{
-              position: "absolute",
-              top: "2rem",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          >
-            HeroLeft01
-          </Typography>
         </TwoSidedLayout>
       </React.Fragment>
     );
