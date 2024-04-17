@@ -13,6 +13,7 @@ import { NotFound } from "./pages/404";
 
 import ProductDisplay from "./pages/productDisplay";
 import ForgotPasswordComponent from "./components/forgotpasswordComponent";
+import MyOrders from "./components/myOrders";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/producten" element={<ProductDisplay />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/registreren" element={<Register />} />
+        <Route path="/mijnbestellingen" element={<MyOrders />} />
         <Route path="/overons" element={<About />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
