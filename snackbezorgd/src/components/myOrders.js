@@ -105,7 +105,6 @@ const MyOrders = () => {
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom>
                   Totaal
-                  <ArrowDownwardIcon sx={{ fontSize: "1.2em" }} />
                 </Typography>
               </div>
             </Grid>
@@ -138,9 +137,7 @@ const MyOrders = () => {
                       ", " +
                       order.zip_code +
                       " " +
-                      order.province +
-                      ", " +
-                      order.city}
+                      order.province}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
                     {order.time}
@@ -153,7 +150,12 @@ const MyOrders = () => {
                     gutterBottom
                     sx={{ paddingRight: "15px" }}
                   >
-                    € {order.total}
+                    {order.total.toLocaleString("nl-NL", {
+                    style: "currency",
+                    currency: "EUR",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                    })}
                   </Typography>
                 </Card>
               </Grid>
