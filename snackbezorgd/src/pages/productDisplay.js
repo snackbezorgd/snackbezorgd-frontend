@@ -1,6 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
+import { Typography, Stack } from "@mui/material/";
 import ProductList from "../components/productList";
 import ShoppingCart from "../components/shoppingCart";
 import { createTheme } from "@mui/material/styles";
@@ -15,6 +15,24 @@ const theme = createTheme({
     fontWeight: 800,
   },
 });
+
+const styles = {
+  productList: {
+    marginTop: "0",
+    "@media (max-width: 833px)": {
+      marginTop: "50px",
+      alignItems: "center",
+    },
+    "@media (max-width: 376px)": {
+      marginTop: "50px",
+      alignItems: "center",
+    },
+    "@media (min-width: 2200px)": {
+      marginTop: "50px",
+      alignItems: "center",
+    },
+  },
+};
 
 const CategoryTitle = ({ title }) => {
   return (
@@ -49,9 +67,11 @@ const ProductDisplay = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <CategoryTitle title="Tv-Snacks" />
-      <ProductList products={tvSnacks} maxProductsPerRow={8} />
-      <ShoppingCart />
+      <Stack sx={styles.productList}>
+        <CategoryTitle title="Ons Assortiment" />
+        <ProductList products={tvSnacks} maxProductsPerRow={3} />
+        <ShoppingCart />
+      </Stack>
     </ThemeProvider>
   );
 };

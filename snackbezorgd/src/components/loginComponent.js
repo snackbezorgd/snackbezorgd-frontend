@@ -23,6 +23,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export default function LoginComponent() {
   const [username, setUsername] = useState("");
   const [loggedinUsername, setLoggedinUsername] = useState("");
+  const [loggedinUsernameReal, setLoggedinUsernameReal] = useState("");
   const [password, setPassword] = useState("");
   const [userID, setUserID] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
@@ -47,6 +48,9 @@ export default function LoginComponent() {
         setLoggedinUsername(
           response.data.first_name + " " + response.data.last_name
         );
+        setLoggedinUsernameReal(
+          response.data.username
+        );
       } else {
         console.error("Invalid response format:", response);
       }
@@ -67,10 +71,12 @@ export default function LoginComponent() {
     if (isAdmin === true && tokenData) {
       localStorage.setItem("access_token_staff", tokenData.access);
       localStorage.setItem("username", loggedinUsername);
+      localStorage.setItem("usernameReal", loggedinUsernameReal);
       window.location.href = "/admin";
     } else {
       window.location.href = "/";
       localStorage.setItem("username", loggedinUsername);
+      localStorage.setItem("usernameReal", loggedinUsernameReal);
     }
   };
 
