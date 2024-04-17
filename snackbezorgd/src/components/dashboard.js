@@ -54,7 +54,7 @@ const styles = {
     backgroundColor: "#fff",
     borderRadius: 35,
     marginTop: 5,
-    width: 1250,
+    width: "100%",
     padding: 2,
   },
 };
@@ -84,6 +84,7 @@ export default function Dashboard() {
   const [totalOrdersTime, setTotalOrdersTime] = React.useState(0);
   const [totalCost, setTotalCost] = React.useState(0);
   const apiUrl = process.env.REACT_APP_API_URL;
+  const [totalAccounts, setTotalAccounts] = React.useState(0);
 
   React.useEffect(() => {
     const fetchOrders = async () => {
@@ -123,53 +124,45 @@ export default function Dashboard() {
 
   const getMonthName = (monthNumber) => {
     const months = [
-      "Januari",
-      "Februari",
-      "Maart",
-      "April",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
       "Mei",
-      "Juni",
-      "Juli",
-      "Augustus",
-      "September",
-      "Oktober",
-      "November",
-      "December",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dec",
     ];
     return months[monthNumber - 1];
   };
 
   const getDay = (dateString) => {
     const date = new Date(dateString);
-    const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
+    const days = ["Ma", "Di", "Wo", "Do", "Fr", "Sa", "Zo"];
     const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dec",
     ];
 
     const dayOfWeek = days[date.getDay()];
     const monthName = months[date.getMonth()];
     const dayOfMonth = date.getDate();
 
-    return `${dayOfWeek} ${monthName} ${dayOfMonth}`;
+    return `${dayOfWeek} ${dayOfMonth} ${monthName} `;
   };
 
   React.useEffect(() => {
@@ -179,6 +172,7 @@ export default function Dashboard() {
         const summarizedDataWithMonthNames = response.data.map((item) => ({
           ...item,
           month: getMonthName(item.month),
+          totalProfitMonthly: item.totalProfitMonthly,
         }));
         setSummarizeData(summarizedDataWithMonthNames);
         console.log(summarizedDataWithMonthNames);
@@ -197,6 +191,7 @@ export default function Dashboard() {
         const summarizeDataDaily = response.data.map((item) => ({
           ...item,
           date: getDay(item.date),
+          totalProfitDaily: item.totalProfitDaily,
         }));
         setSummarizeDataDaily(summarizeDataDaily);
       } catch (error) {
@@ -207,6 +202,29 @@ export default function Dashboard() {
     fetchSummarizeDaily();
   }, []);
 
+  React.useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/api/user/`);
+        setRows(
+          response.data.map((account) => ({
+            id: account.id,
+            username: account.username,
+            firstName: account.first_name,
+            lastName: account.last_name,
+            email: account.email,
+            is_staff: account.is_staff,
+            is_active: account.is_active,
+            date_joined: account.date_joined,
+          }))
+        );
+        setTotalAccounts(response.data.length);
+      } catch (error) {
+        console.error("Error fetching accounts:", error);
+      }
+    };
+    fetchAccounts();
+  }, []);
   return (
     <React.Fragment>
       <Grid
@@ -217,7 +235,7 @@ export default function Dashboard() {
         direction="row"
         alignItems="center"
       >
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
           <Card sx={styles.card} variant="solid">
             <CardContent orientation="horizontal">
               <CardContent>
@@ -232,7 +250,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
+        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
           <Card sx={styles.card} variant="solid">
             <CardContent orientation="horizontal">
               <CardContent>
@@ -247,11 +265,36 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </Grid>
+        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+          <Card sx={styles.card} variant="solid">
+            <CardContent orientation="horizontal">
+              <CardContent>
+                <Typography sx={styles.cardTextTitle} level="body-md">
+                  Totaal Accounts
+                </Typography>
+                <Typography sx={styles.cardTextValue} level="h2">
+                  {totalAccounts}
+                </Typography>
+                <PaymentsIcon sx={styles.svgIcon} />
+              </CardContent>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
       <Stack sx={styles.graphBackground}>
+        <Typography
+          sx={{
+            fontWeight: 600,
+            fontSize: 20,
+            marginBottom: 2,
+            textAlign: "center",
+          }}
+        >
+          Jaaroverzicht
+        </Typography>
         <AreaChart
-          width={1200}
-          height={250}
+          width={1000}
+          height={280}
           data={summarizeData}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
@@ -262,8 +305,8 @@ export default function Dashboard() {
             </linearGradient>
           </defs>
           <XAxis dataKey="month" />
-          <YAxis tickCount={3} />
-          <CartesianGrid opacity={0.5} />
+          <YAxis tickCount={5} />
+          <CartesianGrid opacity={0.2} />
           <Tooltip
             content={<CustomTooltip />}
             cursor={{ fill: "transparent" }}
@@ -279,8 +322,18 @@ export default function Dashboard() {
         </AreaChart>
       </Stack>
       <Stack sx={styles.graphBackground}>
+        <Typography
+          sx={{
+            fontWeight: 600,
+            fontSize: 20,
+            marginBottom: 2,
+            textAlign: "center",
+          }}
+        >
+          Weekoverzicht
+        </Typography>
         <AreaChart
-          width={1200}
+          width={1000}
           height={250}
           data={summarizeDataDaily}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
