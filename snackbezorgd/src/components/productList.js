@@ -16,7 +16,7 @@ const styles = {
   },
 };
 
-const ProductList = ({ products, maxProductsPerRow }) => {
+const ProductList = ({ products, maxProductsPerRow, addToCart }) => {
   const renderProducts = () => {
     const rows = [];
     for (let i = 0; i < products.length; i += maxProductsPerRow) {
@@ -31,11 +31,13 @@ const ProductList = ({ products, maxProductsPerRow }) => {
           {rowProducts.map((product, index) => (
             <Grid sx={styles.products} item xs={4} sm={4} md={4} key={index}>
               <ProductItem
+                id={product.id} 
                 title={product.title}
                 price={product.price}
                 description={product.description}
                 src={product.src}
                 alt={product.alt}
+                addToCart={addToCart} 
               />
             </Grid>
           ))}
