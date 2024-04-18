@@ -48,9 +48,7 @@ export default function LoginComponent() {
         setLoggedinUsername(
           response.data.first_name + " " + response.data.last_name
         );
-        setLoggedinUsernameReal(
-          response.data.username
-        );
+        setLoggedinUsernameReal(response.data.username);
       } else {
         console.error("Invalid response format:", response);
       }
@@ -107,7 +105,6 @@ export default function LoginComponent() {
       await fetchUsers(userID);
     } catch (error) {
       setErrorMessage("Foute gebruikersnaam of wachtwoord!");
-      // console.error("Login error:", error);
     }
   };
 
@@ -315,10 +312,13 @@ export default function LoginComponent() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          backgroundImage: "url('https://i.imgur.com/7OY1VPP.png')",
+          "@media (max-width: 899px)": {
           background: "rgb(255,211,131)",
           background: "rgb(255,232,190)",
           background:
             "linear-gradient(90deg, rgba(255,232,190,1) 4%, rgba(255,195,124,1) 100%)",
+          },  
         })}
       />
     </CssVarsProvider>
