@@ -54,7 +54,7 @@ const AddToCartButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const ProductItem = ({ src, title, description, price }) => {
+const ProductItem = ({ src, title, description, price, addToCart }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -63,6 +63,11 @@ const ProductItem = ({ src, title, description, price }) => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
+  };
+
+  const handleAddToCart = () => {
+    addToCart({ description, title, price, quantity: 1 });
+    handleCloseModal();
   };
 
   return (
@@ -82,7 +87,7 @@ const ProductItem = ({ src, title, description, price }) => {
           <h2 id="modal-title">{title}</h2>
           <p id="modal-description">{description}</p>
           <p>€ {price}</p>
-          <AddToCartButton variant="contained">
+          <AddToCartButton variant="contained" onClick={handleAddToCart}>
             Toevoegen aan mand
           </AddToCartButton>
         </StyledModalContent>

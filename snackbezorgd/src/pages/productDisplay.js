@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { Typography, Stack } from "@mui/material/";
 import ProductList from "../components/productList";
 import ShoppingCart from "../components/shoppingCart";
 import { createTheme } from "@mui/material/styles";
 import axios from "axios";
-import { useEffect } from "react";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -18,19 +17,8 @@ const theme = createTheme({
 
 const styles = {
   productList: {
-    marginTop: "0",
-    "@media (max-width: 833px)": {
-      marginTop: "50px",
-      alignItems: "center",
-    },
-    "@media (max-width: 376px)": {
-      marginTop: "50px",
-      alignItems: "center",
-    },
-    "@media (min-width: 2200px)": {
-      marginTop: "50px",
-      alignItems: "center",
-    },
+    marginTop: "1vw",
+    marginLeft: "10vw",
   },
 };
 
@@ -43,7 +31,12 @@ const CategoryTitle = ({ title }) => {
 };
 
 const ProductDisplay = () => {
-  const [tvSnacks, setTvSnacks] = React.useState([]);
+  const [cartItems, setCartItems] = useState([]);
+  const [tvSnacks, setTvSnacks] = useState([]);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);  
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -65,12 +58,28 @@ const ProductDisplay = () => {
     fetchProducts();
   }, []);
 
+  const addToCart = (item) => {
+    const isItemInCart = cartItems.find((cartItem) => cartItem.title === item.title);
+  
+    if (isItemInCart) {
+      setCartItems(
+        cartItems.map((cartItem) =>
+          cartItem.title === item.title
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        )
+      );
+    } else {
+      setCartItems([...cartItems, { ...item, quantity: 1 }]);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Stack sx={styles.productList}>
         <CategoryTitle title="Ons Assortiment" />
-        <ProductList products={tvSnacks} maxProductsPerRow={3} />
-        <ShoppingCart />
+        <ProductList products={tvSnacks} maxProductsPerRow={3} addToCart={addToCart} />
+        <ShoppingCart cartItems={cartItems} />
       </Stack>
     </ThemeProvider>
   );
