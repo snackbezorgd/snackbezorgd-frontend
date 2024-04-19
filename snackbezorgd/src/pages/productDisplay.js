@@ -34,6 +34,12 @@ const ProductDisplay = () => {
   const [cartItems, setCartItems] = useState([]);
   const [tvSnacks, setTvSnacks] = useState([]);
 
+  const removeFromCart = (index) => {
+    const newCartItems = [...cartItems];
+    newCartItems.splice(index, 1);
+    setCartItems(newCartItems);
+  };
+
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);  
@@ -79,7 +85,7 @@ const ProductDisplay = () => {
       <Stack sx={styles.productList}>
         <CategoryTitle title="Ons Assortiment" />
         <ProductList products={tvSnacks} maxProductsPerRow={3} addToCart={addToCart} />
-        <ShoppingCart cartItems={cartItems} />
+        <ShoppingCart cartItems={cartItems} removeFromCart={removeFromCart} />
       </Stack>
     </ThemeProvider>
   );
