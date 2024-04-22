@@ -347,10 +347,13 @@ export default function RegisterComponent() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          backgroundImage: "url('https://i.imgur.com/7OY1VPP.png')",
+          "@media (max-width: 899px)": {
           background: "rgb(255,211,131)",
           background: "rgb(255,232,190)",
           background:
             "linear-gradient(90deg, rgba(255,232,190,1) 4%, rgba(255,195,124,1) 100%)",
+          },  
         })}
       />
     </CssVarsProvider>
