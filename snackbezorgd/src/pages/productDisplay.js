@@ -24,7 +24,7 @@ const styles = {
 
 const CategoryTitle = ({ title }) => {
   return (
-    <Typography variant="h5" sx={{ marginLeft: "10vw", marginTop: "8vw" }}>
+    <Typography variant="h5" sx={{ marginTop: "8vw" }}>
       {title}
     </Typography>
   );

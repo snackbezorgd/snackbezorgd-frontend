@@ -6,7 +6,6 @@ import Grid from "@mui/material/Grid";
 
 const StyledStack = styled(Stack)(({ theme }) => ({
   marginTop: "1vw",
-  marginLeft: "10vw",
 }));
 
 const styles = {
