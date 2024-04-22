@@ -14,7 +14,7 @@ const styles = {
 
   Phone : {
     width: "75px",
-    marginLeft:"295px",
+    marginLeft:"250px",
     marginTop:"5px",
     position:"absolute",
   },
@@ -25,26 +25,25 @@ const styles = {
   },
 
   Customer: {
-    width: "50vw",
+    width: "49.5vw",
     height: "50vw",
-    marginTop:"-765px",
-    marginLeft:"50%",  
+    marginTop:"-90vh",
     zIndex:"0",
   },
 
   card1: {
     height: "325px",
-    width: "700px",
+    width: "600px",
     marginTop: "45px",
-    marginLeft: "100px",
+    marginLeft: "70px",
     backgroundColor: "#fff",
     borderRadius: 35,
     zIndex:"1",
   },
   card2: {
     height: "325px",
-    width: "700px",
-    marginLeft:"336px",
+    width: "650px",
+    marginLeft:"70px",
     marginTop: "389px",
     backgroundColor: "#fff",
     borderRadius: 35,
@@ -75,7 +74,7 @@ const styles = {
     textAlign: "center",
     text: "center",
     marginTop:"200px",
-    marginLeft:"260px",
+    marginLeft:"200px",
     position: "absolute",
     fontSize:"20px",
   },
@@ -87,7 +86,7 @@ const styles = {
     textAlign: "center",
     text: "center",
     marginTop:"100px",
-    marginLeft:"115px",
+    marginLeft:"90px",
     position: "absolute",
   },
 
@@ -127,7 +126,7 @@ const styles = {
 export default function Contact() {
   return (
     <React.Fragment>
-      <Grid container mt={1}>
+      <Grid container mt={1} >
         <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
         <Typography sx={styles.cardTextValue} level="body-md">
                   De klant wordt <br></br>altijd geholpen.
@@ -157,8 +156,6 @@ export default function Contact() {
         <Grid item xs={12} sm={12} md={6} lg={6} xl={4}>
             <Card sx={styles.card2} variant="solid shadow">
             <CardContent orientation="horizontal">
-         
-
                   <Box>
                     <img src={Person} style={styles.Person} alt="Logo" />
                   </Box>
@@ -172,12 +169,11 @@ export default function Contact() {
                   <Typography sx={styles.cardtextparagraph4} level="h2">
                   Binnen 35 seconden gekoppeld met een medewerker.
                 </Typography>
-
- </CardContent>
-        </Card>
+            </CardContent>
+            </Card>
         <Box>
-                    <img src={Customer} style={styles.Customer} alt="Logo" />
-                  </Box>
+          <img src={Customer} style={styles.Customer} alt="Logo" />
+        </Box>
                   
         </Grid>
       </Grid>
