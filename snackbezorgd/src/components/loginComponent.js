@@ -67,7 +67,7 @@ export default function LoginComponent() {
 
   const checkAdmin = () => {
     if (isAdmin === true && tokenData) {
-      localStorage.setItem("access_token_staff", tokenData.access);
+      localStorage.setItem("B5O1J0jA2IWb9txz2Q6S70JxGyPrS7C1ev9i3bclcvwKBR7rjOsYCupBjRZZzcGJR2YLo4y1DaRpuZfqdRlox02QD6WxmzfGUaWrTxvw1RwzwuTDHiAK9LvbzYKgf3YHFQhsOPsYtpLdFV1KhRDyYt7DFCggBPFYQioJOPKhTW9is5vgS", tokenData.access);
       localStorage.setItem("username", loggedinUsername);
       localStorage.setItem("usernameReal", loggedinUsernameReal);
       window.location.href = "/admin";
