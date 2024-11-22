@@ -114,7 +114,7 @@ $ git config --global user.email "monalisa@gmail.com"
 
 Heb je vragen of feedback? We horen graag van je! 🚀
 
-- 📧 Email: info@snackbezorgd.knightsofni.nl
+- 📧 Email: info@snackbezorgd.karstalens.nl
 - 💻 Discord: @vroomvroomman
 
 

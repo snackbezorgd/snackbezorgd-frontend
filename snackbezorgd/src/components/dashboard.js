@@ -171,7 +171,7 @@ export default function Dashboard() {
         const response = await axios.get(`${apiUrl}/api/summarize/monthly/`);
         const summarizedDataWithMonthNames = response.data.map((item) => ({
           ...item,
-          month: getMonthName(item.month),
+          month: getMonthName(item.date),
           totalProfitMonthly: item.totalProfitMonthly,
         }));
         setSummarizeData(summarizedDataWithMonthNames);
@@ -304,7 +304,7 @@ export default function Dashboard() {
               <stop offset="95%" stopColor="#fda912" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="month" />
+          <XAxis dataKey="date" />
           <YAxis tickCount={5} />
           <CartesianGrid opacity={0.2} />
           <Tooltip
