@@ -1,7 +1,8 @@
 import { Typography, Stack } from "@mui/material/";
 import { useEffect } from "react";
 import axios from "axios";
-import { apiUrl } from "../config";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const styles = {
   header: {
@@ -13,9 +14,6 @@ const styles = {
     fontWeight: "700",
   },
 };
-
-
-
 
 export const Logout = () => {
     useEffect(() => {
