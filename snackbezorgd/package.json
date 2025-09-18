@@ -34,8 +34,8 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
     "build": "CI=false react-scripts build",
+    "start": "serve -s build -l ${PORT:-4000}",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -58,6 +58,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^6.1.1"
+    "gh-pages": "^6.1.1",
+    "serve": "^14.2.3"
   }
 }
