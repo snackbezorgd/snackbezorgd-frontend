@@ -139,7 +139,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 export default function Orders() {
   const [rows, setRows] = React.useState([]);
-  const [OrderAccountRows, setOrderAccountRows] = React.useState([]);
   const [orderItemRows, setOrderItemRows] = React.useState([]);
   const [totalOrders, setTotalOrders] = React.useState(0);
   const [totalCost, setTotalCost] = React.useState(0);
@@ -152,11 +151,9 @@ export default function Orders() {
   const apiUrl = process.env.REACT_APP_API_URL;
   const isPaid = Paid === true;
   const [totalFinishedOrders, setTotalFinishedOrders] = React.useState(0);
-  const [isFinished, setIsFinished] = React.useState(false);
 
   const handleRowClick = (params) => {
     setOrderItemRows([]);
-    setOrderAccountRows([]);
     fetchOrderItems(params.row.id);
     fetchOrderAccount(params.row.id);
   };
@@ -183,24 +180,6 @@ export default function Orders() {
     try {
       const response = await axios.get(`${apiUrl}/api/order/${orderId}/`);
       const order = response.data;
-      setOrderAccountRows([
-        {
-          id: order.order_number,
-          accountFirstName: order.account.first_name,
-          accountLastName: order.account.last_name,
-          email: order.account.email,
-          time: order.time,
-          paid: order.paid,
-          address_1: order.address_1,
-          city: order.city,
-          province: order.province,
-          zip_code: order.zip_code,
-          total: new Intl.NumberFormat("nl-NL", {
-            style: "currency",
-            currency: "EUR",
-          }).format(parseFloat(order.total)),
-        },
-      ]);
       setCustomerFirstname(
         order.account.first_name + " " + order.account.last_name
       );
@@ -328,7 +307,7 @@ export default function Orders() {
     },
   ];
 
-  const fetchOrders = async () => {
+  const fetchOrders = React.useCallback(async () => {
     try {
       const response = await axios.get(`${apiUrl}/api/order/`);
       const allOrders = response.data;
@@ -359,11 +338,11 @@ export default function Orders() {
       );
       setTotalFinishedOrders(finishedOrders.length);
     } catch (error) {}
-  };
+  }, [apiUrl]);
 
   React.useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [fetchOrders]);
 
   const handleSetFinished = async () => {
     try {
@@ -371,7 +350,6 @@ export default function Orders() {
         finished: true,
       };
       await axios.put(`${apiUrl}/api/order/${orderNumber}/`, requestData);
-      setIsFinished(true);
       setOpen(false);
       fetchOrders();
     } catch (error) {

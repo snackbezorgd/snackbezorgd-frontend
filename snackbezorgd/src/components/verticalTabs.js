@@ -4,7 +4,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Stats from "./orders";
 import Orders from "./orders";
 import { Breadcrumbs, Link } from "@mui/material/";
 import Products from "./products";
@@ -177,7 +176,6 @@ export default function VerticalTabs() {
         <Tab sx={styles.verticalText} label="Open Orders" {...a11yProps(1)} />
         <Tab sx={styles.verticalText} label="Producten" {...a11yProps(2)} />
         <Tab sx={styles.verticalText} label="Accounts" {...a11yProps(3)} />
-
       </Tabs>
       <TabPanel value={value} index={0}>
         <Typography sx={styles.text} variant="h4" color="initial">

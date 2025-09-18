@@ -4,7 +4,7 @@ import "@fontsource/inter";
 import { useEffect } from "react";
 import ForgotPasswordComponent from "../components/forgotpasswordComponent";
 
-export default function forgotPassword() {
+export default function ForgotPassword() {
   useEffect(() => {
     document.title = "Wachtwoord Vergeten | Snackbezorgd.nl";
   }, []);

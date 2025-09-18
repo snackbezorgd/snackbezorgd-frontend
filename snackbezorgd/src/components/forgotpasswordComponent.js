@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   CssVarsProvider,
   Alert,
@@ -10,7 +10,6 @@ import {
   FormControl,
   FormLabel,
   IconButton,
-  Link,
   Input,
   Typography,
   Stack,
@@ -36,7 +35,7 @@ export default function ForgotPasswordComponent() {
         email: email,
       };
 
-      const { data } = await axios.post(`${apiUrl}/password_reset/`, user, {
+      await axios.post(`${apiUrl}/password_reset/`, user, {
         headers: { "Content-Type": "application/json" },
       });
     } catch (error) {
@@ -221,8 +220,6 @@ export default function ForgotPasswordComponent() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          background: "rgb(255,211,131)",
-          background: "rgb(255,232,190)",
           background:
             "linear-gradient(90deg, rgba(255,232,190,1) 4%, rgba(255,195,124,1) 100%)",
         })}

@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Typography, Stack, Button, Link } from "@mui/material/";
+import { Typography, Stack, } from "@mui/material/";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 
 const styles = {
   header: {

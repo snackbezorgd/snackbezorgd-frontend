@@ -54,9 +54,6 @@ const styles = {
     borderRadius: 7,
   },
 
-  titleContainer: {
-    border: "none",
-  },
   modalTitle: {
     fontSize: 30,
     fontWeight: 600,

@@ -25,7 +25,7 @@ export default function LoginComponent() {
   const [loggedinUsername, setLoggedinUsername] = useState("");
   const [loggedinUsernameReal, setLoggedinUsernameReal] = useState("");
   const [password, setPassword] = useState("");
-  const [userID, setUserID] = useState("");
+  const [ setUserID] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
   const [tokenData, setTokenData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ export default function LoginComponent() {
     if (!loading && isAdmin !== "") {
       checkAdmin();
     }
-  }, [isAdmin, loading]);
+  },);
 
   const checkAdmin = () => {
     if (isAdmin === true && tokenData) {
@@ -314,8 +314,6 @@ export default function LoginComponent() {
           backgroundRepeat: "no-repeat",
           backgroundImage: "url('https://i.imgur.com/7OY1VPP.png')",
           "@media (max-width: 899px)": {
-          background: "rgb(255,211,131)",
-          background: "rgb(255,232,190)",
           background:
             "linear-gradient(90deg, rgba(255,232,190,1) 4%, rgba(255,195,124,1) 100%)",
           },  

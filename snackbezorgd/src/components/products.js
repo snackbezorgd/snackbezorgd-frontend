@@ -110,7 +110,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 export default function Products() {
   const [rows, setRows] = React.useState([]);
   const [totalProducts, setTotalProducts] = React.useState(0);
-  const [errorMessage, setErrorMessage] = React.useState("");
   const [newProduct, setNewProduct] = React.useState({
     title: "",
     description: "",

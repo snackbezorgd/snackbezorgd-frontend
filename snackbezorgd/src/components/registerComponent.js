@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
+import { CssVarsProvider } from "@mui/joy/styles";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
@@ -349,11 +349,9 @@ export default function RegisterComponent() {
           backgroundRepeat: "no-repeat",
           backgroundImage: "url('https://i.imgur.com/7OY1VPP.png')",
           "@media (max-width: 899px)": {
-          background: "rgb(255,211,131)",
-          background: "rgb(255,232,190)",
-          background:
-            "linear-gradient(90deg, rgba(255,232,190,1) 4%, rgba(255,195,124,1) 100%)",
-          },  
+            background:
+              "linear-gradient(90deg, rgba(255,232,190,1) 4%, rgba(255,195,124,1) 100%)",
+          },
         })}
       />
     </CssVarsProvider>

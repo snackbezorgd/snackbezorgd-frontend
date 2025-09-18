@@ -5,7 +5,6 @@ import axios from "axios";
 import Typography from "@mui/material/Typography";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import PaymentsIcon from "@mui/icons-material/Payments";
-import SsidChartIcon from "@mui/icons-material/SsidChart";
 import {
   AreaChart,
   Area,
@@ -13,7 +12,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
 } from "recharts";
 
 const styles = {
@@ -77,11 +75,11 @@ export const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function Dashboard() {
-  const [rows, setRows] = React.useState([]);
+  const [ setRows] = React.useState([]);
   const [summarizeData, setSummarizeData] = React.useState([]);
   const [summarizeDataDaily, setSummarizeDataDaily] = React.useState([]);
   const [totalOrders, setTotalOrders] = React.useState(0);
-  const [totalOrdersTime, setTotalOrdersTime] = React.useState(0);
+  const [setTotalOrdersTime] = React.useState(0);
   const [totalCost, setTotalCost] = React.useState(0);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [totalAccounts, setTotalAccounts] = React.useState(0);
@@ -120,7 +118,7 @@ export default function Dashboard() {
     };
 
     fetchOrders();
-  }, []);
+  }, [apiUrl, setRows, setTotalOrders, setTotalOrdersTime, setTotalCost]);
 
   const getMonthName = (monthNumber) => {
     const months = [
@@ -182,7 +180,7 @@ export default function Dashboard() {
     };
 
     fetchSummarizeMonthly();
-  }, []);
+  }, [apiUrl, setSummarizeData, setSummarizeDataDaily]);
 
   React.useEffect(() => {
     const fetchSummarizeDaily = async () => {
@@ -200,7 +198,7 @@ export default function Dashboard() {
     };
 
     fetchSummarizeDaily();
-  }, []);
+  }, [apiUrl, setSummarizeDataDaily]);
 
   React.useEffect(() => {
     const fetchAccounts = async () => {
@@ -224,7 +222,7 @@ export default function Dashboard() {
       }
     };
     fetchAccounts();
-  }, []);
+  }, [apiUrl, setRows, setTotalAccounts]);
   return (
     <React.Fragment>
       <Grid

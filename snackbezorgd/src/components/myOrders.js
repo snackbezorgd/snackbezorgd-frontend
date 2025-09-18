@@ -1,67 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; 
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import React, { useEffect, useCallback } from "react";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Card, Grid, Typography } from '@mui/material';
-import axios from 'axios';
+import { Card, Grid, Typography } from "@mui/material";
+import axios from "axios";
 
 const theme = createTheme({
-    typography: {
-      fontFamily: "Inter, sans-serif",
-      fontWeight: 800,
-    },
-  });
+  typography: {
+    fontFamily: "Inter, sans-serif",
+    fontWeight: 800,
+  },
+});
 
 const MyOrders = () => {
-  const [orders, setOrders] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
-  const [rows, setRows] = React.useState([]);
-  const [totalOrders, setTotalOrders] = React.useState(0);
-  const [totalCost, setTotalCost] = React.useState(0);
   const loggedInUsername = localStorage.getItem("usernameReal");
   const [filteredOrders, setFilteredOrders] = React.useState([]);
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       const response = await axios.get(`${apiUrl}/api/order/`);
       const allOrders = response.data;
       const filteredOrders = allOrders.filter(
         (order) => order.account.username === loggedInUsername
       );
-      setTotalOrders(filteredOrders.length);
       setFilteredOrders(filteredOrders);
-      const calculatedTotalCost = filteredOrders.reduce((total, order) => {
-        const orderCost = parseFloat(order.total) || 0;
-        return total + orderCost;
-      }, 0);
-      setTotalCost("€" + calculatedTotalCost.toFixed(2).replace(/\./g, ","));
-      setRows(
-        filteredOrders.map((order) => ({
-          id: order.order_number,
-          firstName: order.account.first_name,
-          lastName: order.account.last_name,
-          email: order.account.email,
-          address_1: order.address_1,
-          city: order.city,
-          province: order.province,
-          zip_code: order.zip_code,
-          time: order.time,
-          paid: order.paid,
-          total: new Intl.NumberFormat("nl-NL", {
-            style: "currency",
-            currency: "EUR",
-          }).format(parseFloat(order.total)),
-          fullName: `${order.account.first_name || ""} ${
-            order.account.last_name || ""
-          }`,
-        }))
-      );
     } catch (error) {}
-  };
+  }, [apiUrl, loggedInUsername]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   console.log(filteredOrders);
 
@@ -151,10 +119,10 @@ const MyOrders = () => {
                     sx={{ paddingRight: "15px" }}
                   >
                     {order.total.toLocaleString("nl-NL", {
-                    style: "currency",
-                    currency: "EUR",
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
+                      style: "currency",
+                      currency: "EUR",
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
                     })}
                   </Typography>
                 </Card>

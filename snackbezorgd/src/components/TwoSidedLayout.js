@@ -3,7 +3,6 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Container from "@mui/joy/Container";
 import { typographyClasses } from "@mui/joy/Typography";
-import Homefood from "../assets/home-food.png";
 import Slogan from "../assets/slogan4.png";
 
 const styles = {
